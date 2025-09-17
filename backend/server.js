@@ -103,7 +103,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     logger.info(`Server running on port ${PORT}`, {
         environment: process.env.NODE_ENV,
         port: PORT

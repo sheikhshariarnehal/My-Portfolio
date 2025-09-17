@@ -47,7 +47,7 @@ class ProjectsDatabase {
 
     async addProject(project) {
         const projects = await this.readProjects();
-        projects.push(project);
+        projects.unshift(project); // Add to beginning instead of end
         await this.writeProjects(projects);
         return project;
     }
