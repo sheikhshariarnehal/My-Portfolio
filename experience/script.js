@@ -66,7 +66,7 @@ document.addEventListener('visibilitychange',
 function(){
     if(document.visibilityState === "visible"){
         document.title = "Experience | Portfolio Shariar Nehal";
-        $("#favicon").attr("href","/assets/images/favicon.png");
+        $("#favicon").attr("href","/assets/images/favicon.webp");
     }
     else {
         document.title = "Come Back To Portfolio";
