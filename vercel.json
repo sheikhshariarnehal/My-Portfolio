@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< Updated upstream
   "builds": [
     {
       "src": "backend/server.js",
@@ -10,6 +11,9 @@
       "use": "@vercel/static"
     }
   ],
+=======
+  
+>>>>>>> Stashed changes
   "routes": [
     {
       "src": "/api/(.*)",
@@ -37,6 +41,10 @@
   },
   "functions": {
     "backend/server.js": {
+<<<<<<< Updated upstream
+=======
+      "runtime": "nodejs18.x",
+>>>>>>> Stashed changes
       "maxDuration": 30
     }
   }
