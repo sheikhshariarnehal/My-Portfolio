@@ -1,24 +1,27 @@
+# Render Blueprint for Portfolio Deployment
+# This file is optional - you can also deploy manually through Render dashboard
+
 services:
+  # Backend Web Service
   - type: web
     name: portfolio-backend
     env: node
     plan: free
     buildCommand: cd backend && npm install
     startCommand: cd backend && npm start
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
-    healthCheckPath: /health
-    
+      # Add your secure values in Render dashboard:
+      # JWT_SECRET, ADMIN_USERNAME, ADMIN_PASSWORD, CORS_ORIGIN
+
+  # Frontend Static Site
   - type: web
     name: portfolio-frontend
     env: static
     plan: free
     buildCommand: echo "Static files ready"
     staticPublishPath: ./frontend
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html

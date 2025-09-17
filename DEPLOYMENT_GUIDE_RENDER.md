@@ -1,4 +1,4 @@
-# 🚀 **RENDER DEPLOYMENT GUIDE**
+# 🚀 **RENDER DEPLOYMENT GUIDE - SIMPLIFIED**
 
 ## 📋 **Prerequisites**
 

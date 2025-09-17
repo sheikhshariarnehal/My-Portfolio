@@ -523,9 +523,10 @@ class AdminDashboard {
                 // Store the full uploaded filename for later use
                 this.uploadedImageFilename = data.data.filename;
 
-                // Set the filename without extension in the input field for display
-                const filenameWithoutExt = data.data.filename.replace(/\.[^/.]+$/, "");
-                document.getElementById('projectImage').value = filenameWithoutExt;
+                // Set a clean display name in the input field
+                const originalName = data.data.originalName || data.data.filename;
+                const cleanName = originalName.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9\s-_]/g, '').trim();
+                document.getElementById('projectImage').value = cleanName;
 
                 toastr.success('Image uploaded successfully');
             } else {
