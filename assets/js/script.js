@@ -80,13 +80,28 @@ var typed = new Typed(".typing-text", {
 // <!-- typed js effect ends -->
 
 async function fetchData(type = "skills") {
-    let response
-    type === "skills" ?
-        response = await fetch("skills.json")
-        :
-        response = await fetch("./projects/projects.json")
-    const data = await response.json();
-    return data;
+    let response;
+    if (type === "skills") {
+        response = await fetch("skills.json");
+        const data = await response.json();
+        return data;
+    } else {
+        // Try to fetch from API first, fallback to static JSON
+        try {
+            response = await fetch("http://localhost:3001/api/projects");
+            if (!response.ok) {
+                throw new Error('API not available');
+            }
+            const data = await response.json();
+            return data.data; // API returns data in data property
+        } catch (error) {
+            console.warn('API not available, falling back to static JSON:', error);
+            // Fallback to static JSON
+            response = await fetch("./projects/projects.json");
+            const data = await response.json();
+            return data;
+        }
+    }
 }
 
 function showSkills(skills) {
@@ -152,7 +167,49 @@ fetchData().then(data => {
 
 fetchData("projects").then(data => {
     showProjects(data);
+    initializeRealTimeUpdates();
 });
+
+// Real-time updates with Socket.io for main page
+function initializeRealTimeUpdates() {
+    // Only initialize if Socket.io is available (API server is running)
+    if (typeof io !== 'undefined') {
+        try {
+            const socket = io('http://localhost:3001');
+
+            socket.on('connect', () => {
+                console.log('Connected to real-time updates');
+            });
+
+            socket.on('projectAdded', (project) => {
+                console.log('New project added:', project);
+                refreshMainPageProjects();
+            });
+
+            socket.on('projectUpdated', (data) => {
+                console.log('Project updated:', data);
+                refreshMainPageProjects();
+            });
+
+            socket.on('projectDeleted', (data) => {
+                console.log('Project deleted:', data);
+                refreshMainPageProjects();
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from real-time updates');
+            });
+        } catch (error) {
+            console.warn('Socket.io not available:', error);
+        }
+    }
+}
+
+function refreshMainPageProjects() {
+    fetchData("projects").then(data => {
+        showProjects(data);
+    });
+}
 
 // <!-- tilt js effect starts -->
 VanillaTilt.init(document.querySelectorAll(".tilt"), {

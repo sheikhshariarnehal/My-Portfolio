@@ -32,10 +32,25 @@ document.addEventListener('visibilitychange',
 
 // fetch projects start
 function getProjects() {
-    return fetch("/projects/projects.json")
-        .then(response => response.json())
+    // Try to fetch from API first, fallback to static JSON
+    return fetch("http://localhost:3001/api/projects")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('API not available');
+            }
+            return response.json();
+        })
         .then(data => {
-            return data
+            return data.data; // API returns data in data property
+        })
+        .catch(error => {
+            console.warn('API not available, falling back to static JSON:', error);
+            // Fallback to static JSON
+            return fetch("/projects/projects.json")
+                .then(response => response.json())
+                .then(data => {
+                    return data;
+                });
         });
 }
 
@@ -100,9 +115,56 @@ function showProjects(projects) {
     });
 }
 
+// Initialize projects and real-time updates
+let currentProjects = [];
+
 getProjects().then(data => {
+    currentProjects = data;
     showProjects(data);
-})
+    initializeRealTimeUpdates();
+});
+
+// Real-time updates with Socket.io
+function initializeRealTimeUpdates() {
+    // Only initialize if Socket.io is available (API server is running)
+    if (typeof io !== 'undefined') {
+        try {
+            const socket = io('http://localhost:3001');
+
+            socket.on('connect', () => {
+                console.log('Connected to real-time updates');
+            });
+
+            socket.on('projectAdded', (project) => {
+                console.log('New project added:', project);
+                refreshProjects();
+            });
+
+            socket.on('projectUpdated', (data) => {
+                console.log('Project updated:', data);
+                refreshProjects();
+            });
+
+            socket.on('projectDeleted', (data) => {
+                console.log('Project deleted:', data);
+                refreshProjects();
+            });
+
+            socket.on('disconnect', () => {
+                console.log('Disconnected from real-time updates');
+            });
+        } catch (error) {
+            console.warn('Socket.io not available:', error);
+        }
+    }
+}
+
+function refreshProjects() {
+    getProjects().then(data => {
+        currentProjects = data;
+        showProjects(data);
+    });
+}
 // fetch projects end
 
 // Start of Tawk.to Live Chat
