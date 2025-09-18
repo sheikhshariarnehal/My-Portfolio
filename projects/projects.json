@@ -51,6 +51,16 @@
     }
   },
   {
+  "name": "Inventory Management System",
+  "desc": "React Native mobile app with database backend,Features wholesale fabric inventory, sales tracking.",
+  "image": "inventorysystem",
+  "category": "fullstack",
+  "links": {
+    "view": "https://your-demo-link.com",
+    "code": "https://github.com/yourusername/inventory-system"
+  }
+},
+  {
     "name": "Portfolio Website",
     "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
     "image": "portfolio1",
