@@ -1,70 +1,59 @@
 [
-    {
-    "name": "Surjamukhi kindergarten",
-    "desc": "Surjomukhi Kindergarten – School Website built with Next.js and Supabase, featuring class schedules, teacher profiles, admission system, and student resources",
-    "image": "surjamukhikindergarten",
+  {
+    "name": "Surjamukhi Kindergarten",
+    "desc": "Next.js + Supabase school website with class schedules, teacher profiles, admission system, and student resources.",
+    "image": "surjamukhi-kindergarten",
     "category": "fullstack",
     "links": {
       "view": "https://www.surjamukhikindergarten.com/",
       "code": "https://github.com/sheikhshariarnehal"
     }
   },
-  
-    {
+  {
     "name": "DIU Learning",
-    "desc": "DIU Learning – E-Learning WebApp built with Next.js and Supabase, featuring course management, study materials, teacher profiles, and student resources.",
-    "image": "diulearning",
+    "desc": "E-Learning WebApp using Next.js and Supabase featuring course management, study materials, and teacher profiles.",
+    "image": "diu-learning",
     "category": "fullstack",
     "links": {
       "view": "https://diu-learning.vercel.app/",
       "code": "https://github.com/sheikhshariarnehal"
-      }
-    },
-    {
+    }
+  },
+  {
     "name": "NestTask",
-    "desc": "A Progressive Web App (PWA) for university task and schedule management. Built using React, TypeScript, Tailwind CSS, and Supabase.",
+    "desc": "University task and schedule management PWA built with React, TypeScript, Tailwind CSS, and Supabase.",
     "image": "nesttask",
-    "category": "mern",
+    "category": "pwa",
     "links": {
       "view": "https://nesttask-v85-depertment.vercel.app/",
       "code": "https://github.com/sheikhshariarnehal"
-      }
-    },
-  {
-    "name": "My portfolio",
-    "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
-    "image": "My_portfolio",
-    "category": "mern",
-    "links": {
-      "view": "https://shariarnehal.netlify.app/",
-      "code": "https://github.com/sheikhshariarnehal"
     }
   },
-    {
+  {
     "name": "Movie Landing Page",
-    "desc": "Responsive web application built with modern frontend technologies, featuring movie highlights, trailers, and a clean UI for engaging user experience.",
-    "image": "movielandingpage",
-    "category": "basicweb",
+    "desc": "Responsive movie landing page with trailers, highlights, and clean UI for engaging user experience.",
+    "image": "movie-landing-page",
+    "category": "frontend",
     "links": {
       "view": "https://www.moviehub.dev/",
       "code": "https://github.com/sheikhshariarnehal"
     }
   },
   {
-  "name": "Inventory Management System",
-  "desc": "React Native mobile app with database backend,Features wholesale fabric inventory, sales tracking.",
-  "image": "inventorysystem",
-  "category": "fullstack",
-  "links": {
-    "view": "https://your-demo-link.com",
-    "code": "https://github.com/yourusername/inventory-system"
-  }
-},
+    "name": "Inventory Management System",
+    "desc": "React Native app for fabric wholesalers with inventory tracking, sales management, and database backend.",
+    "image": "inventory-management",
+    "category": "mobile",
+    "links": {
+      "view": "https://your-demo-link.com",
+      "code": "https://github.com/yourusername/inventory-system"
+    }
+  },
   {
-    "name": "Face Recognition",
-    "desc": "The Face-Based Attendance System is a Python and OpenCV project designed to automate attendance tracking using facial recognition.",
-    "image": "facerecognition",
-    "category": "mern",
+    "name": "Face Recognition Attendance",
+    "desc": "Python + OpenCV project for automated student attendance using facial recognition technology.",
+    "image": "face-recognition",
+    "category": "ML",
     "links": {
       "view": "https://github.com/sheikhshariarnehal/Facial-Recognition-Attendance-System_python-poject",
       "code": "https://github.com/sheikhshariarnehal/Facial-Recognition-Attendance-System_python-poject"
@@ -72,11 +61,11 @@
   },
   {
     "name": "Portfolio Website",
-    "desc": "Personal Portfolio Website. Don't Need Much Info About It, Just Scroll Down. You're Here Only!",
-    "image": "portfolio1",
-    "category": "basicweb",
+    "desc": "Simple portfolio website showcasing personal projects and coding skills.",
+    "image": "portfolio-website",
+    "category": "frontend",
     "links": {
-      "view": "#",
+      "view": "https://shariarnehal.netlify.app/",
       "code": "https://github.com/sheikhshariarnehal"
     }
   }
