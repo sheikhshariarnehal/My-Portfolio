@@ -3,7 +3,7 @@
     "name": "Surjamukhi Kindergarten",
     "desc": "Next.js + Supabase school website with class schedules, teacher profiles, admission system, and student resources.",
     "image": "surjamukhi-kindergarten",
-    "category": "fullstack",
+    "category": "mern",
     "links": {
       "view": "https://www.surjamukhikindergarten.com/",
       "code": "https://github.com/sheikhshariarnehal"
@@ -13,7 +13,7 @@
     "name": "DIU Learning",
     "desc": "E-Learning WebApp using Next.js and Supabase featuring course management, study materials, and teacher profiles.",
     "image": "diu-learning",
-    "category": "fullstack",
+    "category": "mern",
     "links": {
       "view": "https://diu-learning.vercel.app/",
       "code": "https://github.com/sheikhshariarnehal"
@@ -23,7 +23,7 @@
     "name": "NestTask",
     "desc": "University task and schedule management PWA built with React, TypeScript, Tailwind CSS, and Supabase.",
     "image": "nesttask",
-    "category": "pwa",
+    "category": "mern",
     "links": {
       "view": "https://nesttask-v85-depertment.vercel.app/",
       "code": "https://github.com/sheikhshariarnehal"
@@ -33,7 +33,7 @@
     "name": "Movie Landing Page",
     "desc": "Responsive movie landing page with trailers, highlights, and clean UI for engaging user experience.",
     "image": "movie-landing-page",
-    "category": "frontend",
+    "category": "basicweb",
     "links": {
       "view": "https://www.moviehub.dev/",
       "code": "https://github.com/sheikhshariarnehal"
@@ -43,7 +43,7 @@
     "name": "Inventory Management System",
     "desc": "React Native app for fabric wholesalers with inventory tracking, sales management, and database backend.",
     "image": "inventory-management",
-    "category": "mobile",
+    "category": "android",
     "links": {
       "view": "https://your-demo-link.com",
       "code": "https://github.com/yourusername/inventory-system"
@@ -53,20 +53,30 @@
     "name": "Face Recognition Attendance",
     "desc": "Python + OpenCV project for automated student attendance using facial recognition technology.",
     "image": "face-recognition",
-    "category": "ML",
+    "category": "ml",
     "links": {
       "view": "https://github.com/sheikhshariarnehal/Facial-Recognition-Attendance-System_python-poject",
       "code": "https://github.com/sheikhshariarnehal/Facial-Recognition-Attendance-System_python-poject"
     }
   },
   {
-    "name": "Portfolio Website",
-    "desc": "Simple portfolio website showcasing personal projects and coding skills.",
-    "image": "portfolio-website",
-    "category": "frontend",
+    "name": "Heart Disease Prediction System",
+    "desc": "Machine Learning project built with Python to predict the likelihood of heart disease using medical datasets.",
+    "image": "heart-disease",
+    "category": "ml",
     "links": {
-      "view": "https://shariarnehal.netlify.app/",
-      "code": "https://github.com/sheikhshariarnehal"
+      "view": "https://heartcare-three.vercel.app/",
+      "code": "https://github.com/sheikhshariarnehal/Heart-Disease-Prediction-System"
+    }
+  },
+  {
+    "name": "Blood Bank Management System",
+    "desc": "Full-Stack WebApp for managing blood donors, requests, and inventory. Built with HTML, MySQL ",
+    "image": "blood-bank",
+    "category": "basicweb",
+    "links": {
+      "view": "https://github.com/shouvikofficial/Blood-Bank-Management-System",
+      "code": "https://github.com/shouvikofficial/Blood-Bank-Management-System"
     }
   }
 ]
