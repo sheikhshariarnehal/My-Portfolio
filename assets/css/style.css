@@ -2,6 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -1224,85 +1227,3 @@ form .button-area {
   top: calc(100% - 12rem);
 }
 /* scroll top ends */
-
-/* ========== MOBILE PERFORMANCE OPTIMIZATIONS ========== */
-
-/* Reduce motion for users who prefer it - Accessibility & Performance */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Mobile-specific optimizations */
-@media only screen and (max-width: 768px) {
-  /* Reduce animation complexity on mobile */
-  * {
-    transition: all 0.1s linear;
-  }
-  
-  /* Optimize particle.js container */
-  #particles-js {
-    will-change: auto;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-  
-  /* Optimize images for mobile */
-  img {
-    image-rendering: -webkit-optimize-contrast;
-    transform: translateZ(0);
-  }
-  
-  /* GPU acceleration for smoother scrolling */
-  .home, .about, .skills, .education, .work, .experience, .contact {
-    transform: translateZ(0);
-    backface-visibility: hidden;
-  }
-  
-  /* Reduce box-shadow complexity on mobile */
-  .box, .card, .btn {
-    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
-  }
-}
-
-/* Touch-friendly tap targets - minimum 48x48px */
-@media only screen and (max-width: 768px) {
-  a, button, input, select, textarea {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
-/* Optimize for high DPI displays */
-@media only screen and (-webkit-min-device-pixel-ratio: 2),
-       only screen and (min-resolution: 192dpi) {
-  /* High DPI optimizations */
-  img {
-    image-rendering: -webkit-optimize-contrast;
-  }
-}
-
-/* Performance optimization: Contain layout changes */
-.container, .box-container {
-  contain: layout style paint;
-}
-
-/* Hardware acceleration for smooth animations */
-.tilt, .btn, #scroll-top {
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Optimize font rendering */
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-/* ========== END MOBILE PERFORMANCE OPTIMIZATIONS ========== */
