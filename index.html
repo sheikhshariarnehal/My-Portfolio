@@ -9,7 +9,10 @@
   <title>Shariar Nehal | Full-Stack Web Developer & Designer</title>
   <meta name="title" content="Shariar Nehal | Full-Stack Web Developer & Designer">
   <meta name="description" content="Portfolio of Shariar Nehal – Full-Stack Web Developer, React & Next.js specialist, and Graphic Designer. Explore projects, skills, and experiences.">
-  <meta name="keywords" content="Shariar Nehal, Nehal portfolio, Full Stack Developer, React, Next.js, Supabase, Web Developer Bangladesh, Programmer, CSE DIU">
+  <meta name="keywords" content="Shariar Nehal, Nehal portfolio, Full Stack Developer, React, Next.js, Supabase, Web Developer Bangladesh, Programmer, CSE DIU, MERN Stack Developer, JavaScript Developer, Python Developer, Freelance Web Developer">
+  <meta name="author" content="Shariar Nehal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://sheikhshariarnehal.com/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -27,6 +30,12 @@
 
   <!-- Favicon -->
   <link id="favicon" rel="shortcut icon" href="./assets/images/favicon.webp" type="image/x-png">
+  <link rel="apple-touch-icon" href="./assets/images/favicon.webp">
+
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="./assets/css/style.css">
@@ -43,6 +52,15 @@
     "url": "https://sheikhshariarnehal.com",
     "image": "https://sheikhshariarnehal.com/assets/images/profile2.webp",
     "jobTitle": "Full-Stack Web Developer & Designer",
+    "description": "Full-Stack Web Developer with 3 years of experience specializing in React, Next.js, Python, and JavaScript. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International University.",
+    "email": "nehal22205101260@diu.edu.bd",
+    "telephone": "+8801750627421",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nowabgonj",
+      "addressRegion": "Dhaka",
+      "addressCountry": "Bangladesh"
+    },
     "worksFor": {
       "@type": "Organization",
       "name": "Daffodil International University"
@@ -51,6 +69,7 @@
       "@type": "CollegeOrUniversity",
       "name": "Daffodil International University"
     },
+    "knowsAbout": ["Web Development", "React", "Next.js", "JavaScript", "Python", "C++", "MERN Stack", "Supabase", "Graphic Design", "Photoshop", "Illustrator", "Machine Learning"],
     "sameAs": [
       "https://github.com/sheikhshariarnehal",
       "https://www.linkedin.com/in/shekhshariarnehal/",
@@ -59,6 +78,50 @@
       "https://www.instagram.com/sheikh_shahoriar_nehal/",
       "https://www.facebook.com/ssheikhshariarnehal2001"
     ]
+  }
+  </script>
+  
+  <!-- Website Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Shariar Nehal Portfolio",
+    "url": "https://sheikhshariarnehal.com",
+    "description": "Portfolio website of Shariar Nehal showcasing web development projects, skills, and professional experience",
+    "author": {
+      "@type": "Person",
+      "name": "Shariar Nehal"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://sheikhshariarnehal.com/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://sheikhshariarnehal.com/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Projects",
+      "item": "https://sheikhshariarnehal.com/projects/"
+    },{
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Experience",
+      "item": "https://sheikhshariarnehal.com/experience/"
+    }]
   }
   </script>
 </head>
@@ -71,11 +134,11 @@
 </div> -->
 
 <!-- navbar starts -->
-<header>
-        <a href="/" class="logo"><i class="fab fa-node-js"></i> NEHAL</a>
+<header role="banner">
+        <a href="/" class="logo" aria-label="Shariar Nehal - Home"><i class="fab fa-node-js"></i> NEHAL</a>
 
-        <div id="menu" class="fas fa-bars"></div>
-        <nav class="navbar">
+        <div id="menu" class="fas fa-bars" role="button" aria-label="Toggle navigation menu"></div>
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
             <ul>
             <li><a class="active" href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -91,8 +154,8 @@
 
 
 <!-- hero section starts -->
-<section class="home" id="home">
-    <div id="particles-js"></div>
+<section class="home" id="home" role="main">
+    <div id="particles-js" aria-hidden="true"></div>
 
     <div class="content">
     <h2>Hi There,<br/> I'm Shariar<span> Nehal</span></h2>
@@ -112,7 +175,7 @@
       </div>
     </div>
 <div class="image">
-    <img draggable="false" class="tilt" src="./assets/images/hero.webp" alt="">
+    <img draggable="false" class="tilt" src="./assets/images/hero.webp" alt="Shariar Nehal - Full Stack Web Developer" loading="lazy">
 </div>
 </section>
 <!-- hero section ends -->
@@ -125,7 +188,7 @@
     <div class="row">
 
     <div class="image">
-        <img draggable="false" class="tilt" src="./assets/images/profile2.webp" alt="">
+        <img draggable="false" class="tilt" src="./assets/images/profile2.webp" alt="Shariar Nehal Profile Picture - Web Developer and Designer" loading="lazy">
     </div>
     <div class="content">
         <h3>I'm Shariar</h3>
@@ -188,7 +251,7 @@
 
     <div class="box">
         <div class="image">
-        <img draggable="false" src="./assets/images/educat/college.jpg" alt="">
+        <img draggable="false" src="./assets/images/educat/college.jpg" alt="Daffodil International University - Computer Science Engineering" loading="lazy">
         </div>
         <div class="content">
         <h3>B.Sc (Hons) in Computer Science & Engineering</h3>
@@ -199,7 +262,7 @@
 
     <div class="box">
       <div class="image">
-      <img draggable="false" src="./assets/images/educat/school.jpg" alt="">
+      <img draggable="false" src="./assets/images/educat/school.jpg" alt="Government Dohar Nawabganj College - Higher Secondary Certificate" loading="lazy">
       </div>
       <div class="content">
       <h3>Higher Secondary Certificate</h3>
@@ -350,7 +413,7 @@
   <div class="container">
     <div class="content">
       <div class="image-box">
-        <img draggable="false" src="./assets/images/contact1.png" alt="">
+        <img draggable="false" src="./assets/images/contact1.png" alt="Contact Shariar Nehal - Get In Touch" loading="lazy">
       </div>
       <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
 
@@ -388,7 +451,7 @@
 
 
 <!-- footer section starts -->
-<section class="footer">
+<footer class="footer" role="contentinfo">
 
   <div class="box-container">
 
@@ -423,9 +486,9 @@
       </div>
   </div>
 
-  <h1 class="credit">Designed with <i class="fa fa-heart pulse"></i> by <a href="https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/"> Shariar Nehal</a></h1>
+  <p class="credit">Designed with <i class="fa fa-heart pulse"></i> by <a href="https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/"> Shariar Nehal</a></p>
 
-</section>
+</footer>
 <!-- footer section ends -->
 
 
