@@ -6,34 +6,26 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://sheikhshariarnehal.com/</loc>
-    <lastmod>2025-10-14</lastmod>
+    <loc>https://sheikhshariarnehal.me/</loc>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- Projects Page -->
   <url>
-    <loc>https://sheikhshariarnehal.com/projects/</loc>
-    <lastmod>2025-10-14</lastmod>
+    <loc>https://sheikhshariarnehal.me/projects/</loc>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <!-- Experience Page -->
   <url>
-    <loc>https://sheikhshariarnehal.com/experience/</loc>
-    <lastmod>2025-10-14</lastmod>
+    <loc>https://sheikhshariarnehal.me/experience/</loc>
+    <lastmod>2025-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-
-  <!-- 404 Page -->
-  <url>
-    <loc>https://sheikhshariarnehal.com/404.html</loc>
-    <lastmod>2025-10-14</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.1</priority>
   </url>
 
 </urlset>

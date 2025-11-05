@@ -1,15 +1,7 @@
-# Robots.txt for Shariar Nehal Portfolio
-# Allow all search engines to crawl the site
-
 User-agent: *
 Allow: /
 
-# Disallow specific directories (if any)
 Disallow: /assets/js/
 Disallow: /assets/css/
 
-# Sitemap location
-Sitemap: https://sheikhshariarnehal.com/sitemap.xml
-
-# Crawl-delay (optional, adjust if needed)
-Crawl-delay: 1
+Sitemap: https://sheikhshariarnehal.me/sitemap.xml
