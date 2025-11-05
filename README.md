@@ -1,7 +1,21 @@
-## Portfolio-Website
-Portfolio website build using HTML5, CSS3, JavaScript and jQuery.
+# Sheikh Shariar Nehal - Portfolio Website
 
-<a href="https://nehal4.netlify.app/" target="_blank">**Visit Now** 🚀</a>
+> **Sheikh Shariar Nehal** (also known as **Shariar Nehal** or **Sheikh Nehal**) - Full Stack Web Developer Portfolio
+
+Professional portfolio website of **Sheikh Shariar Nehal**, showcasing web development projects, skills, and experience. Built with modern web technologies including HTML5, CSS3, JavaScript, and jQuery.
+
+<a href="https://sheikhshariarnehal.me/" target="_blank">**🚀 Visit Portfolio - Sheikh Shariar Nehal**</a>
+
+## 👨‍💻 About Sheikh Shariar Nehal
+
+**Sheikh Shariar Nehal** is a Full Stack Web Developer specializing in:
+- MERN Stack Development
+- React & Next.js Applications
+- Modern Web Technologies
+- UI/UX Design
+- Machine Learning Projects
+
+**Keywords**: Sheikh Shariar Nehal, Shariar Nehal, Sheikh Nehal, Nehal, Full Stack Developer, Web Developer Bangladesh, MERN Stack Developer
 
 
 ## 📌 Tech Stack
@@ -18,14 +32,21 @@ Particle.js, Typed.js, Tilt.js, Scroll Reveal, Tawk.to, Font Awesome and JSON
 ![ss](https://user-images.githubusercontent.com/64949957/159113640-d92665a8-f614-42b3-8456-66b97fc2e651.png)
 
 
-<h2>📬 Contact</h2>
+<h2>📬 Contact Sheikh Shariar Nehal</h2>
 
+If you want to contact **Sheikh Shariar Nehal** (Shariar Nehal), you can reach me through below handles.
 
-If you want to contact me, you can reach me through below handles.
+- 🌐 Website: [sheikhshariarnehal.me](https://sheikhshariarnehal.me)
+- 💼 LinkedIn: [Sheikh Shariar Nehal](https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/)
+- 💻 GitHub: [@sheikhshariarnehal](https://github.com/sheikhshariarnehal)
+- 📧 Email: nehal22205101260@diu.edu.bd
 
-&nbsp;&nbsp;<a href="https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/"><img src="https://www.felberpr.com/wp-content/uploads/linkedin-logo.png" width="30"></img></a>
+---
 
-© 2022 ShariarNehal
+### SEO Tags
+`Sheikh Shariar Nehal` | `Shariar Nehal` | `Sheikh Nehal` | `Nehal` | `Full Stack Developer` | `Web Developer Bangladesh` | `MERN Stack Developer` | `React Developer` | `Next.js Developer`
+
+© 2025 Sheikh Shariar Nehal
 
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
