@@ -220,12 +220,12 @@ header .navbar ul li a:hover {
 .home .image img:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
-.home .content h2 {
+.home .content h1 {
   font-size: 5rem;
   font-weight: 800;
   color: #002057;
 }
-.home .content h2 span {
+.home .content h1 span {
   font-size: 5rem;
   font-weight: 800;
   color: #ff7b00;
