@@ -91,11 +91,6 @@ function showProjects(projects) {
         }
     });
 
-    // layout Isotope after each image loads
-    $grid.imagesLoaded().progress( function() {
-        $grid.isotope('layout');
-    });
-
     // filter items on button click
     $('.button-group').on('click', 'button', function () {
         $('.button-group').find('.is-checked').removeClass('is-checked');
@@ -103,6 +98,13 @@ function showProjects(projects) {
         var filterValue = $(this).attr('data-filter');
         $grid.isotope({ filter: filterValue });
     });
+
+    // layout Isotope after each image loads
+    if ($.fn.imagesLoaded) {
+        $grid.imagesLoaded().progress( function() {
+            $grid.isotope('layout');
+        });
+    }
 }
 
 getProjects().then(data => {
