@@ -205,6 +205,10 @@ header .navbar ul li a:hover{
   gap:1.5rem;
   margin: 2rem;
 }
+.grid-item {
+  width: 380px;
+  margin: 1rem;
+}
 .work .box-container .box{
   flex:1 1 30rem;
   border-radius: .5rem;
@@ -281,8 +285,12 @@ header .navbar ul li a:hover{
   .work .box-container{
     margin: 0rem;
   }
+  .grid-item {
+    width: 100%;
+    margin: 1rem 0;
+  }
   .work .box-container .grid-item .box{
-    width: 95% !important;
+    width: 100% !important;
   }
 }
 
