@@ -165,6 +165,10 @@ header .navbar ul li a:hover{
   color: #fff;
   padding: 1rem;
 }
+.work .heading{
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
 .work .heading span{
   color: rgb(255, 230, 0);
 }
