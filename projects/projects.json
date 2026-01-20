@@ -30,13 +30,13 @@
     }
   },
   {
-    "name": "Inventory Management System",
-    "desc": "React Native app for fabric wholesalers with inventory tracking, sales management, and database backend.",
-    "image": "inventory-management",
-    "category": "android",
+    "name": "Coffee Shop Landing Page",
+    "desc": "Modern landing page for a coffee shop with hero section, featured menu, and online reservation.",
+    "image": "CafeWebsite",
+    "category": "basicweb",
     "links": {
-      "view": "https://your-demo-link.com",
-      "code": "https://github.com/yourusername/inventory-system"
+      "view": "https://caf-website-weld.vercel.app/",
+      "code": "https://github.com/sheikhshariarnehal/Caf--Website"
     }
   },
   {

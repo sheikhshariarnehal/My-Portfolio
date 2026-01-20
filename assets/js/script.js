@@ -60,7 +60,7 @@ document.addEventListener('visibilitychange',
     function () {
         if (document.visibilityState === "visible") {
             document.title = "Portfolio | Shariar Nehal";
-            $("#favicon").attr("href", "assets/images/favicon.webp");
+            $("#favicon").attr("href", "assets/images/Favicon.webp");
         }
         else {
             document.title = "Come Back To Portfolio";
@@ -110,7 +110,7 @@ function showProjects(projects) {
     projects.slice(0, 10).filter(project => project.category != "android").forEach(project => {
         projectHTML += `
         <div class="box tilt">
-      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="project" />
+      <img draggable="false" src="/assets/images/projects/${project.image}.webp" alt="project" />
       <div class="content">
         <div class="tag">
         <h3>${project.name}</h3>

@@ -21,7 +21,7 @@ document.addEventListener('visibilitychange',
     function () {
         if (document.visibilityState === "visible") {
             document.title = "Projects | Portfolio Shariar Nehal";
-            $("#favicon").attr("href", "/assets/images/favicon.webp");
+            $("#favicon").attr("href", "/assets/images/Favicon.webp");
         }
         else {
             document.title = "Come Back To Portfolio";
@@ -47,7 +47,7 @@ function showProjects(projects) {
         projectsHTML += `
         <div class="grid-item ${project.category}">
         <div class="box tilt">
-      <img draggable="false" src="/assets/images/projects/${project.image}.png" alt="${project.name} - ${project.category} Project by Sheikh Shariar Nehal" />
+      <img draggable="false" src="/assets/images/projects/${project.image}.webp" alt="${project.name} - ${project.category} Project by Sheikh Shariar Nehal" />
       <div class="content">
         <div class="tag">
         <h3>${project.name}</h3>
@@ -101,7 +101,7 @@ function showProjects(projects) {
 
     // layout Isotope after each image loads
     if ($.fn.imagesLoaded) {
-        $grid.imagesLoaded().progress( function() {
+        $grid.imagesLoaded().progress(function () {
             $grid.isotope('layout');
         });
     }
