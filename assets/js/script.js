@@ -172,8 +172,11 @@ VanillaTilt.init(document.querySelectorAll(".tilt"), {
 // pre loader end
 
 
-// Start of Tawk.to Live Chat
+// Start of Tawk.to Live Chat - Lazy loaded for better performance
+let tawkLoaded = false;
 function loadTawk() {
+    if (tawkLoaded) return;
+    tawkLoaded = true;
     var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
     (function () {
         var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
@@ -185,9 +188,20 @@ function loadTawk() {
     })();
 }
 
-// Load Tawk after page load to improve TTI
+// Load Tawk after user interaction or after 5 seconds (whichever comes first)
 window.addEventListener('load', () => {
-    setTimeout(loadTawk, 3000);
+    // Load on first user interaction (scroll, click, touch)
+    const loadOnInteraction = () => {
+        loadTawk();
+        ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt => 
+            window.removeEventListener(evt, loadOnInteraction, { passive: true })
+        );
+    };
+    ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt => 
+        window.addEventListener(evt, loadOnInteraction, { passive: true, once: true })
+    );
+    // Fallback: load after 5 seconds if no interaction
+    setTimeout(loadTawk, 5000);
 });
 // End of Tawk.to Live Chat
 

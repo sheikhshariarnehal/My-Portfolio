@@ -30,6 +30,16 @@
     }
   },
   {
+    "name": "Inventory Management System",
+    "desc": "React Native app for fabric wholesalers with inventory tracking, sales management, and database backend.",
+    "image": "inventory-management",
+    "category": "android",
+    "links": {
+      "view": "https://ims-pi-five.vercel.app",
+      "code": "https://github.com/sheikhshariarnehal/IMS"
+    }
+  },
+  {
     "name": "Coffee Shop Landing Page",
     "desc": "Modern landing page for a coffee shop with hero section, featured menu, and online reservation.",
     "image": "CafeWebsite",

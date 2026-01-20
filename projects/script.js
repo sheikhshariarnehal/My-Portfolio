@@ -43,11 +43,16 @@ function getProjects() {
 function showProjects(projects) {
     let projectsContainer = document.querySelector(".work .box-container");
     let projectsHTML = "";
-    projects.forEach(project => {
+    projects.forEach((project, index) => {
+        // First image is LCP - don't lazy load it and add fetchpriority high
+        const isFirstImage = index === 0;
+        const loadingAttr = isFirstImage ? '' : 'loading="lazy"';
+        const priorityAttr = isFirstImage ? 'fetchpriority="high"' : '';
+        
         projectsHTML += `
         <div class="grid-item ${project.category}">
         <div class="box tilt">
-      <img draggable="false" src="/assets/images/projects/${project.image}.webp" alt="${project.name} - ${project.category} Project by Sheikh Shariar Nehal" loading="lazy" />
+      <img draggable="false" src="/assets/images/projects/${project.image}.webp" alt="${project.name} - ${project.category} Project by Sheikh Shariar Nehal" ${loadingAttr} ${priorityAttr} />
       <div class="content">
         <div class="tag">
         <h3>${project.name}</h3>
