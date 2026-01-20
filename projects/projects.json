@@ -30,16 +30,6 @@
     }
   },
   {
-    "name": "Movie Landing Page",
-    "desc": "Responsive movie landing page with trailers, highlights, and clean UI for engaging user experience.",
-    "image": "movie-landing-page",
-    "category": "basicweb",
-    "links": {
-      "view": "https://www.moviehub.dev/",
-      "code": "https://github.com/sheikhshariarnehal/OpenStream_Landing-page"
-    }
-  },
-  {
     "name": "Inventory Management System",
     "desc": "React Native app for fabric wholesalers with inventory tracking, sales management, and database backend.",
     "image": "inventory-management",
@@ -47,6 +37,16 @@
     "links": {
       "view": "https://your-demo-link.com",
       "code": "https://github.com/yourusername/inventory-system"
+    }
+  },
+  {
+    "name": "Movie Landing Page",
+    "desc": "Responsive movie landing page with trailers, highlights, and clean UI for engaging user experience.",
+    "image": "movie-landing-page",
+    "category": "basicweb",
+    "links": {
+      "view": "https://www.moviehub.dev/",
+      "code": "https://github.com/sheikhshariarnehal/OpenStream_Landing-page"
     }
   },
   {
