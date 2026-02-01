@@ -220,7 +220,9 @@ header .navbar ul li a:hover{
   display: flex;
   flex-wrap: wrap;
   gap:1.5rem;
-  margin: 2rem;
+  margin: 2rem auto;
+  justify-content: center;
+  max-width: 1800px;
 }
 .grid-item {
   width: 380px;

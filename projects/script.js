@@ -91,9 +91,10 @@ function showProjects(projects) {
     var $grid = $('.box-container').isotope({
         itemSelector: '.grid-item',
         layoutMode: 'fitRows',
-        masonry: {
-            columnWidth: 200
-        }
+        fitRows: {
+            gutter: 15
+        },
+        percentPosition: true
     });
 
     // filter items on button click

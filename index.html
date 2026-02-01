@@ -53,37 +53,31 @@
   <link rel="icon" href="./assets/images/Favicon.webp" type="image/webp">
   <link rel="apple-touch-icon" href="./assets/images/Favicon.webp">
 
-  <!-- Preconnect for Performance -->
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link rel="preconnect" href="https://unpkg.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <!-- Web App Manifest for PWA -->
+  <link rel="manifest" href="./manifest.json">
+
+  <!-- Preconnect for Performance (prioritized order) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
   <!-- Preload Critical Resources -->
   <link rel="preload" href="./assets/css/style.css" as="style">
   <link rel="preload" href="./assets/js/script.js" as="script">
   <link rel="preload" href="./assets/images/hero.webp" as="image" fetchpriority="high">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" as="style">
+  <!-- Google Fonts - Optimized: Reduced weights, combined request -->
   <link rel="preload"
-    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap"
     as="style">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-    media="print" onload="this.media='all'">
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap"
     media="print" onload="this.media='all'">
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-      crossorigin>
     <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap"
-      crossorigin>
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap">
   </noscript>
 
   <!-- Custom CSS -->
@@ -251,7 +245,7 @@
 
     <div class="content">
       <h1>Hi There,<br /> I'm Sheikh Shariar<span> Nehal</span></h1>
-      <p>i am into <span class="typing-text"></span></p>
+      <p>I Am Into <span class="typing-text"></span></p>
       <a href="#about" class="btn"><span>About Me</span>
         <i class="fas fa-arrow-circle-down"></i>
       </a>
@@ -356,7 +350,7 @@
 
       <div class="box">
         <div class="image">
-          <img draggable="false" src="./assets/images/educat/college.jpg"
+          <img draggable="false" src="./assets/images/educat/college.webp"
             alt="Daffodil International University - Computer Science Engineering" width="400" height="225"
             loading="lazy">
         </div>
@@ -369,7 +363,7 @@
 
       <div class="box">
         <div class="image">
-          <img draggable="false" src="./assets/images/educat/school.jpg"
+          <img draggable="false" src="./assets/images/educat/school.webp"
             alt="Government Dohar Nawabganj College - Higher Secondary Certificate" width="400" height="225"
             loading="lazy">
         </div>
@@ -643,8 +637,8 @@
     integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <!-- scroll reveal anim - deferred for performance -->
-  <script defer src="https://unpkg.com/scrollreveal"></script>
+  <!-- scroll reveal anim - using versioned URL to avoid redirect -->
+  <script defer src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
 
   <!-- emailjs - deferred for performance -->
   <script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -653,6 +647,21 @@
 
   <!-- Main script - deferred for performance -->
   <script defer src="./assets/js/script.js"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registered:', registration.scope);
+          })
+          .catch(error => {
+            console.log('ServiceWorker registration failed:', error);
+          });
+      });
+    }
+  </script>
 
 </body>
 

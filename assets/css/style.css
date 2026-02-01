@@ -223,7 +223,10 @@ header .navbar ul li a:hover {
 
 /* hamburger icon ends */
 
-/* hero section starts*/
+/* ============================================
+   HERO SECTION - MINIMAL OPTIMIZED DESIGN
+   ============================================ */
+
 .home {
   position: relative;
   display: flex;
@@ -231,6 +234,8 @@ header .navbar ul li a:hover {
   gap: 1.5rem;
   min-height: 100vh;
   align-items: center;
+  background: #f7f7f7;
+  padding: 2rem 9%;
 }
 
 .home #particles-js {
@@ -239,6 +244,7 @@ header .navbar ul li a:hover {
   left: 0;
   height: 100%;
   width: 100%;
+  z-index: 0;
 }
 
 .home::before {
@@ -248,14 +254,17 @@ header .navbar ul li a:hover {
   left: 0;
   height: 100%;
   width: 100%;
+  z-index: 0;
 }
 
+/* Content Container */
 .home .content {
   flex: 1 1 40rem;
   padding-top: 1rem;
   z-index: 1;
 }
 
+/* Profile Image Container */
 .home .image {
   flex: 1 1 40rem;
   z-index: 1;
@@ -268,18 +277,20 @@ header .navbar ul li a:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   aspect-ratio: 1 / 1;
-  /* Maintain circular shape and prevent CLS */
   object-fit: cover;
+  transition: box-shadow 0.3s ease;
 }
 
 .home .image img:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
+/* Typography */
 .home .content h1 {
   font-size: 5rem;
   font-weight: 800;
   color: #002057;
+  line-height: 1.2;
 }
 
 .home .content h1 span {
@@ -288,31 +299,30 @@ header .navbar ul li a:hover {
   color: #ff7b00;
 }
 
+/* Typed Text */
 .home .content p {
   font-size: 2.5rem;
   color: #000;
   font-weight: 600;
   padding: 1rem 0;
   min-height: 4.5rem;
-  /* Reserve space for typed text - prevents CLS */
 }
 
 .home .content p span {
   font-size: 2.5rem;
   color: rgb(148, 8, 8);
   font-weight: 600;
-  padding: 1rem 0;
 }
 
+/* CTA Button */
 .home .btn {
   margin-top: 2rem;
   display: inline-block;
-  /* Ensure it respects margins and padding */
   position: relative;
   line-height: 1;
   padding: 1.5rem 3rem;
   border-radius: 4em;
-  transition: 0.5s;
+  transition: all 0.3s ease;
   color: #fff;
   background: #2506ad;
   box-shadow: 0px 5px 18px rgba(48, 68, 247, 0.6);
@@ -328,81 +338,115 @@ header .navbar ul li a:hover {
 .home .btn i {
   margin-left: 0.3rem;
   font-size: 1.5rem;
-  transition: 0.3s;
+  transition: transform 0.3s ease;
 }
 
 .home .btn:hover {
   background: #1a047e;
+  transform: translateY(-2px);
 }
 
 .home .btn:hover i {
   transform: translateX(5px);
 }
 
-/* social icons start */
+/* ============================================
+   SOCIAL ICONS - MINIMAL DESIGN
+   ============================================ */
+
 .socials {
   position: relative;
   margin-top: 3rem;
-  /* Adjusted for better spacing below relative button */
 }
 
 .socials .social-icons {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
 .socials .social-icons li {
   display: inline-block;
-  margin-bottom: 14px;
 }
 
 .social-icons a {
   font-size: 2rem;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 44px;
   color: #00d9ff;
   background-color: #09011b;
   width: 44px;
   height: 44px;
-  text-align: center;
-  margin-right: 8px;
-  border-radius: 100%;
-  -webkit-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
+  border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
-.social-icons a:active,
-.social-icons a:focus,
 .social-icons a:hover {
-  color: #fff;
-  background-color: #0685da;
-}
-
-.social-icons a.github:hover {
-  background-color: #0e0e0e;
-}
-
-.social-icons a.twitter:hover {
-  background-color: #00aced;
+  transform: translateY(-3px);
 }
 
 .social-icons a.linkedin:hover {
   background-color: #007bb6;
+  color: #fff;
 }
 
-.social-icons a.dev:hover {
-  background-color: #070707;
+.social-icons a.github:hover {
+  background-color: #0e0e0e;
+  color: #fff;
+}
+
+.social-icons a.twitter:hover {
+  background-color: #00aced;
+  color: #fff;
+}
+
+.social-icons a.telegram:hover {
+  background-color: #0088cc;
+  color: #fff;
 }
 
 .social-icons a.instagram:hover {
   background-color: #ee00da;
+  color: #fff;
 }
 
-/* social icons end */
+.social-icons a.dev:hover {
+  background-color: #1877f2;
+  color: #fff;
+}
 
-/* hero media queries starts*/
+/* ============================================
+   HERO RESPONSIVE - TABLET (max-width: 992px)
+   ============================================ */
+
+@media (max-width: 992px) {
+  .home {
+    padding: 10rem 5% 5rem;
+  }
+
+  .home .content h1 {
+    font-size: 4.2rem;
+  }
+
+  .home .content h1 span {
+    font-size: 4.2rem;
+  }
+
+  .home .image img {
+    width: 80%;
+    margin-left: 3rem;
+  }
+}
+
+/* ============================================
+   HERO RESPONSIVE - MOBILE (max-width: 768px)
+   ============================================ */
+
 @media (max-width: 768px) {
   .home {
     flex-direction: column;
@@ -443,20 +487,13 @@ header .navbar ul li a:hover {
   }
 
   .socials {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
   }
 
   .socials .social-icons {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 0.5rem;
-  }
-
-  .socials .social-icons li {
-    margin-bottom: 0;
   }
 
   .home .image {
@@ -467,7 +504,6 @@ header .navbar ul li a:hover {
     align-items: center;
     width: 100%;
     padding: 1rem 0;
-    margin-top: 0;
   }
 
   .home .image img {
@@ -477,6 +513,10 @@ header .navbar ul li a:hover {
     display: block;
   }
 }
+
+/* ============================================
+   HERO RESPONSIVE - SMALL MOBILE (max-width: 480px)
+   ============================================ */
 
 @media (max-width: 480px) {
   .home {
@@ -494,6 +534,7 @@ header .navbar ul li a:hover {
 
   .home .content p {
     font-size: 1.8rem;
+    min-height: 4rem;
   }
 
   .home .content p span {
@@ -510,7 +551,7 @@ header .navbar ul li a:hover {
   }
 
   .socials {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
   }
 
   .social-icons a {
@@ -518,7 +559,6 @@ header .navbar ul li a:hover {
     width: 40px;
     height: 40px;
     line-height: 40px;
-    margin-right: 5px;
   }
 
   .home .image img {
@@ -526,6 +566,10 @@ header .navbar ul li a:hover {
     max-width: 220px;
   }
 }
+
+/* ============================================
+   HERO RESPONSIVE - EXTRA SMALL (max-width: 360px)
+   ============================================ */
 
 @media (max-width: 360px) {
   .home {
@@ -561,8 +605,9 @@ header .navbar ul li a:hover {
   }
 }
 
-/* hero media queries ends*/
-/* hero section end */
+/* ============================================
+   END HERO SECTION
+   ============================================ */
 
 /* about section starts */
 .about {

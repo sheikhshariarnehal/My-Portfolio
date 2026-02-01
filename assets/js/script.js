@@ -138,7 +138,7 @@ function showProjects(projects) {
         origin: 'top',
         distance: '80px',
         duration: 1000,
-        reset: true
+        reset: false // Changed from true to false to prevent CLS
     });
 
     /* SCROLL PROJECTS */
@@ -193,15 +193,15 @@ window.addEventListener('load', () => {
     // Load on first user interaction (scroll, click, touch)
     const loadOnInteraction = () => {
         loadTawk();
-        ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt => 
+        ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt =>
             window.removeEventListener(evt, loadOnInteraction, { passive: true })
         );
     };
-    ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt => 
+    ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt =>
         window.addEventListener(evt, loadOnInteraction, { passive: true, once: true })
     );
-    // Fallback: load after 5 seconds if no interaction
-    setTimeout(loadTawk, 5000);
+    // Fallback: load after 10 seconds if no interaction (increased from 5s for better performance)
+    setTimeout(loadTawk, 10000);
 });
 // End of Tawk.to Live Chat
 
@@ -211,7 +211,7 @@ const srtop = ScrollReveal({
     origin: 'top',
     distance: '80px',
     duration: 1000,
-    reset: true
+    reset: false // Changed from true to false to prevent CLS (layout shifts)
 });
 
 /* SCROLL HOME */
