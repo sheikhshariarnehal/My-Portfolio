@@ -65,7 +65,7 @@
 
   <!-- Preload Critical Resources -->
   <link rel="preload" href="./assets/css/style.css" as="style">
-  <link rel="preload" href="./assets/js/script.js" as="script">
+  <link rel="preload" href="./assets/js/script.min.js" as="script">
   <link rel="preload" href="./assets/images/hero.webp" as="image" fetchpriority="high">
 
   <!-- Google Fonts - Optimized: Reduced weights, combined request -->
@@ -210,6 +210,15 @@
     }
   }
   </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 
 <body>
@@ -251,18 +260,18 @@
       </a>
       <div class="socials">
         <ul class="social-icons">
-          <li><a class="linkedin" aria-label="LinkedIn" href="www.linkedin.com/in/shekhshariarnehal" target="_blank"><i
-                class="fab fa-linkedin"></i></a></li>
-          <li><a class="github" aria-label="GitHub" href="https://github.com/sheikhshariarnehal" target="_blank"><i
-                class="fab fa-github"></i></a></li>
-          <li><a class="twitter" aria-label="Twitter" href="https://twitter.com/shariar_nehal" target="_blank"><i
-                class="fab fa-twitter"></i></a></li>
-          <li><a class="telegram" aria-label="Telegram" href="https://t.me/sheikhshariarnehal" target="_blank"><i
-                class="fab fa-telegram-plane"></i></a></li>
-          <li><a class="instagram" aria-label="Instagram" href="https://instagram.com/sheikhshariarnehal"><i
-                class="fab fa-instagram" target="_blank"></i></a></li>
+          <li><a class="linkedin" aria-label="LinkedIn" href="https://www.linkedin.com/in/shekhshariarnehal"
+              target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a></li>
+          <li><a class="github" aria-label="GitHub" href="https://github.com/sheikhshariarnehal" target="_blank"
+              rel="noopener noreferrer"><i class="fab fa-github"></i></a></li>
+          <li><a class="twitter" aria-label="Twitter" href="https://twitter.com/shariar_nehal" target="_blank"
+              rel="noopener noreferrer"><i class="fab fa-twitter"></i></a></li>
+          <li><a class="telegram" aria-label="Telegram" href="https://t.me/sheikhshariarnehal" target="_blank"
+              rel="noopener noreferrer"><i class="fab fa-telegram-plane"></i></a></li>
+          <li><a class="instagram" aria-label="Instagram" href="https://instagram.com/sheikhshariarnehal"
+              target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a></li>
           <li><a class="dev" aria-label="Facebook" href="https://www.facebook.com/sheikhshariarnehal.cse"
-              target="_blank"><i class="fab fa-facebook"></i></a></li>
+              target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i></a></li>
         </ul>
       </div>
     </div>
@@ -308,7 +317,7 @@
 
         <div class="resumebtn">
           <a href="https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view" target="_blank"
-            class="btn"><span>Resume</span>
+            rel="noopener noreferrer" class="btn"><span>Resume</span>
             <i class="fas fa-chevron-right"></i>
           </a>
         </div>
@@ -350,7 +359,7 @@
 
       <div class="box">
         <div class="image">
-          <img draggable="false" src="./assets/images/educat/college.webp"
+          <img draggable="false" src="./assets/images/educat/govtdnc.webp"
             alt="Daffodil International University - Computer Science Engineering" width="400" height="225"
             loading="lazy">
         </div>
@@ -581,14 +590,16 @@
         <p> <i class="fas fa-envelope"></i>nehal22205101260@diu.edu.bd</p>
         <p> <i class="fas fa-map-marked-alt"></i>Nowabgonj,Dhaka,Bangladesh</p>
         <div class="share">
-
           <a href="https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/" class="fab fa-linkedin"
-            aria-label="LinkedIn" target="_blank"></a>
-          <a href="https://github.com/sheikhshariarnehal" class="fab fa-github" aria-label="GitHub" target="_blank"></a>
-          <a href="mailto:nehal22205101260@diu.edu.bd" class="fas fa-envelope" aria-label="Mail" target="_blank"></a>
-          <a href="https://twitter.com/shariar_nehal" class="fab fa-twitter" aria-label="Twitter" target="_blank"></a>
-          <a href="https://t.me/sheikhshariarnehal" class="fab fa-telegram-plane" aria-label="Telegram"
-            target="_blank"></a>
+            aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"></a>
+          <a href="https://github.com/sheikhshariarnehal" class="fab fa-github" aria-label="GitHub" target="_blank"
+            rel="noopener noreferrer"></a>
+          <a href="mailto:nehal22205101260@diu.edu.bd" class="fas fa-envelope" aria-label="Mail" target="_blank"
+            rel="noopener noreferrer"></a>
+          <a href="https://twitter.com/shariar_nehal" class="fab fa-twitter" aria-label="Twitter" target="_blank"
+            rel="noopener noreferrer"></a>
+          <a href="https://t.me/sheikhshariarnehal" class="fab fa-telegram-plane" aria-label="Telegram" target="_blank"
+            rel="noopener noreferrer"></a>
         </div>
       </div>
     </div>
@@ -630,7 +641,7 @@
 
   <!-- particle.js links - deferred for performance -->
   <script defer src="./assets/js/particles.min.js"></script>
-  <script defer src="./assets/js/app.js"></script>
+  <script defer src="./assets/js/app.min.js"></script>
 
   <!-- vanilla tilt.js links - deferred for performance -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"
@@ -646,7 +657,7 @@
   <!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
 
   <!-- Main script - deferred for performance -->
-  <script defer src="./assets/js/script.js"></script>
+  <script defer src="./assets/js/script.min.js"></script>
 
   <!-- Service Worker Registration -->
   <script>

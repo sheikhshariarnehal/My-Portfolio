@@ -62,11 +62,12 @@
   <link rel="dns-prefetch" href="https://va.tawk.to">
 
   <!-- Preload LCP Image (first project) -->
-  <link rel="preload" href="/assets/images/projects/surjamukhi-kindergarten.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="/assets/images/projects/surjamukhi-kindergarten.webp" as="image" type="image/webp"
+    fetchpriority="high">
 
   <!-- Preload Critical Resources -->
   <link rel="preload" href="/projects/style.css" as="style">
-  <link rel="preload" href="/projects/script.js" as="script">
+  <link rel="preload" href="/projects/script.min.js" as="script">
 
   <!-- Fonts with display=swap for better CLS -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" as="style">
@@ -149,6 +150,15 @@
     }
     }
     </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
 </head>
 
 <body>
@@ -247,7 +257,7 @@
   <!-- ==== ALL MAJOR JAVASCRIPT CDNS ENDS ==== -->
 
   <!-- Main script - deferred for performance -->
-  <script defer src="/projects/script.js"></script>
+  <script defer src="/projects/script.min.js"></script>
 
 </body>
 
