@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Surjamukhi Kindergarten",
+    "desc": "Next.js + Supabase school website with class schedules, teacher profiles, admission system, and student resources.",
+    "image": "surjamukhi-kindergarten",
+    "category": "mern",
+    "links": {
+      "view": "https://www.surjamukhikindergarten.com/",
+      "code": "https://github.com/sheikhshariarnehal"
+    }
+  },
+  {
+    "name": "DIU Learning",
+    "desc": "E-Learning WebApp using Next.js and Supabase featuring course management, study materials, and teacher profiles.",
+    "image": "diu-learning",
+    "category": "mern",
+    "links": {
+      "view": "https://studyhub.nehal.app",
+      "code": "https://github.com/sheikhshariarnehal"
+    }
+  },
+  {
+    "name": "NestTask",
+    "desc": "University task and schedule management PWA built with React, TypeScript, Tailwind CSS, and Supabase.",
+    "image": "nesttask",
+    "category": "mern",
+    "links": {
+      "view": "https://nesttask.diu.systems/",
+      "code": "https://github.com/sheikhshariarnehal/NestTask-V8.5"
+    }
+  },
+  {
+    "name": "Inventory Management System",
+    "desc": "React Native app for fabric wholesalers with inventory tracking, sales management, and database backend.",
+    "image": "inventory-management",
+    "category": "android",
+    "links": {
+      "view": "https://ims-pi-five.vercel.app",
+      "code": "https://github.com/sheikhshariarnehal/IMS"
+    }
+  },
+  {
+    "name": "Coffee Shop Landing Page",
+    "desc": "Modern landing page for a coffee shop with hero section, featured menu, and online reservation.",
+    "image": "CafeWebsite",
+    "category": "basicweb",
+    "links": {
+      "view": "https://caf-website-weld.vercel.app/",
+      "code": "https://github.com/sheikhshariarnehal/Caf--Website"
+    }
+  },
+  {
+    "name": "Movie Landing Page",
+    "desc": "Responsive movie landing page with trailers, highlights, and clean UI for engaging user experience.",
+    "image": "movie-landing-page",
+    "category": "basicweb",
+    "links": {
+      "view": "https://www.moviehub.dev/",
+      "code": "https://github.com/sheikhshariarnehal/OpenStream_Landing-page"
+    }
+  },
+  {
+    "name": "Face Recognition Attendance",
+    "desc": "Python + OpenCV project for automated student attendance using facial recognition technology.",
+    "image": "face-recognition",
+    "category": "ml",
+    "links": {
+      "view": "https://github.com/sheikhshariarnehal/Facial-Recognition-Attendance-System_python-poject",
+      "code": "https://github.com/sheikhshariarnehal/Facial-Recognition-Attendance-System_python-poject"
+    }
+  },
+  {
+    "name": "Heart Disease Prediction System",
+    "desc": "Machine Learning project built with Python to predict the likelihood of heart disease using medical datasets.",
+    "image": "heart-disease",
+    "category": "ml",
+    "links": {
+      "view": "https://heartcare-three.vercel.app/",
+      "code": "https://github.com/sheikhshariarnehal/Heart-Disease-Prediction-System"
+    }
+  },
+  {
+    "name": "Blood Bank Management System",
+    "desc": "Full-Stack WebApp for managing blood donors, requests, and inventory. Built with HTML, MySQL ",
+    "image": "blood-bank",
+    "category": "basicweb",
+    "links": {
+      "view": "https://github.com/shouvikofficial/Blood-Bank-Management-System",
+      "code": "https://github.com/shouvikofficial/Blood-Bank-Management-System"
+    }
+  }
+]

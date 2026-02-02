@@ -1,0 +1,411 @@
+/* Projects Page Styles - Higher specificity to override global.css */
+
+/* Work Section */
+section.work {
+  background: linear-gradient(to bottom, #010136, #00003a);
+  margin-top: 5rem;
+  padding-bottom: 2rem;
+}
+
+section.work h2 {
+  color: #fff;
+  padding: 1rem;
+}
+
+section.work .heading {
+  color: #fff;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+section.work .heading span {
+  color: #ffe600;
+}
+
+section.work .description-text {
+  text-align: center;
+  max-width: 800px;
+  margin: 1rem auto 2rem;
+  padding: 0 2rem;
+  color: #eee;
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+section.work .description-text strong {
+  color: #ffd900;
+}
+
+/* Filter Buttons */
+section.work .button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem auto;
+  width: fit-content;
+  max-width: 90%;
+}
+
+section.work .button-group .btn {
+  padding: 1rem 2rem;
+  background: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+section.work .button-group .btn:hover,
+section.work .button-group .btn.is-checked {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Project Grid - CSS Grid Layout */
+section.work .box-container {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 1600px;
+  padding: 0 2rem;
+}
+
+section.work .box-container .grid-item {
+  width: 100%;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 28rem;
+  contain: layout style;
+  flex: none !important;
+}
+
+section.work .box-container .grid-item:first-child {
+  content-visibility: visible;
+}
+
+/* Project Card */
+section.work .box-container .grid-item .box {
+  position: relative;
+  width: 100%;
+  height: 28rem;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+  flex: none !important;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+section.work .box-container .grid-item .box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
+}
+
+section.work .box-container .grid-item .box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  content-visibility: auto;
+}
+
+/* Card Content Overlay - GPU accelerated transform animation */
+section.work .box-container .grid-item .box .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(calc(100% - 4.5rem));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+section.work .box-container .grid-item .box:hover .content {
+  transform: translateY(25%);
+}
+
+/* Card Tag */
+section.work .box-container .grid-item .box .content .tag {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 4.5rem;
+  width: 100%;
+  padding-left: 1rem;
+  background: #ffd900;
+}
+
+section.work .box-container .grid-item .box .content .tag h3 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* Card Description */
+section.work .box-container .grid-item .desc {
+  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+section.work .box-container .grid-item .desc p {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+section.work .box-container .grid-item .desc .btns {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+section.work .box-container .grid-item .desc .btns .btn {
+  line-height: 0;
+  display: inline;
+  padding: 1.5rem 2.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  color: #fff;
+  background: rgb(12, 12, 12);
+  margin-right: 2rem;
+  transition: background-color 0.2s ease-out,
+              transform 0.2s ease-out;
+}
+
+section.work .box-container .grid-item .desc .btns .btn:hover {
+  background: #310ae0f5;
+  transform: translateY(-2px);
+}
+
+/* Back Button */
+section.work + .backbtn,
+.backbtn {
+  display: flex;
+  justify-content: center;
+  margin: 4rem 0 2rem;
+}
+
+.backbtn .btn {
+  position: relative;
+  padding: 1.6rem 3rem;
+  color: #fff;
+  line-height: 0;
+  text-align: center;
+  border: 2px solid #fff;
+  border-radius: 0.5em;
+  box-shadow: 0 2px 4px rgba(48, 68, 247, 0.3);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.backbtn .btn span {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+}
+
+.backbtn .btn i {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+  transition: transform 0.3s;
+}
+
+.backbtn .btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.backbtn .btn:hover i {
+  transform: translateX(-8px);
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* Extra Large (1400px+) */
+@media (min-width: 1400px) {
+  section.work .box-container .grid-item .box .content .tag h3 {
+    font-size: 1.7rem;
+  }
+}
+
+/* Large Desktop (1200px - 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  section.work .box-container {
+    max-width: 1400px;
+  }
+  section.work .box-container .grid-item .box {
+    height: 26rem;
+  }
+  section.work .box-container .grid-item .box .content .tag h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Desktop (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+  section.work .box-container {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1100px;
+  }
+  section.work .box-container .grid-item .box {
+    height: 26rem;
+  }
+}
+
+/* Tablet Landscape (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  section.work .box-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    padding: 0 1.5rem;
+  }
+  section.work .box-container .grid-item .box {
+    height: 24rem;
+  }
+  section.work .box-container .grid-item .box .content .tag h3 {
+    font-size: 1.5rem;
+  }
+  section.work .box-container .grid-item .desc p {
+    font-size: 1.3rem;
+  }
+  section.work .box-container .grid-item .desc .btns .btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.3rem;
+  }
+}
+
+/* Tablet Portrait (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  section.work .button-group {
+    width: 90%;
+    gap: 0.8rem;
+  }
+  section.work .button-group .btn {
+    padding: 0.9rem 1.5rem;
+    font-size: 1.4rem;
+  }
+  section.work .box-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  section.work .box-container .grid-item .box {
+    height: 24rem;
+  }
+  section.work .box-container .grid-item .box .content .tag h3 {
+    font-size: 1.5rem;
+  }
+  section.work .box-container .grid-item .desc {
+    margin: 1.2rem;
+  }
+  section.work .box-container .grid-item .desc p {
+    font-size: 1.3rem;
+  }
+  section.work .box-container .grid-item .desc .btns {
+    gap: 0.8rem;
+  }
+  section.work .box-container .grid-item .desc .btns .btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.3rem;
+  }
+}
+
+/* Mobile Large (451px - 575px) */
+@media (min-width: 451px) and (max-width: 575px) {
+  section.work .button-group {
+    width: 95%;
+    gap: 0.6rem;
+  }
+  section.work .button-group .btn {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.3rem;
+  }
+  section.work .box-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    padding: 0 0.8rem;
+  }
+  section.work .box-container .grid-item .box {
+    height: 22rem;
+  }
+  section.work .box-container .grid-item .box .content .tag {
+    height: 3.8rem;
+    min-height: 3.8rem;
+  }
+  section.work .box-container .grid-item .box .content .tag h3 {
+    font-size: 1.3rem;
+  }
+  section.work .box-container .grid-item .desc {
+    margin: 1rem;
+  }
+  section.work .box-container .grid-item .desc p {
+    font-size: 1.2rem;
+    -webkit-line-clamp: 2;
+  }
+  section.work .box-container .grid-item .desc .btns {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  section.work .box-container .grid-item .desc .btns .btn {
+    padding: 0.9rem 1.2rem;
+    font-size: 1.2rem;
+    width: 100%;
+  }
+}
+
+/* Mobile Small (max 450px) */
+@media (max-width: 450px) {
+  section.work {
+    margin-top: 4rem;
+  }
+  section.work .heading {
+    font-size: 2.8rem;
+  }
+  section.work .button-group {
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0 1rem;
+  }
+  section.work .button-group .btn {
+    padding: 0.7rem 1rem;
+    font-size: 1.2rem;
+  }
+  section.work .box-container {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    padding: 0 1rem;
+  }
+  section.work .box-container .grid-item .box {
+    height: 26rem;
+  }
+  section.work .box-container .grid-item .box .content .tag {
+    height: 4rem;
+    min-height: 4rem;
+  }
+  section.work .box-container .grid-item .box .content .tag h3 {
+    font-size: 1.5rem;
+  }
+  section.work .box-container .grid-item .desc {
+    margin: 1.2rem;
+  }
+  section.work .box-container .grid-item .desc p {
+    -webkit-line-clamp: 3;
+  }
+  section.work .box-container .grid-item .desc .btns {
+    justify-content: space-between;
+  }
+  section.work .box-container .grid-item .desc .btns .btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.3rem;
+    flex: 1;
+  }
+}

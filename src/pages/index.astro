@@ -1,0 +1,419 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SkillCard from '../components/SkillCard.astro';
+import EducationCard from '../components/EducationCard.astro';
+import TimelineItem from '../components/TimelineItem.astro';
+import SocialIcons from '../components/SocialIcons.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { getEducation, getExperience } from '../lib/supabase';
+
+import skills from '../data/skills.json';
+import projects from '../data/projects.json';
+
+// Fetch education from database
+const educationData = await getEducation();
+const education = educationData.map(edu => ({
+  degree: edu.degree,
+  institution: edu.institution,
+  image: edu.image || '/assets/images/educat/default.webp',
+  duration: `${edu.start_year}-${edu.end_year || 'Present'}`,
+  status: edu.status || 'Completed',
+  altText: `${edu.institution} - ${edu.degree}`
+}));
+
+// Filter projects for home page (exclude android, limit to 10)
+const homeProjects = projects.filter(p => p.category !== 'android').slice(0, 10);
+
+// Fetch experience from database
+const experienceData = await getExperience();
+const homeExperience = experienceData.map((exp, index) => {
+  const startDate = new Date(exp.start_date);
+  const endDate = exp.end_date ? new Date(exp.end_date) : null;
+  const startStr = startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  const endStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present';
+  
+  return {
+    organization: exp.company,
+    role: exp.title,
+    duration: `${startStr} - ${endStr}`,
+    position: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right'
+  };
+});
+
+// Schema.org JSON-LD
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sheikh Shariar Nehal",
+  "alternateName": ["Shariar Nehal", "Sheikh Nehal", "Nehal"],
+  "url": "https://sheikhshariarnehal.me",
+  "image": "https://sheikhshariarnehal.me/assets/images/profile2.webp",
+  "jobTitle": "Full-Stack Web Developer & Designer",
+  "description": "Sheikh Shariar Nehal is a Full-Stack Web Developer with 3 years of experience specializing in React, Next.js, Python, and JavaScript.",
+  "email": "nehal22205101260@diu.edu.bd",
+  "telephone": "+8801750627421",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Nowabgonj",
+    "addressRegion": "Dhaka",
+    "addressCountry": "Bangladesh"
+  },
+  "sameAs": [
+    "https://github.com/sheikhshariarnehal",
+    "https://www.linkedin.com/in/shekhshariarnehal/",
+    "https://twitter.com/shariar_nehal",
+    "https://t.me/sheikhshariarnehal"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Sheikh Shariar Nehal Portfolio",
+  "url": "https://sheikhshariarnehal.me",
+  "description": "Portfolio website of Sheikh Shariar Nehal showcasing web development projects, skills, and professional experience"
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sheikhshariarnehal.me/" },
+    { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://sheikhshariarnehal.me/projects/" },
+    { "@type": "ListItem", "position": 3, "name": "Experience", "item": "https://sheikhshariarnehal.me/experience/" }
+  ]
+};
+---
+
+<Layout
+  title="Sheikh Shariar Nehal | Shariar Nehal - Full-Stack Web Developer & Designer"
+  description="Sheikh Shariar Nehal (Shariar Nehal) – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
+  canonical="https://sheikhshariarnehal.me/"
+  schema={[personSchema, websiteSchema, breadcrumbSchema]}
+>
+  <Header currentPage="home" />
+
+  <!-- Hero Section -->
+  <section class="home" id="home" role="main">
+    <div id="particles-js" aria-hidden="true"></div>
+
+    <div class="content">
+      <h1>Hi There,<br /> I'm Sheikh Shariar<span> Nehal</span></h1>
+      <p>I Am Into <span class="typing-text"></span></p>
+      <a href="#about" class="btn">
+        <span>About Me</span>
+        <i class="fas fa-arrow-circle-down"></i>
+      </a>
+      <SocialIcons />
+    </div>
+    <div class="image">
+      <img
+        draggable="false"
+        class="tilt"
+        src="/assets/images/hero.webp"
+        alt="Sheikh Shariar Nehal - Full Stack Web Developer"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <h2 class="heading"><i class="fas fa-user-alt"></i> About <span>Me</span></h2>
+
+    <div class="row">
+      <div class="image">
+        <img
+          draggable="false"
+          class="tilt"
+          src="/assets/images/profile2.webp"
+          alt="Sheikh Shariar Nehal Profile Picture - Web Developer and Designer"
+          width="300"
+          height="300"
+          loading="lazy"
+        />
+      </div>
+      <div class="content">
+        <h3>I'm Sheikh Shariar Nehal</h3>
+        <span class="tag">Web Developer</span>
+
+        <p>
+          I'm Sheikh Shariar Nehal (also known as Shariar Nehal or Sheikh Nehal), a Web Developer and programmer with 3
+          years of experience. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International
+          University. I know React, Python, JavaScript, and C++, I also good with design tools like Photoshop and
+          Illustrator. I helped create a web app that increased user activity by 40%. I'm detail-oriented and love
+          combining design with tech.
+        </p>
+
+        <div class="box-container">
+          <div class="box">
+            <p><span>email : </span> nehal22205101260@diu.edu.bd</p>
+            <p><span>place : </span> Nowabgonj, Dhaka</p>
+          </div>
+        </div>
+
+        <div class="resumebtn">
+          <a
+            href="https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn"
+          >
+            <span>Resume</span>
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section class="skills" id="skills">
+    <h2 class="heading"><i class="fas fa-laptop-code"></i> Skills & <span>Abilities</span></h2>
+
+    <div class="container">
+      <div class="row" id="skillsContainer">
+        {skills.map((skill) => <SkillCard name={skill.name} icon={skill.icon} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="education" id="education">
+    <h2 class="heading"><i class="fas fa-graduation-cap"></i> My <span>Education</span></h2>
+
+    <p class="qoute">Education is not the learning of facts, but the training of the mind to think.</p>
+
+    <div class="box-container">
+      {education.map((edu) => (
+        <EducationCard
+          degree={edu.degree}
+          institution={edu.institution}
+          image={edu.image}
+          duration={edu.duration}
+          status={edu.status}
+          altText={edu.altText}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="work" id="work">
+    <h2 class="heading"><i class="fas fa-laptop-code"></i> Projects <span>Made</span></h2>
+
+    <div class="box-container">
+      {homeProjects.map((project) => (
+        <div class="box tilt">
+          <img
+            draggable="false"
+            src={`/assets/images/projects/${project.image}.webp`}
+            alt={`${project.name} project`}
+            loading="lazy"
+          />
+          <div class="content">
+            <div class="tag">
+              <h3>{project.name}</h3>
+            </div>
+            <div class="desc">
+              <p>{project.desc}</p>
+              <div class="btns">
+                <a href={project.links.view} class="btn" target="_blank" rel="noopener noreferrer">
+                  <i class="fas fa-eye"></i> View
+                </a>
+                <a href={project.links.code} class="btn" target="_blank" rel="noopener noreferrer">
+                  Code <i class="fas fa-code"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="viewall">
+      <a href="/projects" class="btn">
+        <span>View All</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section class="experience" id="experience">
+    <h2 class="heading"><i class="fas fa-briefcase"></i> Experience</h2>
+
+    <div class="timeline">
+      {homeExperience.map((exp) => (
+        <TimelineItem
+          organization={exp.organization}
+          role={exp.role}
+          duration={exp.duration}
+          position={exp.position}
+        />
+      ))}
+    </div>
+
+    <div class="morebtn">
+      <a href="/experience" class="btn">
+        <span>View All</span>
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact" id="contact">
+    <h2 class="heading"><i class="fas fa-headset"></i> Get in <span>Touch</span></h2>
+
+    <div class="container">
+      <div class="content">
+        <div class="image-box">
+          <img
+            draggable="false"
+            src="/assets/images/contact1.png"
+            alt="Contact Sheikh Shariar Nehal - Get In Touch"
+            width="400"
+            height="400"
+            loading="lazy"
+          />
+        </div>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+
+  <!-- SEO Hidden Content -->
+  <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+    <h2>Sheikh Shariar Nehal - Full Stack Web Developer & Machine Learning Engineer</h2>
+    <p>Sheikh Shariar Nehal (Shariar Nehal) is a top-rated Full Stack Web Developer and Machine Learning enthusiast from Bangladesh.</p>
+  </div>
+
+  <!-- Scripts Slot -->
+  <Fragment slot="scripts">
+    <!-- jQuery -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Typed.js -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Particles.js -->
+    <script defer src="/assets/js/particles.min.js"></script>
+    <script defer src="/assets/js/app.js"></script>
+
+    <!-- Vanilla Tilt -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- ScrollReveal -->
+    <script defer src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+
+    <!-- Main Script -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Typed.js effect
+        if (typeof Typed !== 'undefined') {
+          new Typed('.typing-text', {
+            strings: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
+            loop: true,
+            typeSpeed: 50,
+            backSpeed: 25,
+            backDelay: 500,
+          });
+        }
+
+        // Vanilla Tilt
+        if (typeof VanillaTilt !== 'undefined') {
+          VanillaTilt.init(document.querySelectorAll('.tilt'), {
+            max: 15,
+          });
+        }
+
+        // ScrollReveal
+        if (typeof ScrollReveal !== 'undefined') {
+          const srtop = ScrollReveal({
+            origin: 'top',
+            distance: '80px',
+            duration: 1000,
+            reset: true
+          });
+
+          srtop.reveal('.home .content h3', { delay: 200 });
+          srtop.reveal('.home .content p', { delay: 200 });
+          srtop.reveal('.home .content .btn', { delay: 200 });
+          srtop.reveal('.home .image', { delay: 400 });
+          srtop.reveal('.home .linkedin', { interval: 600 });
+          srtop.reveal('.home .github', { interval: 800 });
+          srtop.reveal('.home .twitter', { interval: 1000 });
+          srtop.reveal('.home .telegram', { interval: 600 });
+          srtop.reveal('.home .instagram', { interval: 600 });
+          srtop.reveal('.home .dev', { interval: 600 });
+          srtop.reveal('.about .content h3', { delay: 200 });
+          srtop.reveal('.about .content .tag', { delay: 200 });
+          srtop.reveal('.about .content p', { delay: 200 });
+          srtop.reveal('.about .content .box-container', { delay: 200 });
+          srtop.reveal('.about .content .resumebtn', { delay: 200 });
+          srtop.reveal('.skills .container', { interval: 200 });
+          srtop.reveal('.skills .container .bar', { delay: 400 });
+          srtop.reveal('.education .box', { interval: 200 });
+          srtop.reveal('.work .box', { interval: 200 });
+          srtop.reveal('.experience .timeline', { delay: 400 });
+          srtop.reveal('.experience .timeline .container', { interval: 400 });
+          srtop.reveal('.contact .container', { delay: 400 });
+          srtop.reveal('.contact .container .form-group', { delay: 400 });
+        }
+
+        // Scroll spy for navigation
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.navbar ul li a');
+        
+        window.addEventListener('scroll', () => {
+          let current = '';
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= sectionTop - 200) {
+              current = section.getAttribute('id') || '';
+            }
+          });
+
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href')?.includes(current)) {
+              link.classList.add('active');
+            }
+          });
+        });
+      });
+
+      // Tawk.to Live Chat - Lazy loaded
+      let tawkLoaded = false;
+      function loadTawk() {
+        if (tawkLoaded) return;
+        tawkLoaded = true;
+        var s1 = document.createElement('script');
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/60df10bf7f4b000ac03ab6a8/1f9jlirg6';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        document.head.appendChild(s1);
+      }
+
+      window.addEventListener('load', () => {
+        const loadOnInteraction = () => {
+          loadTawk();
+          ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt =>
+            window.removeEventListener(evt, loadOnInteraction, { passive: true })
+          );
+        };
+        ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt =>
+          window.addEventListener(evt, loadOnInteraction, { passive: true, once: true })
+        );
+        setTimeout(loadTawk, 5000);
+      });
+    </script>
+  </Fragment>
+</Layout>

@@ -1,0 +1,28 @@
+---
+const socialLinks = [
+  { href: 'https://www.linkedin.com/in/shekhshariarnehal', icon: 'fab fa-linkedin', label: 'LinkedIn', className: 'linkedin' },
+  { href: 'https://github.com/sheikhshariarnehal', icon: 'fab fa-github', label: 'GitHub', className: 'github' },
+  { href: 'https://twitter.com/shariar_nehal', icon: 'fab fa-twitter', label: 'Twitter', className: 'twitter' },
+  { href: 'https://t.me/sheikhshariarnehal', icon: 'fab fa-telegram-plane', label: 'Telegram', className: 'telegram' },
+  { href: 'https://instagram.com/sheikhshariarnehal', icon: 'fab fa-instagram', label: 'Instagram', className: 'instagram' },
+  { href: 'https://www.facebook.com/sheikhshariarnehal.cse', icon: 'fab fa-facebook', label: 'Facebook', className: 'dev' },
+];
+---
+
+<div class="socials">
+  <ul class="social-icons">
+    {socialLinks.map((link) => (
+      <li>
+        <a
+          class={link.className}
+          aria-label={link.label}
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class={link.icon}></i>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

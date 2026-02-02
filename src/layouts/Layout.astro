@@ -1,0 +1,92 @@
+---
+import SEOHead from '../components/SEOHead.astro';
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  keywords?: string;
+  schema?: object | object[];
+}
+
+const { title, description, canonical, image, keywords, schema } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <SEOHead
+      title={title}
+      description={description}
+      canonical={canonical}
+      image={image}
+      keywords={keywords}
+      schema={schema}
+    />
+    
+    <!-- Preload Hero Image for main page -->
+    <link rel="preload" href="/assets/images/hero.webp" as="image" fetchpriority="high" />
+    
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+
+    <!-- Scroll to Top Button -->
+    <a href="#home" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
+
+    <!-- Google Analytics -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('ServiceWorker registered:', registration.scope);
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed:', error);
+            });
+        });
+      }
+    </script>
+
+    <!-- Scroll Top Button Script -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const scrollTop = document.getElementById('scroll-top');
+        
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 60) {
+            scrollTop?.classList.add('active');
+          } else {
+            scrollTop?.classList.remove('active');
+          }
+        });
+      });
+
+      // Visibility change handler
+      document.addEventListener('visibilitychange', function () {
+        const favicon = document.getElementById('favicon') as HTMLLinkElement;
+        if (document.visibilityState === 'visible') {
+          document.title = 'Portfolio | Shariar Nehal';
+          if (favicon) favicon.href = '/assets/images/Favicon.webp';
+        } else {
+          document.title = 'Come Back To Portfolio';
+          if (favicon) favicon.href = '/assets/images/favhand.png';
+        }
+      });
+    </script>
+
+    <slot name="scripts" />
+  </body>
+</html>

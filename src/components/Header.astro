@@ -1,0 +1,61 @@
+---
+export interface Props {
+  currentPage?: string;
+  isSubPage?: boolean;
+}
+
+const { currentPage = 'home', isSubPage = false } = Astro.props;
+
+const navLinks = [
+  { href: isSubPage ? '/#home' : '#home', label: 'Home', id: 'home' },
+  { href: isSubPage ? '/#about' : '#about', label: 'About', id: 'about' },
+  { href: isSubPage ? '/#skills' : '#skills', label: 'Skills', id: 'skills' },
+  { href: isSubPage ? '/#education' : '#education', label: 'Education', id: 'education' },
+  { href: '/projects', label: 'Projects', id: 'projects' },
+  { href: '/experience', label: 'Experience', id: 'experience' },
+  { href: isSubPage ? '/#contact' : '#contact', label: 'Contact', id: 'contact' },
+];
+---
+
+<header role="banner">
+  <a href="/" class="logo" aria-label="Sheikh Shariar Nehal - Home">
+    <i class="fab fa-node-js"></i> Shariar Nehal
+  </a>
+
+  <div id="menu" class="fas fa-bars" role="button" aria-label="Toggle navigation menu"></div>
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <ul>
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class:list={[{ active: currentPage === link.id }]}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  // Mobile navigation toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('menu');
+    const navbar = document.querySelector('.navbar');
+
+    if (menu && navbar) {
+      menu.addEventListener('click', () => {
+        menu.classList.toggle('fa-times');
+        navbar.classList.toggle('nav-toggle');
+      });
+
+      // Close menu on scroll
+      window.addEventListener('scroll', () => {
+        menu.classList.remove('fa-times');
+        navbar.classList.remove('nav-toggle');
+      });
+    }
+  });
+</script>

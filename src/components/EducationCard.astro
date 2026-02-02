@@ -1,0 +1,30 @@
+---
+export interface Props {
+  degree: string;
+  institution: string;
+  image: string;
+  duration: string;
+  status: string;
+  altText?: string;
+}
+
+const { degree, institution, image, duration, status, altText } = Astro.props;
+---
+
+<div class="box">
+  <div class="image">
+    <img
+      draggable="false"
+      src={image}
+      alt={altText || `${institution} - ${degree}`}
+      width="400"
+      height="225"
+      loading="lazy"
+    />
+  </div>
+  <div class="content">
+    <h3>{degree}</h3>
+    <p>{institution}</p>
+    <h4>{duration} | {status}</h4>
+  </div>
+</div>
