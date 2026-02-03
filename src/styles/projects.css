@@ -112,24 +112,21 @@ section.work .box-container .grid-item .box img {
   content-visibility: auto;
 }
 
-/* Card Content Overlay - GPU accelerated transform animation */
+/* Card Content Overlay - Matching home page style */
 section.work .box-container .grid-item .box .content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 85%;
+  left: 0;
+  background: rgba(255, 255, 255, 0.9);
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateY(calc(100% - 4.5rem));
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-  backface-visibility: hidden;
+  transition: top 0.3s ease;
 }
 
 section.work .box-container .grid-item .box:hover .content {
-  transform: translateY(25%);
+  top: 25%;
 }
 
 /* Card Tag */
@@ -271,6 +268,12 @@ section.work + .backbtn,
   section.work .box-container .grid-item .box {
     height: 24rem;
   }
+  section.work .box-container .grid-item .box .content {
+    top: 82%;
+  }
+  section.work .box-container .grid-item .box:hover .content {
+    top: 22%;
+  }
   section.work .box-container .grid-item .box .content .tag h3 {
     font-size: 1.5rem;
   }
@@ -300,6 +303,12 @@ section.work + .backbtn,
   }
   section.work .box-container .grid-item .box {
     height: 24rem;
+  }
+  section.work .box-container .grid-item .box .content {
+    top: 82%;
+  }
+  section.work .box-container .grid-item .box:hover .content {
+    top: 22%;
   }
   section.work .box-container .grid-item .box .content .tag h3 {
     font-size: 1.5rem;
@@ -337,9 +346,14 @@ section.work + .backbtn,
   section.work .box-container .grid-item .box {
     height: 22rem;
   }
+  section.work .box-container .grid-item .box .content {
+    top: 82%;
+  }
+  section.work .box-container .grid-item .box:hover .content {
+    top: 20%;
+  }
   section.work .box-container .grid-item .box .content .tag {
     height: 3.8rem;
-    min-height: 3.8rem;
   }
   section.work .box-container .grid-item .box .content .tag h3 {
     font-size: 1.3rem;
@@ -349,16 +363,16 @@ section.work + .backbtn,
   }
   section.work .box-container .grid-item .desc p {
     font-size: 1.2rem;
-    -webkit-line-clamp: 2;
   }
   section.work .box-container .grid-item .desc .btns {
-    flex-direction: column;
+    flex-direction: row;
     gap: 0.6rem;
+    margin-top: 1rem;
   }
   section.work .box-container .grid-item .desc .btns .btn {
     padding: 0.9rem 1.2rem;
     font-size: 1.2rem;
-    width: 100%;
+    margin-right: 0.5rem;
   }
 }
 
@@ -385,27 +399,34 @@ section.work + .backbtn,
     padding: 0 1rem;
   }
   section.work .box-container .grid-item .box {
-    height: 26rem;
+    height: 30rem;
+  }
+  section.work .box-container .grid-item .box .content {
+    top: 85%;
+  }
+  section.work .box-container .grid-item .box:hover .content {
+    top: 25%;
   }
   section.work .box-container .grid-item .box .content .tag {
-    height: 4rem;
-    min-height: 4rem;
+    height: 4.5rem;
   }
   section.work .box-container .grid-item .box .content .tag h3 {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
   section.work .box-container .grid-item .desc {
-    margin: 1.2rem;
+    margin: 2rem;
   }
   section.work .box-container .grid-item .desc p {
-    -webkit-line-clamp: 3;
+    font-size: 1.5rem;
   }
   section.work .box-container .grid-item .desc .btns {
     justify-content: space-between;
+    margin-top: 2rem;
   }
   section.work .box-container .grid-item .desc .btns .btn {
-    padding: 1rem 1.5rem;
-    font-size: 1.3rem;
-    flex: 1;
+    padding: 1.5rem 2.5rem;
+    font-size: 1.5rem;
+    margin-right: 2rem;
   }
+}
 }
