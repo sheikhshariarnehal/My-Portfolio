@@ -95,16 +95,17 @@ const breadcrumbSchema = {
 >
   <Header currentPage="home" />
 
-  <!-- Hero Section -->
-  <section class="home" id="home" role="main">
-    <div id="particles-js" aria-hidden="true"></div>
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="home" id="home" aria-labelledby="hero-heading">
+      <div id="particles-js" aria-hidden="true"></div>
 
     <div class="content">
-      <h1>Hi There,<br /> I'm Sheikh Shariar<span> Nehal</span></h1>
-      <p>I Am Into <span class="typing-text"></span></p>
-      <a href="#about" class="btn">
+      <h1 id="hero-heading">Hi There,<br /> I'm Sheikh Shariar<span> Nehal</span></h1>
+      <p>I Am Into <span class="typing-text" aria-label="Various development skills"></span></p>
+      <a href="#about" class="btn" aria-label="Learn more about me">
         <span>About Me</span>
-        <i class="fas fa-arrow-circle-down"></i>
+        <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
       </a>
       <SocialIcons />
     </div>
@@ -120,8 +121,8 @@ const breadcrumbSchema = {
   </section>
 
   <!-- About Section -->
-  <section class="about" id="about">
-    <h2 class="heading"><i class="fas fa-user-alt"></i> About <span>Me</span></h2>
+  <section class="about" id="about" aria-labelledby="about-heading">
+    <h2 id="about-heading" class="heading"><i class="fas fa-user-alt" aria-hidden="true"></i> About <span>Me</span></h2>
 
     <div class="row">
       <div class="image">
@@ -170,8 +171,8 @@ const breadcrumbSchema = {
   </section>
 
   <!-- Skills Section -->
-  <section class="skills" id="skills">
-    <h2 class="heading"><i class="fas fa-laptop-code"></i> Skills & <span>Abilities</span></h2>
+  <section class="skills" id="skills" aria-labelledby="skills-heading">
+    <h2 id="skills-heading" class="heading"><i class="fas fa-laptop-code" aria-hidden="true"></i> Skills & <span>Abilities</span></h2>
 
     <div class="container">
       <div class="row" id="skillsContainer">
@@ -181,8 +182,8 @@ const breadcrumbSchema = {
   </section>
 
   <!-- Education Section -->
-  <section class="education" id="education">
-    <h2 class="heading"><i class="fas fa-graduation-cap"></i> My <span>Education</span></h2>
+  <section class="education" id="education" aria-labelledby="education-heading">
+    <h2 id="education-heading" class="heading"><i class="fas fa-graduation-cap" aria-hidden="true"></i> My <span>Education</span></h2>
 
     <p class="qoute">Education is not the learning of facts, but the training of the mind to think.</p>
 
@@ -201,8 +202,8 @@ const breadcrumbSchema = {
   </section>
 
   <!-- Projects Section -->
-  <section class="work" id="work">
-    <h2 class="heading"><i class="fas fa-laptop-code"></i> Projects <span>Made</span></h2>
+  <section class="work" id="work" aria-labelledby="projects-heading">
+    <h2 id="projects-heading" class="heading"><i class="fas fa-laptop-code" aria-hidden="true"></i> Projects <span>Made</span></h2>
 
     <div class="box-container">
       {homeProjects.map((project) => (
@@ -242,8 +243,8 @@ const breadcrumbSchema = {
   </section>
 
   <!-- Experience Section -->
-  <section class="experience" id="experience">
-    <h2 class="heading"><i class="fas fa-briefcase"></i> Experience</h2>
+  <section class="experience" id="experience" aria-labelledby="experience-heading">
+    <h2 id="experience-heading" class="heading"><i class="fas fa-briefcase" aria-hidden="true"></i> Experience</h2>
 
     <div class="timeline">
       {homeExperience.map((exp) => (
@@ -265,8 +266,8 @@ const breadcrumbSchema = {
   </section>
 
   <!-- Contact Section -->
-  <section class="contact" id="contact">
-    <h2 class="heading"><i class="fas fa-headset"></i> Get in <span>Touch</span></h2>
+  <section class="contact" id="contact" aria-labelledby="contact-heading">
+    <h2 id="contact-heading" class="heading"><i class="fas fa-headset" aria-hidden="true"></i> Get in <span>Touch</span></h2>
 
     <div class="container">
       <div class="content">
@@ -284,6 +285,7 @@ const breadcrumbSchema = {
       </div>
     </div>
   </section>
+  </main>
 
   <Footer />
 

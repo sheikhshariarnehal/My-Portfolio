@@ -75,16 +75,17 @@ const collectionSchema = {
 
   <Header currentPage="projects" isSubPage={true} />
 
-  <!-- Projects Section -->
-  <section class="work" id="work">
-    <h1 class="heading"><i class="fas fa-laptop-code"></i> My <span>Projects</span></h1>
+  <main id="main-content">
+    <!-- Projects Section -->
+    <section class="work" id="work" aria-labelledby="projects-heading">
+      <h1 id="projects-heading" class="heading"><i class="fas fa-laptop-code" aria-hidden="true"></i> My <span>Projects</span></h1>
 
-    <div id="filters" class="button-group">
-      <button class="btn is-checked" data-filter="*">All Projects</button>
-      <button class="btn" data-filter=".mern">Web Development</button>
-      <button class="btn" data-filter=".ml">Machine Learning</button>
-      <button class="btn" data-filter=".android">Mobile App</button>
-    </div>
+      <nav id="filters" class="button-group" aria-label="Project category filters">
+        <button class="btn is-checked" data-filter="*" aria-pressed="true">All Projects</button>
+        <button class="btn" data-filter=".mern" aria-pressed="false">Web Development</button>
+        <button class="btn" data-filter=".ml" aria-pressed="false">Machine Learning</button>
+        <button class="btn" data-filter=".android" aria-pressed="false">Mobile App</button>
+      </nav>
 
     <div class="box-container">
       {projects.map((project, index) => (
@@ -127,11 +128,12 @@ const collectionSchema = {
 
     <div class="backbtn">
       <a href="/#work" class="btn">
-        <i class="fas fa-arrow-left"></i>
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
         <span>Back to Home</span>
       </a>
     </div>
   </section>
+  </main>
 
   <!-- Scripts -->
   <Fragment slot="scripts">
@@ -142,30 +144,57 @@ const collectionSchema = {
         const filterButtons = document.querySelectorAll('.button-group .btn');
         const gridItems = document.querySelectorAll('.grid-item');
         
+        // Function to apply filter
+        function applyFilter(filterValue) {
+          gridItems.forEach(item => {
+            // Reset display first
+            item.style.display = '';
+            item.classList.remove('hidden');
+            
+            if (filterValue === '*') {
+              // Show all - force visibility
+              item.style.opacity = '1';
+              item.style.visibility = 'visible';
+            } else {
+              const filterClass = filterValue.replace('.', '');
+              if (item.classList.contains(filterClass)) {
+                item.style.opacity = '1';
+                item.style.visibility = 'visible';
+              } else {
+                item.classList.add('hidden');
+                item.style.display = 'none';
+              }
+            }
+          });
+        }
+        
+        // Apply 'All Projects' filter on page load to ensure all items are visible
+        applyFilter('*');
+        
         filterButtons.forEach(button => {
           button.addEventListener('click', function() {
-            // Update active button
-            filterButtons.forEach(btn => btn.classList.remove('is-checked'));
+            // Update active button and aria-pressed
+            filterButtons.forEach(btn => {
+              btn.classList.remove('is-checked');
+              btn.setAttribute('aria-pressed', 'false');
+            });
             this.classList.add('is-checked');
+            this.setAttribute('aria-pressed', 'true');
             
             const filterValue = this.getAttribute('data-filter');
-            
-            gridItems.forEach(item => {
-              if (filterValue === '*') {
-                item.classList.remove('hidden');
-                item.style.display = '';
-              } else {
-                const filterClass = filterValue.replace('.', '');
-                if (item.classList.contains(filterClass)) {
-                  item.classList.remove('hidden');
-                  item.style.display = '';
-                } else {
-                  item.classList.add('hidden');
-                  item.style.display = 'none';
-                }
-              }
-            });
+            applyFilter(filterValue);
           });
+        });
+        
+        // Re-apply filter on visibility change (when returning to tab)
+        document.addEventListener('visibilitychange', function() {
+          if (document.visibilityState === 'visible') {
+            const activeFilter = document.querySelector('.button-group .btn.is-checked');
+            if (activeFilter) {
+              const filterValue = activeFilter.getAttribute('data-filter');
+              applyFilter(filterValue);
+            }
+          }
         });
       });
     </script>

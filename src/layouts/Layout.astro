@@ -32,10 +32,13 @@ const { title, description, canonical, image, keywords, schema } = Astro.props;
     <slot name="head" />
   </head>
   <body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <slot />
 
     <!-- Scroll to Top Button -->
-    <a href="#home" aria-label="ScrollTop" class="fas fa-angle-up" id="scroll-top"></a>
+    <a href="#home" aria-label="Scroll to top of page" class="fas fa-angle-up" id="scroll-top"></a>
 
     <!-- Google Analytics -->
     <script>

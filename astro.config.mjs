@@ -1,10 +1,13 @@
 import { defineConfig } from 'astro/config';
-// import sitemap from '@astrojs/sitemap';
+// Sitemap generation handled via public/sitemap.xml for compatibility
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://sheikhshariarnehal.me',
   output: 'static',
+  server: {
+    port: 4322
+  },
   integrations: [],
   build: {
     assets: 'assets',

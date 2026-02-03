@@ -73,32 +73,34 @@ const webPageSchema = {
 >
   <Header currentPage="experience" isSubPage={true} />
 
-  <!-- Experience Section -->
-  <section class="experience" id="experience" role="main">
-    <h1 class="heading"><i class="fas fa-briefcase"></i> Experience</h1>
-    
-    <div class="quote">
-      <span>Every experience in your life is being orchestrated to teach you something you need to know to move forward.</span>
-    </div>
+  <main id="main-content">
+    <!-- Experience Section -->
+    <section class="experience" id="experience" aria-labelledby="experience-heading">
+      <h1 id="experience-heading" class="heading"><i class="fas fa-briefcase" aria-hidden="true"></i> Experience</h1>
+      
+      <div class="quote">
+        <span>Every experience in your life is being orchestrated to teach you something you need to know to move forward.</span>
+      </div>
 
-    <div class="timeline">
-      {experience.map((exp) => (
-        <TimelineItem
-          organization={exp.organization}
-          role={exp.role}
-          duration={exp.duration}
-          position={exp.position as 'left' | 'right'}
-        />
-      ))}
-    </div>
+      <div class="timeline" role="list" aria-label="Professional experience timeline">
+        {experience.map((exp) => (
+          <TimelineItem
+            organization={exp.organization}
+            role={exp.role}
+            duration={exp.duration}
+            position={exp.position as 'left' | 'right'}
+          />
+        ))}
+      </div>
 
-    <div class="morebtn">
-      <a href="/#experience" class="btn">
-        <i class="fas fa-arrow-left"></i>
-        <span>Back to Home</span>
-      </a>
-    </div>
-  </section>
+      <div class="morebtn">
+        <a href="/#experience" class="btn">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Home</span>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <Footer isSubPage={true} />
 

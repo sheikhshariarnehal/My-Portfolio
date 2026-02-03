@@ -1,0 +1,16 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:4322",
+  "executionArgs": {
+    "projectName": "astro-portfolio",
+    "projectPath": "d:\\Poject\\Astro Portfolio PRD – Sheikh Shariar Nehal\\6\\astro-portfolio",
+    "testIds": [],
+    "additionalInstruction": "",
+    "envs": {
+      "API_KEY": "sk-user-WaZe_MEKw3P_T2prWJTBScVGclh2IcqOiVqrMvry7CFrlpXMMOBsaP5ObNIjP2Cp5Zq3OV12CgPwaB-NR6lrj4FLvK28DBzsYonOLzEaq5BVG0WYwMVpQ51EgOZc6SBR0gk"
+    }
+  },
+  "proxy": "http://bf6ce9e6-f56e-45d9-b849-6fc0ef032a20:04gyX3zOF6y5NvQAdkmo92P0PptavJq4@tun.testsprite.com:8080"
+}
