@@ -88,7 +88,7 @@ const breadcrumbSchema = {
 ---
 
 <Layout
-  title="Sheikh Shariar Nehal | Shariar Nehal - Full-Stack Web Developer & Designer"
+  title="Sheikh Shariar Nehal – Full-Stack Developer"
   description="Sheikh Shariar Nehal (Shariar Nehal) – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
   canonical="https://sheikhshariarnehal.me/"
   schema={[personSchema, websiteSchema, breadcrumbSchema]}
@@ -115,7 +115,10 @@ const breadcrumbSchema = {
         class="tilt"
         src="/assets/images/hero.webp"
         alt="Sheikh Shariar Nehal - Full Stack Web Developer"
+        width="400"
+        height="400"
         fetchpriority="high"
+        decoding="async"
       />
     </div>
   </section>
@@ -212,7 +215,10 @@ const breadcrumbSchema = {
             draggable="false"
             src={`/assets/images/projects/${project.image}.webp`}
             alt={`${project.name} project`}
+            width="350"
+            height="200"
             loading="lazy"
+            decoding="async"
           />
           <div class="content">
             <div class="tag">
@@ -303,9 +309,26 @@ const breadcrumbSchema = {
     <!-- Typed.js -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <!-- Particles.js -->
-    <script defer src="/assets/js/particles.min.js"></script>
-    <script defer src="/assets/js/app.js"></script>
+    <!-- Particles.js - Lazy loaded for better LCP -->
+    <script is:inline>
+      // Lazy load particles.js after page becomes interactive
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => loadParticles());
+      } else {
+        setTimeout(loadParticles, 1500);
+      }
+      
+      function loadParticles() {
+        const script = document.createElement('script');
+        script.src = '/assets/js/particles.min.js';
+        script.onload = () => {
+          const appScript = document.createElement('script');
+          appScript.src = '/assets/js/app.js';
+          document.body.appendChild(appScript);
+        };
+        document.body.appendChild(script);
+      }
+    </script>
 
     <!-- Vanilla Tilt -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
