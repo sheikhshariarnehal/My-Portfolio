@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import tailwind from '@astrojs/tailwind';
 // Sitemap generation handled via public/sitemap.xml for compatibility
 
 // https://astro.build/config
@@ -8,7 +9,12 @@ export default defineConfig({
   server: {
     port: 4322
   },
-  integrations: [],
+  integrations: [
+    tailwind({
+      // Keep existing global.css - Tailwind will work alongside it
+      applyBaseStyles: false,
+    }),
+  ],
   build: {
     assets: 'assets',
     inlineStylesheets: 'auto'
