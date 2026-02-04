@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+
 export interface Props {
   degree: string;
   institution: string;
@@ -13,12 +15,12 @@ const { degree, institution, image, duration, status, altText } = Astro.props;
 
 <div class="box">
   <div class="image">
-    <img
+    <Image
       draggable="false"
       src={image}
       alt={altText || `${institution} - ${degree}`}
-      width="400"
-      height="225"
+      width={400}
+      height={225}
       loading="lazy"
     />
   </div>

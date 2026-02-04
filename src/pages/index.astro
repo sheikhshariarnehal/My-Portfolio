@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -149,15 +150,14 @@ const breadcrumbSchema = {
       <SocialIcons />
     </div>
     <div class="image">
-      <img
+      <Image
         draggable="false"
         class="tilt"
         src="/assets/images/hero.webp"
         alt="Sheikh Shariar Nehal - Full Stack Web Developer"
-        width="400"
-        height="400"
-        fetchpriority="high"
-        decoding="async"
+        width={400}
+        height={400}
+        loading="eager"
       />
     </div>
   </section>
@@ -168,13 +168,13 @@ const breadcrumbSchema = {
 
     <div class="row">
       <div class="image">
-        <img
+        <Image
           draggable="false"
           class="tilt"
           src="/assets/images/profile2.webp"
           alt="Sheikh Shariar Nehal Profile Picture - Web Developer and Designer"
-          width="300"
-          height="300"
+          width={300}
+          height={300}
           loading="lazy"
         />
       </div>
@@ -250,14 +250,13 @@ const breadcrumbSchema = {
     <div class="box-container">
       {homeProjects.map((project) => (
         <div class="box tilt">
-          <img
+          <Image
             draggable="false"
             src={`/assets/images/projects/${project.image}.webp`}
             alt={`${project.name} project`}
-            width="350"
-            height="200"
+            width={350}
+            height={200}
             loading="lazy"
-            decoding="async"
           />
           <div class="content">
             <div class="tag">
@@ -317,12 +316,12 @@ const breadcrumbSchema = {
     <div class="container">
       <div class="content">
         <div class="image-box">
-          <img
+          <Image
             draggable="false"
             src="/assets/images/contact1.webp"
             alt="Contact Sheikh Shariar Nehal - Get In Touch"
-            width="400"
-            height="400"
+            width={400}
+            height={400}
             loading="lazy"
           />
         </div>

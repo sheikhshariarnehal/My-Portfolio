@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import { getProjects } from '../../lib/supabase';
@@ -91,15 +92,13 @@ const collectionSchema = {
       {projects.map((project, index) => (
         <div class={`grid-item ${getCategoryClass(project.category)}`}>
           <div class="box tilt">
-            <img
+            <Image
               draggable="false"
               src={project.image}
               alt={`${project.title} - ${project.category} Project by Sheikh Shariar Nehal`}
               loading={index === 0 ? 'eager' : 'lazy'}
-              fetchpriority={index === 0 ? 'high' : 'low'}
-              decoding={index === 0 ? 'sync' : 'async'}
-              width="380"
-              height="300"
+              width={380}
+              height={300}
             />
             <div class="content">
               <div class="tag">

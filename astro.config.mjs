@@ -13,6 +13,12 @@ export default defineConfig({
     assets: 'assets',
     inlineStylesheets: 'auto'
   },
+  image: {
+    service: {
+      entrypoint: 'astro/assets/services/sharp'
+    },
+    remotePatterns: [{ protocol: 'https' }]
+  },
   vite: {
     build: {
       cssMinify: true,

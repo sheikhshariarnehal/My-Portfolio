@@ -1,5 +1,6 @@
 ---
 // Admin Layout - requires authentication
+import { Image } from 'astro:assets';
 import '../styles/admin.css';
 
 interface Props {
@@ -35,7 +36,7 @@ const { title, activeTab = 'dashboard' } = Astro.props;
     <div class="login-container" id="login-container" style="display: none;">
       <div class="login-card">
         <div class="login-header">
-          <img src="/assets/images/Favicon.webp" alt="Logo" class="login-logo" loading="lazy">
+          <Image src="/assets/images/Favicon.webp" alt="Logo" class="login-logo" loading="lazy" width={80} height={80} />
           <h1>Admin Login</h1>
           <p>Sign in to manage your portfolio</p>
         </div>
@@ -62,7 +63,7 @@ const { title, activeTab = 'dashboard' } = Astro.props;
       <!-- Sidebar -->
       <aside class="admin-sidebar">
         <div class="sidebar-header">
-          <img src="/assets/images/Favicon.webp" alt="Logo" class="sidebar-logo" loading="lazy">
+          <Image src="/assets/images/Favicon.webp" alt="Logo" class="sidebar-logo" loading="lazy" width={40} height={40} />
           <span>Portfolio Admin</span>
         </div>
         <nav class="sidebar-nav">
@@ -105,7 +106,7 @@ const { title, activeTab = 'dashboard' } = Astro.props;
           <h1>{title}</h1>
           <div class="header-user" id="header-user">
             <span id="user-email"></span>
-            <img src="/assets/images/profile2.webp" alt="User" class="user-avatar" loading="lazy">
+            <Image src="/assets/images/profile2.webp" alt="User" class="user-avatar" loading="lazy" width={40} height={40} />
           </div>
         </header>
         <div class="admin-content">
