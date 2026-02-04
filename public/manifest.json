@@ -10,13 +10,49 @@
   "icons": [
     {
       "src": "/assets/images/Favicon.webp",
+      "sizes": "48x48",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "72x72",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "96x96",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "144x144",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
       "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "256x256",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "384x384",
       "type": "image/webp"
     },
     {
       "src": "/assets/images/Favicon.webp",
       "sizes": "512x512",
       "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "maskable"
     }
   ]
 }

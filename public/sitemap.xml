@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://sheikhshariarnehal.me/</loc>
-    <lastmod>2026-02-03</lastmod>
+    <lastmod>2026-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://sheikhshariarnehal.me/assets/images/hero.webp</image:loc>
+      <image:title>Sheikh Shariar Nehal - Full Stack Web Developer</image:title>
+      <image:caption>Portfolio of Sheikh Shariar Nehal showcasing web development skills</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://sheikhshariarnehal.me/projects/</loc>
-    <lastmod>2026-02-03</lastmod>
+    <lastmod>2026-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://sheikhshariarnehal.me/assets/images/projects/surjamukhi-kindergarten.webp</image:loc>
+      <image:title>Web Development Projects by Sheikh Shariar Nehal</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://sheikhshariarnehal.me/experience/</loc>
-    <lastmod>2026-02-03</lastmod>
+    <lastmod>2026-02-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

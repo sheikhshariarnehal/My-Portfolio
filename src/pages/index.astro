@@ -42,38 +42,77 @@ const homeExperience = experienceData.map((exp, index) => {
   };
 });
 
-// Schema.org JSON-LD
+// Schema.org JSON-LD - Enhanced Person Schema
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": "https://sheikhshariarnehal.me/#person",
   "name": "Sheikh Shariar Nehal",
   "alternateName": ["Shariar Nehal", "Sheikh Nehal", "Nehal"],
+  "givenName": "Sheikh Shariar",
+  "familyName": "Nehal",
   "url": "https://sheikhshariarnehal.me",
-  "image": "https://sheikhshariarnehal.me/assets/images/profile2.webp",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://sheikhshariarnehal.me/assets/images/profile2.webp",
+    "width": 400,
+    "height": 400
+  },
   "jobTitle": "Full-Stack Web Developer & Designer",
-  "description": "Sheikh Shariar Nehal is a Full-Stack Web Developer with 3 years of experience specializing in React, Next.js, Python, and JavaScript.",
+  "description": "Sheikh Shariar Nehal is a Full-Stack Web Developer with 3+ years of experience specializing in React, Next.js, Python, and JavaScript.",
   "email": "nehal22205101260@diu.edu.bd",
   "telephone": "+8801750627421",
+  "nationality": {
+    "@type": "Country",
+    "name": "Bangladesh"
+  },
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Nowabgonj",
     "addressRegion": "Dhaka",
-    "addressCountry": "Bangladesh"
+    "addressCountry": "BD"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Daffodil International University",
+    "url": "https://daffodilvarsity.edu.bd"
+  },
+  "knowsAbout": [
+    "React.js", "Next.js", "Node.js", "TypeScript", "JavaScript", "Python",
+    "MERN Stack", "Full Stack Development", "Machine Learning", "Web Design",
+    "REST APIs", "PostgreSQL", "MongoDB", "Supabase", "Firebase"
+  ],
+  "knowsLanguage": ["en", "bn"],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Freelance"
   },
   "sameAs": [
     "https://github.com/sheikhshariarnehal",
     "https://www.linkedin.com/in/shekhshariarnehal/",
     "https://twitter.com/shariar_nehal",
-    "https://t.me/sheikhshariarnehal"
+    "https://t.me/sheikhshariarnehal",
+    "https://instagram.com/sheikhshariarnehal",
+    "https://www.facebook.com/sheikhshariarnehal.cse"
   ]
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://sheikhshariarnehal.me/#website",
   "name": "Sheikh Shariar Nehal Portfolio",
+  "alternateName": "Shariar Nehal Portfolio",
   "url": "https://sheikhshariarnehal.me",
-  "description": "Portfolio website of Sheikh Shariar Nehal showcasing web development projects, skills, and professional experience"
+  "description": "Portfolio website of Sheikh Shariar Nehal showcasing web development projects, skills, and professional experience",
+  "publisher": {
+    "@id": "https://sheikhshariarnehal.me/#person"
+  },
+  "inLanguage": "en-US",
+  "copyrightYear": new Date().getFullYear(),
+  "copyrightHolder": {
+    "@id": "https://sheikhshariarnehal.me/#person"
+  }
 };
 
 const breadcrumbSchema = {
@@ -89,7 +128,7 @@ const breadcrumbSchema = {
 
 <Layout
   title="Sheikh Shariar Nehal – Full-Stack Developer"
-  description="Sheikh Shariar Nehal (Shariar Nehal) – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
+  description="Sheikh Shariar Nehal – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
   canonical="https://sheikhshariarnehal.me/"
   schema={[personSchema, websiteSchema, breadcrumbSchema]}
 >
@@ -280,7 +319,7 @@ const breadcrumbSchema = {
         <div class="image-box">
           <img
             draggable="false"
-            src="/assets/images/contact1.png"
+            src="/assets/images/contact1.webp"
             alt="Contact Sheikh Shariar Nehal - Get In Touch"
             width="400"
             height="400"
@@ -303,9 +342,6 @@ const breadcrumbSchema = {
 
   <!-- Scripts Slot -->
   <Fragment slot="scripts">
-    <!-- jQuery -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <!-- Typed.js -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
