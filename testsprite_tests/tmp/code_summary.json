@@ -1,0 +1,106 @@
+{
+  "tech_stack": [
+    "Astro",
+    "TypeScript",
+    "JavaScript",
+    "HTML5",
+    "CSS3",
+    "jQuery",
+    "Supabase",
+    "Node.js"
+  ],
+  "features": [
+    {
+      "name": "Header Navigation",
+      "description": "Main navigation header with responsive menu toggle and logo",
+      "files": ["src/components/Header.astro"]
+    },
+    {
+      "name": "Hero Section",
+      "description": "Homepage hero section with animated particle background, typing effect, and social icons",
+      "files": ["src/pages/index.astro", "public/assets/js/particles.min.js", "public/assets/js/app.js"]
+    },
+    {
+      "name": "About Section",
+      "description": "Personal information display with profile image and biography",
+      "files": ["src/pages/index.astro"]
+    },
+    {
+      "name": "Skills Showcase",
+      "description": "Skills display with cards showing proficiency levels and technology icons",
+      "files": ["src/components/SkillCard.astro", "src/data/skills.json"]
+    },
+    {
+      "name": "Education Display",
+      "description": "Educational background with timeline and institution details",
+      "files": ["src/components/EducationCard.astro", "src/data/education.json"]
+    },
+    {
+      "name": "Projects Portfolio",
+      "description": "Project showcase with filtering, images, descriptions, and links to live demos and source code",
+      "files": ["src/components/ProjectCard.astro", "src/pages/projects/index.astro", "src/data/projects.json"]
+    },
+    {
+      "name": "Experience Timeline",
+      "description": "Professional experience display in timeline format with positions and dates",
+      "files": ["src/components/TimelineItem.astro", "src/pages/experience/index.astro", "src/data/experience.json"]
+    },
+    {
+      "name": "Contact Form",
+      "description": "Contact form for user inquiries with email integration",
+      "files": ["src/components/ContactForm.astro"]
+    },
+    {
+      "name": "Social Icons",
+      "description": "Social media links component for GitHub, LinkedIn, Twitter, Instagram, Facebook",
+      "files": ["src/components/SocialIcons.astro"]
+    },
+    {
+      "name": "Footer",
+      "description": "Website footer with quick links and social media connections",
+      "files": ["src/components/Footer.astro"]
+    },
+    {
+      "name": "Admin Dashboard",
+      "description": "Admin interface for managing portfolio content (projects, skills, education, experience)",
+      "files": [
+        "src/layouts/AdminLayout.astro",
+        "src/pages/admin/index.astro",
+        "src/pages/admin/projects/index.astro",
+        "src/pages/admin/skills/index.astro",
+        "src/pages/admin/education/index.astro",
+        "src/pages/admin/experience/index.astro"
+      ]
+    },
+    {
+      "name": "SEO Optimization",
+      "description": "SEO meta tags, OpenGraph, Twitter Cards, and structured data (Schema.org JSON-LD)",
+      "files": ["src/components/SEOHead.astro"]
+    },
+    {
+      "name": "404 Error Page",
+      "description": "Custom 404 not found page with navigation back to home",
+      "files": ["src/pages/404.astro"]
+    },
+    {
+      "name": "Supabase Integration",
+      "description": "Database connection for dynamic content management",
+      "files": ["src/lib/supabase.ts", "src/lib/database.types.ts"]
+    },
+    {
+      "name": "Animations",
+      "description": "Scroll reveal animations, tilt effects, and particle.js background",
+      "files": ["public/assets/js/script.js", "public/assets/js/particles.min.js"]
+    },
+    {
+      "name": "Progressive Web App",
+      "description": "Service worker and manifest for PWA functionality",
+      "files": ["public/sw.js", "public/manifest.json"]
+    },
+    {
+      "name": "Responsive Design",
+      "description": "Mobile-first responsive layouts with CSS media queries",
+      "files": ["src/styles/global.css", "src/styles/projects.css", "src/styles/experience.css"]
+    }
+  ]
+}

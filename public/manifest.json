@@ -1,0 +1,22 @@
+{
+  "name": "Sheikh Shariar Nehal - Portfolio",
+  "short_name": "Shariar Nehal",
+  "description": "Portfolio website of Sheikh Shariar Nehal - Full Stack Web Developer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#2b3dda",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "192x192",
+      "type": "image/webp"
+    },
+    {
+      "src": "/assets/images/Favicon.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}

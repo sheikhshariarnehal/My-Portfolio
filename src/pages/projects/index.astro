@@ -1,0 +1,274 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import { getProjects } from '../../lib/supabase';
+import '../../styles/projects.css';
+
+// Fetch projects from Supabase
+const projects = await getProjects();
+
+// Map category for filter classes
+function getCategoryClass(category: string): string {
+  const categoryMap: Record<string, string> = {
+    'web': 'mern',
+    'ml': 'ml',
+    'mobile': 'android',
+    'other': 'basicweb'
+  };
+  return categoryMap[category] || 'basicweb';
+}
+
+// Schema.org JSON-LD
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Projects - Sheikh Shariar Nehal",
+  "url": "https://sheikhshariarnehal.me/projects/",
+  "description": "Portfolio of web development projects by Sheikh Shariar Nehal including MERN Stack, Machine Learning, and Android applications",
+  "author": {
+    "@type": "Person",
+    "name": "Sheikh Shariar Nehal",
+    "alternateName": ["Shariar Nehal", "Sheikh Nehal"]
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sheikhshariarnehal.me/" },
+      { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://sheikhshariarnehal.me/projects/" }
+    ]
+  }
+};
+---
+
+<Layout
+  title="Projects | Sheikh Shariar Nehal - MERN Stack & Machine Learning Projects"
+  description="Explore Sheikh Shariar Nehal's portfolio featuring top-tier projects in MERN Stack, Next.js, Machine Learning, and Android. View live demos and source code."
+  canonical="https://sheikhshariarnehal.me/projects/"
+  keywords="Sheikh Shariar Nehal Projects, MERN Stack Portfolio, Next.js Projects, Machine Learning Projects Python, React Native Apps, Full Stack Developer Portfolio"
+  schema={collectionSchema}
+>
+  <Fragment slot="head">
+    <!-- Critical CSS hints -->
+    <style is:inline>
+      /* Inline critical styles for faster first paint */
+      .work { background: linear-gradient(to bottom, #010136, #00003a); margin-top: 5rem; }
+      .work .heading { color: #fff; }
+      .work .heading span { color: rgb(255, 230, 0); }
+      .grid-item { opacity: 1; }
+    </style>
+    
+    <!-- Preload LCP Image - First visible project image -->
+    {projects[0]?.image && (
+      <link 
+        rel="preload" 
+        href={projects[0].image.startsWith('http') ? projects[0].image : `/assets/images/projects/${projects[0].image}.webp`} 
+        as="image" 
+        type="image/webp" 
+        fetchpriority="high" 
+      />
+    )}
+    <!-- Preconnect to external domains for faster resource loading -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+  </Fragment>
+
+  <Header currentPage="projects" isSubPage={true} />
+
+  <main id="main-content">
+    <!-- Projects Section -->
+    <section class="work" id="work" aria-labelledby="projects-heading">
+      <h1 id="projects-heading" class="heading"><i class="fas fa-laptop-code" aria-hidden="true"></i> My <span>Projects</span></h1>
+
+      <nav id="filters" class="button-group" aria-label="Project category filters">
+        <button class="btn is-checked" data-filter="*" aria-pressed="true">All Projects</button>
+        <button class="btn" data-filter=".mern" aria-pressed="false">Web Development</button>
+        <button class="btn" data-filter=".ml" aria-pressed="false">Machine Learning</button>
+        <button class="btn" data-filter=".android" aria-pressed="false">Mobile App</button>
+      </nav>
+
+    <div class="box-container">
+      {projects.map((project, index) => (
+        <div class={`grid-item ${getCategoryClass(project.category)}`}>
+          <div class="box tilt">
+            <img
+              draggable="false"
+              src={project.image}
+              alt={`${project.title} - ${project.category} Project by Sheikh Shariar Nehal`}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              fetchpriority={index === 0 ? 'high' : 'low'}
+              decoding={index === 0 ? 'sync' : 'async'}
+              width="380"
+              height="300"
+            />
+            <div class="content">
+              <div class="tag">
+                <h3>{project.title}</h3>
+              </div>
+              <div class="desc">
+                <p>{project.description}</p>
+                <div class="btns">
+                  {project.live_url && (
+                    <a href={project.live_url} class="btn" target="_blank" rel="noopener noreferrer">
+                      <i class="fas fa-eye"></i> View
+                    </a>
+                  )}
+                  {project.github_url && (
+                    <a href={project.github_url} class="btn" target="_blank" rel="noopener noreferrer">
+                      Code <i class="fas fa-code"></i>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="backbtn">
+      <a href="/#work" class="btn">
+        <i class="fas fa-arrow-left" aria-hidden="true"></i>
+        <span>Back to Home</span>
+      </a>
+    </div>
+  </section>
+  </main>
+
+  <!-- Scripts -->
+  <Fragment slot="scripts">
+    <!-- Modern CSS-based filtering - no heavy libraries needed -->
+    <script is:inline>
+      // Simple, performant filtering without Isotope
+      document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.button-group .btn');
+        const gridItems = document.querySelectorAll('.grid-item');
+        
+        // Function to apply filter
+        function applyFilter(filterValue) {
+          gridItems.forEach(item => {
+            // Reset display first
+            item.style.display = '';
+            item.classList.remove('hidden');
+            
+            if (filterValue === '*') {
+              // Show all - force visibility
+              item.style.opacity = '1';
+              item.style.visibility = 'visible';
+            } else {
+              const filterClass = filterValue.replace('.', '');
+              if (item.classList.contains(filterClass)) {
+                item.style.opacity = '1';
+                item.style.visibility = 'visible';
+              } else {
+                item.classList.add('hidden');
+                item.style.display = 'none';
+              }
+            }
+          });
+        }
+        
+        // Apply 'All Projects' filter on page load to ensure all items are visible
+        applyFilter('*');
+        
+        filterButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            // Update active button and aria-pressed
+            filterButtons.forEach(btn => {
+              btn.classList.remove('is-checked');
+              btn.setAttribute('aria-pressed', 'false');
+            });
+            this.classList.add('is-checked');
+            this.setAttribute('aria-pressed', 'true');
+            
+            const filterValue = this.getAttribute('data-filter');
+            applyFilter(filterValue);
+          });
+        });
+        
+        // Re-apply filter on visibility change (when returning to tab)
+        document.addEventListener('visibilitychange', function() {
+          if (document.visibilityState === 'visible') {
+            const activeFilter = document.querySelector('.button-group .btn.is-checked');
+            if (activeFilter) {
+              const filterValue = activeFilter.getAttribute('data-filter');
+              applyFilter(filterValue);
+            }
+          }
+        });
+      });
+    </script>
+
+    <script is:inline>
+      // Dynamic script loader - prevents render blocking
+      function loadScript(src, callback) {
+        const script = document.createElement('script');
+        script.src = src;
+        script.async = true;
+        if (callback) script.onload = callback;
+        document.body.appendChild(script);
+      }
+
+      // Load Vanilla Tilt for hover effect after first paint
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          loadScript('https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js', function() {
+            if (typeof VanillaTilt !== 'undefined') {
+              VanillaTilt.init(document.querySelectorAll('.tilt'), { max: 10, speed: 400 });
+            }
+          });
+        });
+      });
+    </script>
+
+    <script is:inline>
+      // Visibility change handler
+      document.addEventListener('visibilitychange', function () {
+        const favicon = document.getElementById('favicon');
+        if (document.visibilityState === 'visible') {
+          document.title = 'Projects | Portfolio Shariar Nehal';
+          if (favicon) favicon.href = '/assets/images/Favicon.webp';
+        } else {
+          document.title = 'Come Back To Portfolio';
+          if (favicon) favicon.href = '/assets/images/favhand.png';
+        }
+      });
+
+      // Tawk.to Live Chat - Load only after 5 seconds AND user interaction
+      let tawkLoaded = false;
+      let userInteracted = false;
+      let pageLoaded = false;
+      
+      function loadTawk() {
+        if (tawkLoaded || !userInteracted || !pageLoaded) return;
+        tawkLoaded = true;
+        // Use requestIdleCallback for non-blocking load
+        const load = () => {
+          const s1 = document.createElement('script');
+          s1.async = true;
+          s1.src = 'https://embed.tawk.to/60df10bf7f4b000ac03ab6a8/1f9jlirg6';
+          s1.charset = 'UTF-8';
+          s1.setAttribute('crossorigin', '*');
+          document.head.appendChild(s1);
+        };
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(load, { timeout: 3000 });
+        } else {
+          setTimeout(load, 100);
+        }
+      }
+
+      // Mark page as loaded after 5 seconds
+      setTimeout(() => { pageLoaded = true; loadTawk(); }, 5000);
+
+      // Load Tawk.to only after user interaction
+      const tawkTriggers = ['scroll', 'mousemove', 'touchstart', 'click', 'keydown'];
+      const markInteracted = () => {
+        tawkTriggers.forEach(e => window.removeEventListener(e, markInteracted));
+        userInteracted = true;
+        loadTawk();
+      };
+      tawkTriggers.forEach(e => window.addEventListener(e, markInteracted, { once: true, passive: true }));
+    </script>
+  </Fragment>
+</Layout>

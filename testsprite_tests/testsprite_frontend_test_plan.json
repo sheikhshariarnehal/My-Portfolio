@@ -1,0 +1,796 @@
+[
+  {
+    "id": "TC001",
+    "title": "Home page: Lighthouse performance, accessibility, best practices and SEO scores",
+    "description": "Run Lighthouse on the Home page and verify Performance, Accessibility, Best Practices and SEO scores are >= 90.",
+    "category": "performance",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the Home page (/) in a clean production-like environment (no devtools throttles except network/CPU as in CI)."
+      },
+      {
+        "type": "action",
+        "description": "Run an automated Lighthouse audit (simulate mobile and desktop runs)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert Lighthouse Performance >= 90."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert Lighthouse Accessibility >= 90."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert Lighthouse Best Practices >= 90."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert Lighthouse SEO >= 90."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Responsive layout across common breakpoints",
+    "description": "Verify layout and navigation render correctly at 320px, 375px, 768px, 1024px and 1440px widths on key pages (Home, Projects, Experience).",
+    "category": "ui",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open Home page and resize viewport to 320px width."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert header, hero, and primary CTAs are visible and not overlapping; mobile menu toggle is present if applicable."
+      },
+      {
+        "type": "action",
+        "description": "Repeat for widths 375px, 768px, 1024px and 1440px on Home, Projects, and Experience pages."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert grids, timelines and project cards reflow appropriately at each breakpoint and no horizontal scroll appears."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Accessibility: automated axe-core scan and keyboard navigation",
+    "description": "Run automated accessibility checks and manually test keyboard-only navigation and ARIA attributes for core pages and components.",
+    "category": "accessibility",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run an axe-core scan on Home, Projects, Experience and Admin pages."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert no critical or serious accessibility violations are reported."
+      },
+      {
+        "type": "action",
+        "description": "Using keyboard only (Tab, Shift+Tab, Enter, Space), navigate header, hero CTA, project cards, contact form fields and admin form controls."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert logical tab order, focus indicators visible, and interactive elements operable by keyboard."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "SEO: meta tags, OpenGraph, Twitter Cards, and JSON-LD on Home",
+    "description": "Verify the Home page contains correct title, description, OpenGraph and Twitter meta tags and valid Schema.org JSON-LD.",
+    "category": "seo",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open Home page HTML and inspect head meta tags."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert <title> and meta description match expected content and are not empty."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert OpenGraph tags (og:title, og:description, og:image, og:url) and Twitter card tags are present and contain valid values."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert a Schema.org JSON-LD block is present and validates against schema expectations (site, person, breadcrumbs or portfolio schema)."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "404 page for unknown routes",
+    "description": "Verify unknown routes return the custom 404 page with navigation back to home and correct HTTP status code.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to a non-existent route, e.g., /non-existent-path-xyz."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the custom 404 page content is displayed and contains a link or button to navigate back to Home."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the HTTP response status code is 404."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Header navigation and mobile menu toggle behavior",
+    "description": "Verify header navigation links work, sticky behavior (if any), and mobile hamburger toggles the menu and closes appropriately.",
+    "category": "functional",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open page at desktop width and click header navigation items (About, Projects, Experience, Contact)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert each click navigates/scrolls to the correct section or page."
+      },
+      {
+        "type": "action",
+        "description": "Resize to mobile width and click the mobile menu toggle (hamburger)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the mobile navigation opens, displays links, and closes when a link is selected or when toggle is clicked again."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Hero: typing effect presence and CTA scroll behavior",
+    "description": "Verify the typewriter effect runs and CTA button scrolls to About section smoothly.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open Home page and observe hero area for presence of typing/typewriter effect text."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert typing effect cycles through expected strings and does not block content visibility."
+      },
+      {
+        "type": "action",
+        "description": "Click the hero CTA that should navigate/scroll to About section."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the viewport scrolls to About section and focus is placed on an appropriate heading or element."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Projects page: category filtering and result correctness",
+    "description": "Verify project filtering by category/tag updates the displayed project list accurately and filter states persist across navigation where intended.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open /projects page and note the full unfiltered list of project cards."
+      },
+      {
+        "type": "action",
+        "description": "Select a category filter (e.g., 'Web', 'Mobile', 'Open Source')."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert only projects matching the selected category are visible and others are hidden."
+      },
+      {
+        "type": "action",
+        "description": "Combine multiple filters (if supported) or clear filters."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert combined filter results are correct and clearing restores the full list."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Project card: open details and external link attributes",
+    "description": "Verify clicking a project card opens the detail view (internal) or external demo/repo link opens in a new tab with proper target/rel attributes.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "On /projects, click a project card that has an internal detail page."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the project detail view opens and displays title, description, technologies and links."
+      },
+      {
+        "type": "action",
+        "description": "Click an external demo or source link for a project (if available)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the link opens in a new tab and the link element includes target=\"_blank\" and rel=\"noopener noreferrer\" (or equivalent)."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Contact form client-side validation",
+    "description": "Verify contact form prevents submission with invalid or missing inputs and displays appropriate validation messages.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open the Contact form and attempt to submit with all fields empty."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert validation messages are shown for required fields and the form is not submitted."
+      },
+      {
+        "type": "action",
+        "description": "Enter an invalid email address and valid content in other fields, then submit."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert an email validation error is shown and submission is blocked until a valid email is provided."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Contact form: successful submission and success UX",
+    "description": "Verify valid contact form submission posts to backend/email endpoint, displays success toast, and optionally stores message in Supabase.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Fill contact form with valid name, email, subject and message."
+      },
+      {
+        "type": "action",
+        "description": "Submit the form."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert a success toast or confirmation message appears indicating the message was sent."
+      },
+      {
+        "type": "assertion",
+        "description": "If the environment supports message storage in Supabase, query the messages table and assert a new record with matching subject and email exists."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Contact form: backend failure handling and retry UX",
+    "description": "Simulate backend failure for contact form submission and verify user sees meaningful error messaging and ability to retry.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Stub or configure the contact API to return a 500 error on submission."
+      },
+      {
+        "type": "action",
+        "description": "Fill contact form with valid data and submit."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert an error toast or message is displayed explaining the failure and suggesting a retry or alternative contact method."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to submit again once service is restored."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert successful submission behavior after retry."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Admin: unauthenticated access redirects to login",
+    "description": "Verify visiting /admin when unauthenticated redirects or prompts for Supabase Auth login and prevents access to dashboard content.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open /admin in a browser session with no authentication cookies or tokens."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the user is redirected to a login screen or sees a login prompt and cannot access admin dashboard content."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Admin: email/password login and session enforcement",
+    "description": "Verify an admin can authenticate with Supabase email/password, a session is established, and protected admin routes are accessible only while session is valid.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "On the admin login page, enter valid admin email and password and submit."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert authentication succeeds and the user is redirected to the admin dashboard."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to an admin-only page (e.g., /admin/projects) with the session active."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the page loads and allows management actions."
+      },
+      {
+        "type": "action",
+        "description": "Invalidate the session (log out or remove token) and attempt to access the same admin route."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert access is denied and the user is redirected to login."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Admin: create, edit and delete Project entries (without image upload)",
+    "description": "Verify Projects CRUD operations via the Admin Dashboard work with metadata fields (title, description, tags, links) and changes reflect immediately on the public Projects page; skip image upload testing.",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in to Admin Dashboard and navigate to Projects management."
+      },
+      {
+        "type": "action",
+        "description": "Create a new project with title, description, tags and demo/source URLs (use a placeholder image URL if image field is required)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the create action returns success and the new project appears in admin list."
+      },
+      {
+        "type": "action",
+        "description": "Open the public /projects page and assert the new project is visible in the list with provided metadata."
+      },
+      {
+        "type": "action",
+        "description": "Edit the project's title and save changes."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert edits persist in admin and on the public Projects page immediately."
+      },
+      {
+        "type": "action",
+        "description": "Delete the project from the admin dashboard."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the project is removed from admin list and no longer appears on the public site."
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Admin: create, edit and delete Skills and their public reflection",
+    "description": "Verify Skills CRUD workflow in Admin Dashboard and that skill cards reflect changes on public site (title, category, proficiency).",
+    "category": "integration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in to Admin Dashboard and navigate to Skills management."
+      },
+      {
+        "type": "action",
+        "description": "Create a new skill with name, category and proficiency level."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the skill appears in admin list and on public Skills section with correct data."
+      },
+      {
+        "type": "action",
+        "description": "Edit the skill proficiency and save."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the updated proficiency is shown on the public Skills section."
+      },
+      {
+        "type": "action",
+        "description": "Delete the skill."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the skill is removed from both admin and public pages."
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Admin: create, edit and delete Education entries",
+    "description": "Verify CRUD for Education timeline entries in Admin Dashboard and reflect updates on public Experience/Education displays.",
+    "category": "integration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in and navigate to Education management in the admin dashboard."
+      },
+      {
+        "type": "action",
+        "description": "Create a new education entry with institution, degree, dates and description."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the new education entry appears on the public Education timeline with correct order and content."
+      },
+      {
+        "type": "action",
+        "description": "Edit the entry's dates and save."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert changes are reflected immediately on the public timeline."
+      },
+      {
+        "type": "action",
+        "description": "Delete the entry."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the entry is removed from public view."
+      }
+    ]
+  },
+  {
+    "id": "TC018",
+    "title": "Admin: create, edit and delete Experience timeline entries",
+    "description": "Verify CRUD operations for Experience entries in the Admin Dashboard and that timeline displays maintain chronological ordering and content.",
+    "category": "integration",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Log in to Admin Dashboard and go to Experience management."
+      },
+      {
+        "type": "action",
+        "description": "Create an experience entry with position, company, dates, location and description."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the entry appears on the public Experience timeline with the correct position and company."
+      },
+      {
+        "type": "action",
+        "description": "Edit the experience description and save."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the updated description shows on the public site."
+      },
+      {
+        "type": "action",
+        "description": "Delete the entry."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert it is removed from the public timeline and ordering of remaining items remains correct."
+      }
+    ]
+  },
+  {
+    "id": "TC019",
+    "title": "Supabase integration failure handling",
+    "description": "Simulate Supabase downtime or failed API responses and verify UI displays appropriate error states and does not expose raw errors or break the application.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Stub Supabase client calls to return network errors or 5xx responses for read and write operations."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to load public dynamic content (projects/skills) and perform an admin CRUD action (create/edit)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the public pages show a user-friendly error state or fallback content and do not crash."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the admin UI displays clear error messages and suggests retry, and no sensitive error stack traces or environment variables are exposed to the client."
+      }
+    ]
+  },
+  {
+    "id": "TC020",
+    "title": "PWA: service worker registration and manifest presence",
+    "description": "Verify service worker registers, manifest.json exists and the site meets basic installability checks.",
+    "category": "pwa",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open Home page and check that navigator.serviceWorker registers the site's service worker (public/sw.js)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the service worker is registered and active in the browser."
+      },
+      {
+        "type": "action",
+        "description": "Fetch /manifest.json."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert manifest.json is present, valid JSON, and contains name, short_name, icons, start_url and display properties."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the site passes basic installability checks (HTTPS, manifest, service worker controlling page)."
+      }
+    ]
+  },
+  {
+    "id": "TC021",
+    "title": "SEO: Projects and Experience pages meta tags and JSON-LD",
+    "description": "Verify Projects and Experience pages have appropriate title/description meta tags and valid structured data relevant to those pages.",
+    "category": "seo",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Open /projects and inspect head meta tags and any JSON-LD present."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert page title and meta description are present and meaningful for the Projects page and OpenGraph tags exist."
+      },
+      {
+        "type": "action",
+        "description": "Open /experience and repeat the checks for Experience-specific meta tags and JSON-LD (e.g., timeline or person role information)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert JSON-LD validates for expected schema types and contains required fields."
+      }
+    ]
+  },
+  {
+    "id": "TC022",
+    "title": "Animations/UI effects degrade gracefully when JavaScript is disabled",
+    "description": "Verify that critical content remains readable and navigable when animations or JS-based effects (particles, typed, tilt, scroll reveal) are not available.",
+    "category": "ui",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Disable JavaScript in the browser and open Home and Projects pages."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert content (hero text, skills, projects, experience) is visible, semantic HTML is present, and navigation works via normal links."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert no broken placeholders or missing core content due to absent JS-based effects."
+      }
+    ]
+  },
+  {
+    "id": "TC023",
+    "title": "Sitemap and robots.txt presence and validity",
+    "description": "Verify sitemap.xml and robots.txt exist, are accessible, and reference the correct public pages and allowed/disallowed rules.",
+    "category": "seo",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Fetch /sitemap.xml and /robots.txt."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert both files return 200 and are well-formed (XML for sitemap, plain text for robots)."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert sitemap contains key public URLs (/, /projects, /experience) and robots.txt does not block critical pages for crawlers."
+      }
+    ]
+  },
+  {
+    "id": "TC024",
+    "title": "Security: server-side route protection and no exposure of environment variables",
+    "description": "Verify admin API endpoints require a valid Supabase session and that server-rendered pages do not expose environment variables or secrets in HTML or JS bundles.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Attempt to call admin API endpoints (create/update/delete) without authentication token."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert API returns 401/403 and no changes occur."
+      },
+      {
+        "type": "action",
+        "description": "Inspect public HTML and client-side JavaScript bundles for presence of environment variable values (e.g., Supabase keys) or secrets inlined."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert no environment secrets or sensitive values are present client-side."
+      }
+    ]
+  },
+  {
+    "id": "TC025",
+    "title": "Data integrity: immediate reflection of admin changes on public pages",
+    "description": "Verify that after performing create/edit/delete in admin, public pages show updated data without manual cache clearing (within expected propagation time).",
+    "category": "integration",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Create or edit a public-facing record via admin (e.g., change a project title)."
+      },
+      {
+        "type": "action",
+        "description": "Open the public page that shows the record in a separate session and refresh the page."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert the change is visible on the public page within expected propagation time (immediate or within configured caching TTL)."
+      }
+    ]
+  },
+  {
+    "id": "TC026",
+    "title": "Handling of broken or removed project links on public site",
+    "description": "Verify that if a project is removed or its external link becomes unreachable, the public site shows appropriate messaging or fallbacks and does not crash.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Remove a project via admin or update a project's external demo URL to an unreachable address."
+      },
+      {
+        "type": "action",
+        "description": "On the public Projects page, click the project card or external link that was removed/changed."
+      },
+      {
+        "type": "assertion",
+        "description": "If the project was deleted, assert the public site no longer lists it; if the external link is broken, assert the UI either disables the link, shows a warning, or gracefully handles the failed navigation (e.g., shows 404 on external resource attempt)."
+      }
+    ]
+  },
+  {
+    "id": "TC027",
+    "title": "Keyboard focus order and ARIA attributes for interactive components",
+    "description": "Verify focus order and ARIA attributes for header navigation, mobile menu, project filters, contact form and admin form controls to support screen reader users.",
+    "category": "accessibility",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Tab through header, open mobile menu, tab through menu items, and tab to project filters and contact form fields."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert focus moves in logical sequence and interactive elements expose ARIA labels/roles where appropriate (e.g., aria-expanded on toggles)."
+      },
+      {
+        "type": "action",
+        "description": "Inspect interactive components used in admin (forms, save/delete buttons) for ARIA and accessible names."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert admin controls are announced by assistive tech via accessible names and roles."
+      }
+    ]
+  },
+  {
+    "id": "TC028",
+    "title": "Images: presence of alt text for accessibility and reachable URLs",
+    "description": "Verify that all images used across public pages include alt attributes and referenced image URLs are reachable (excluding testing file upload functionality).",
+    "category": "accessibility",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Crawl public pages and collect <img> elements."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert each image has a non-empty alt attribute or appropriate role/aria-hidden when decorative."
+      },
+      {
+        "type": "action",
+        "description": "Request the image src URLs and check HTTP response status."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert images referenced by src respond with 200 and return an image content-type."
+      }
+    ]
+  },
+  {
+    "id": "TC029",
+    "title": "Cross-browser compatibility for core flows",
+    "description": "Verify core user flows (navigation, project filtering, contact form submission, admin login and CRUD) operate correctly on modern browsers: Chrome, Firefox, Safari and Edge (latest stable versions).",
+    "category": "compatibility",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Run the core flows (navigate site, filter projects, submit contact form, admin login and a simple CRUD operation) in Chrome, Firefox, Safari and Edge."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert flows complete successfully and UI elements are rendered correctly in each browser without JS errors."
+      }
+    ]
+  },
+  {
+    "id": "TC030",
+    "title": "Security: input sanitization for admin-created content to prevent XSS",
+    "description": "Verify admin form inputs are sanitized and stored content does not execute injected scripts on public pages.",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "In a secure test environment, create an admin record (e.g., project description) that contains typical XSS payloads (script tags, onerror attributes) in input fields."
+      },
+      {
+        "type": "action",
+        "description": "Save the record and open the corresponding public page that renders that content."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert that no injected scripts execute in the browser (no alerts or console indications) and that the content is either escaped, sanitized, or stripped of executable markup."
+      },
+      {
+        "type": "assertion",
+        "description": "Assert server-side validation or sanitization logs the event and the stored content is safe for rendering."
+      }
+    ]
+  }
+]

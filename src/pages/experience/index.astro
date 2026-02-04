@@ -1,0 +1,146 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import TimelineItem from '../../components/TimelineItem.astro';
+import { getExperience } from '../../lib/supabase';
+import '../../styles/experience.css';
+
+// Fetch experience from database
+const experienceData = await getExperience();
+const experience = experienceData.map((exp, index) => {
+  const startDate = new Date(exp.start_date);
+  const endDate = exp.end_date ? new Date(exp.end_date) : null;
+  const startStr = startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  const endStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present';
+  
+  return {
+    organization: exp.company,
+    role: exp.title,
+    duration: `${startStr} - ${endStr}`,
+    position: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right'
+  };
+});
+
+// Schema.org JSON-LD
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Experience - Sheikh Shariar Nehal",
+  "url": "https://sheikhshariarnehal.me/experience/",
+  "description": "Professional experience and work history of Sheikh Shariar Nehal, Full Stack Web Developer",
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sheikhshariarnehal.me/" },
+      { "@type": "ListItem", "position": 2, "name": "Experience", "item": "https://sheikhshariarnehal.me/experience/" }
+    ]
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@type": "OrganizationRole",
+          "roleName": "Full Stack Developer | Freelancer",
+          "startDate": "2021-10",
+          "organization": { "@type": "Organization", "name": "Self Employed" }
+        }
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "item": {
+          "@type": "OrganizationRole",
+          "roleName": "Founder & Developer",
+          "startDate": "2024-01",
+          "organization": { "@type": "Organization", "name": "NestTask" }
+        }
+      }
+    ]
+  }
+};
+---
+
+<Layout
+  title="Experience | Sheikh Shariar Nehal - Full Stack Developer Journey"
+  description="Explore Sheikh Shariar Nehal's professional experience as a Full Stack Developer, including freelance work, academic projects, and research in Machine Learning and Health Tech."
+  canonical="https://sheikhshariarnehal.me/experience/"
+  keywords="Sheikh Shariar Nehal Experience, Shariar Nehal Experience, Full Stack Developer Experience, NestTask Founder, DIU Projects"
+  schema={webPageSchema}
+>
+  <Header currentPage="experience" isSubPage={true} />
+
+  <main id="main-content">
+    <!-- Experience Section -->
+    <section class="experience" id="experience" aria-labelledby="experience-heading">
+      <h1 id="experience-heading" class="heading"><i class="fas fa-briefcase" aria-hidden="true"></i> Experience</h1>
+      
+      <div class="quote">
+        <span>Every experience in your life is being orchestrated to teach you something you need to know to move forward.</span>
+      </div>
+
+      <div class="timeline" role="list" aria-label="Professional experience timeline">
+        {experience.map((exp) => (
+          <TimelineItem
+            organization={exp.organization}
+            role={exp.role}
+            duration={exp.duration}
+            position={exp.position as 'left' | 'right'}
+          />
+        ))}
+      </div>
+
+      <div class="morebtn">
+        <a href="/#experience" class="btn">
+          <i class="fas fa-arrow-left" aria-hidden="true"></i>
+          <span>Back to Home</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <Footer isSubPage={true} />
+
+  <!-- Scripts -->
+  <Fragment slot="scripts">
+    <!-- jQuery -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- ScrollReveal -->
+    <script defer src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Visibility change handler
+        document.addEventListener('visibilitychange', function () {
+          const favicon = document.getElementById('favicon');
+          if (document.visibilityState === 'visible') {
+            document.title = 'Experience | Portfolio Shariar Nehal';
+            if (favicon) favicon.href = '/assets/images/Favicon.webp';
+          } else {
+            document.title = 'Come Back To Portfolio';
+            if (favicon) favicon.href = '/assets/images/favhand.png';
+          }
+        });
+      });
+
+      // Wait for ScrollReveal to load
+      window.addEventListener('load', function() {
+        if (typeof ScrollReveal !== 'undefined') {
+          const srtop = ScrollReveal({
+            origin: 'top',
+            distance: '80px',
+            duration: 1000,
+            reset: true
+          });
+
+          srtop.reveal('.experience .timeline', { delay: 400 });
+          srtop.reveal('.experience .timeline .container', { interval: 400 });
+        }
+      });
+    </script>
+  </Fragment>
+</Layout>

@@ -1,0 +1,214 @@
+---
+// Admin Layout - requires authentication
+import '../styles/admin.css';
+
+interface Props {
+  title: string;
+  activeTab?: string;
+}
+
+const { title, activeTab = 'dashboard' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{title} | Admin Dashboard</title>
+  <link rel="icon" type="image/webp" href="/assets/images/Favicon.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <div class="admin-container" id="admin-app">
+    <!-- Auth Check Loading -->
+    <div class="auth-loading" id="auth-loading">
+      <div class="spinner"></div>
+      <p>Checking authentication...</p>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-container" id="login-container" style="display: none;">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="/assets/images/Favicon.webp" alt="Logo" class="login-logo" loading="lazy">
+          <h1>Admin Login</h1>
+          <p>Sign in to manage your portfolio</p>
+        </div>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="admin@example.com">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="••••••••">
+          </div>
+          <div class="error-message" id="login-error" style="display: none;"></div>
+          <button type="submit" class="btn-primary">
+            <span>Sign In</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="admin-dashboard" style="display: none;">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-header">
+          <img src="/assets/images/Favicon.webp" alt="Logo" class="sidebar-logo" loading="lazy">
+          <span>Portfolio Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+          <a href="/admin/" class={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}>
+            <i class="fas fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="/admin/skills/" class={`nav-item ${activeTab === 'skills' ? 'active' : ''}`}>
+            <i class="fas fa-code"></i>
+            <span>Skills</span>
+          </a>
+          <a href="/admin/projects/" class={`nav-item ${activeTab === 'projects' ? 'active' : ''}`}>
+            <i class="fas fa-folder-open"></i>
+            <span>Projects</span>
+          </a>
+          <a href="/admin/experience/" class={`nav-item ${activeTab === 'experience' ? 'active' : ''}`}>
+            <i class="fas fa-briefcase"></i>
+            <span>Experience</span>
+          </a>
+          <a href="/admin/education/" class={`nav-item ${activeTab === 'education' ? 'active' : ''}`}>
+            <i class="fas fa-graduation-cap"></i>
+            <span>Education</span>
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/" class="nav-item" target="_blank">
+            <i class="fas fa-external-link-alt"></i>
+            <span>View Site</span>
+          </a>
+          <button class="nav-item logout-btn" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <header class="admin-header">
+          <h1>{title}</h1>
+          <div class="header-user" id="header-user">
+            <span id="user-email"></span>
+            <img src="/assets/images/profile2.webp" alt="User" class="user-avatar" loading="lazy">
+          </div>
+        </header>
+        <div class="admin-content">
+          <slot />
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script is:inline>
+    const SUPABASE_URL = 'https://hketxtxdcbgxqdxzefek.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrZXR4dHhkY2JneHFkeHplZmVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwMzU3ODAsImV4cCI6MjA4NTYxMTc4MH0.4TdJiyHucBLdXBGFcHiUCozJoynBQp7WteGXY7HZHG8';
+    
+    // Create supabase client
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Make it globally available
+    window.supabaseClient = supabaseClient;
+    
+    // DOM Elements
+    const authLoading = document.getElementById('auth-loading');
+    const loginContainer = document.getElementById('login-container');
+    const adminDashboard = document.getElementById('admin-dashboard');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userEmail = document.getElementById('user-email');
+
+    // Check authentication on page load
+    async function checkAuth() {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        
+        authLoading.style.display = 'none';
+        
+        if (session) {
+          showDashboard(session.user);
+        } else {
+          showLogin();
+        }
+      } catch (error) {
+        console.error('Auth check error:', error);
+        authLoading.style.display = 'none';
+        showLogin();
+      }
+    }
+
+    function showLogin() {
+      loginContainer.style.display = 'flex';
+      adminDashboard.style.display = 'none';
+    }
+
+    function showDashboard(user) {
+      loginContainer.style.display = 'none';
+      adminDashboard.style.display = 'flex';
+      userEmail.textContent = user.email;
+    }
+
+    // Login form submission
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      loginError.style.display = 'none';
+      
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+        
+        if (error) {
+          loginError.textContent = error.message;
+          loginError.style.display = 'block';
+        } else {
+          showDashboard(data.user);
+        }
+      } catch (err) {
+        loginError.textContent = 'Login failed. Please try again.';
+        loginError.style.display = 'block';
+      }
+    });
+
+    // Logout
+    logoutBtn.addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      showLogin();
+    });
+
+    // Listen for auth state changes
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        showLogin();
+      } else if (session) {
+        showDashboard(session.user);
+      }
+    });
+
+    // Initialize
+    checkAuth();
+  </script>
+</body>
+</html>

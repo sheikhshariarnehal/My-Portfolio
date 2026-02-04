@@ -1,0 +1,134 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Dashboard" activeTab="dashboard">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-header">
+        <div class="stat-card-icon blue">
+          <i class="fas fa-code"></i>
+        </div>
+      </div>
+      <div class="stat-card-value" id="skills-count">-</div>
+      <div class="stat-card-label">Total Skills</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-header">
+        <div class="stat-card-icon green">
+          <i class="fas fa-folder-open"></i>
+        </div>
+      </div>
+      <div class="stat-card-value" id="projects-count">-</div>
+      <div class="stat-card-label">Total Projects</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-header">
+        <div class="stat-card-icon orange">
+          <i class="fas fa-briefcase"></i>
+        </div>
+      </div>
+      <div class="stat-card-value" id="experience-count">-</div>
+      <div class="stat-card-label">Experience Items</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-header">
+        <div class="stat-card-icon purple">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+      </div>
+      <div class="stat-card-value" id="education-count">-</div>
+      <div class="stat-card-label">Education Entries</div>
+    </div>
+  </div>
+
+  <div class="data-card">
+    <div class="data-card-header">
+      <h2>Recent Projects</h2>
+      <a href="/admin/projects/" class="btn-add">
+        <i class="fas fa-eye"></i>
+        View All
+      </a>
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Featured</th>
+        </tr>
+      </thead>
+      <tbody id="recent-projects">
+        <tr>
+          <td colspan="4" class="empty-state">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading...</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script is:inline>
+    // Wait for supabase to be initialized
+    document.addEventListener('DOMContentLoaded', () => {
+      // Use a small delay to ensure supabase client is ready
+      setTimeout(loadDashboardData, 500);
+    });
+
+    async function loadDashboardData() {
+      try {
+        const supabase = window.supabaseClient;
+        if (!supabase) {
+          setTimeout(loadDashboardData, 200);
+          return;
+        }
+        
+        // Fetch counts
+        const [skillsRes, projectsRes, experienceRes, educationRes] = await Promise.all([
+          supabase.from('skills').select('id', { count: 'exact', head: true }),
+          supabase.from('projects').select('id', { count: 'exact', head: true }),
+          supabase.from('experience').select('id', { count: 'exact', head: true }),
+          supabase.from('education').select('id', { count: 'exact', head: true })
+        ]);
+
+        document.getElementById('skills-count').textContent = skillsRes.count || 0;
+        document.getElementById('projects-count').textContent = projectsRes.count || 0;
+        document.getElementById('experience-count').textContent = experienceRes.count || 0;
+        document.getElementById('education-count').textContent = educationRes.count || 0;
+
+        // Fetch recent projects
+        const { data: projects } = await supabase
+          .from('projects')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5);
+
+        const tbody = document.getElementById('recent-projects');
+        if (projects && projects.length > 0) {
+          tbody.innerHTML = projects.map(project => `
+            <tr>
+              <td><img src="${project.image}" alt="${project.title}" class="table-image" loading="lazy"></td>
+              <td>${project.title}</td>
+              <td><span class="tag tag-blue">${project.category}</span></td>
+              <td>${project.featured ? '<span class="tag tag-green">Yes</span>' : '<span class="tag tag-orange">No</span>'}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="4" class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <h3>No projects yet</h3>
+                <p>Add your first project to get started</p>
+              </td>
+            </tr>
+          `;
+        }
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      }
+    }
+  </script>
+</AdminLayout>

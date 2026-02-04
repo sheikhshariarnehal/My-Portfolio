@@ -1,0 +1,22 @@
+{
+  "name": "shariar-nehal-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Sheikh Shariar Nehal - Portfolio website built with Astro",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "astro": "^4.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

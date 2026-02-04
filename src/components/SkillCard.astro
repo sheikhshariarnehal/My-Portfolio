@@ -1,0 +1,15 @@
+---
+export interface Props {
+  name: string;
+  icon: string;
+}
+
+const { name, icon } = Astro.props;
+---
+
+<div class="bar">
+  <div class="info">
+    <img src={icon} alt={name} loading="lazy" width="48" height="48" />
+    <span>{name}</span>
+  </div>
+</div>
