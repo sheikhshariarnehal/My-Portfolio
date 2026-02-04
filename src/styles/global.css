@@ -514,6 +514,7 @@ header .navbar ul li a:hover {
     width: 100%;
     padding: 1rem 0;
     margin-top: 0;
+    margin-bottom: 2rem;
   }
 
   .home .image img {
@@ -521,12 +522,14 @@ header .navbar ul li a:hover {
     max-width: 280px;
     margin: 0 auto;
     display: block;
+    border-radius: 50%;
   }
 }
 
 @media (max-width: 480px) {
   .home {
     padding-top: 8rem;
+    padding-bottom: 4rem;
     gap: 0.5rem;
   }
 
@@ -557,6 +560,7 @@ header .navbar ul li a:hover {
 
   .socials {
     margin-top: 0.5rem;
+    margin-bottom: 2rem;
   }
 
   .social-icons a {
@@ -570,12 +574,14 @@ header .navbar ul li a:hover {
   .home .image img {
     width: 55%;
     max-width: 220px;
+    border-radius: 50%;
   }
 }
 
 @media (max-width: 360px) {
   .home {
     padding-top: 8rem;
+    padding-bottom: 4rem;
   }
 
   .home .content h1 {
@@ -604,6 +610,7 @@ header .navbar ul li a:hover {
   .home .image img {
     width: 50%;
     max-width: 180px;
+    border-radius: 50%;
   }
 }
 
