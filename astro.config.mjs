@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
-// Sitemap generation handled via public/sitemap.xml for compatibility
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,6 +13,9 @@ export default defineConfig({
     tailwind({
       // Keep existing global.css - Tailwind will work alongside it
       applyBaseStyles: false,
+    }),
+    sitemap({
+      filter: (page) => !page.includes('/admin/') && !page.includes('/404'),
     }),
   ],
   build: {

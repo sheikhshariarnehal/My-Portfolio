@@ -6,6 +6,9 @@ User-agent: Googlebot
 Allow: /
 Crawl-delay: 1
 
+User-agent: Googlebot-Image
+Allow: /assets/images/
+
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
@@ -26,9 +29,10 @@ Allow: /assets/css/
 Allow: /assets/images/
 Allow: /manifest.json
 
-# Sitemap location
+# Sitemap locations
 Sitemap: https://sheikhshariarnehal.me/sitemap-index.xml
 Sitemap: https://sheikhshariarnehal.me/sitemap.xml
+Sitemap: https://sheikhshariarnehal.me/sitemap-images.xml
 
 # Host preference
 Host: https://sheikhshariarnehal.me

@@ -48,6 +48,65 @@ const GA4_ID = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXXXX';
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', GA4_ID);
+
+      // Enhanced Event Tracking
+      document.addEventListener('DOMContentLoaded', function() {
+        // Track project view clicks
+        document.querySelectorAll('.work .box .btn, .work .btns .btn').forEach(function(link) {
+          link.addEventListener('click', function() {
+            var projectBox = this.closest('.box') || this.closest('.grid-item');
+            var projectName = projectBox ? (projectBox.querySelector('h3') || {}).textContent || 'Unknown' : 'Unknown';
+            var isView = this.textContent.trim().toLowerCase().includes('view');
+            gtag('event', isView ? 'view_project' : 'view_code', {
+              'event_category': 'Project Interaction',
+              'event_label': projectName,
+              'project_name': projectName
+            });
+          });
+        });
+
+        // Track contact form submissions
+        var contactForm = document.querySelector('.contact form, #contact-form');
+        if (contactForm) {
+          contactForm.addEventListener('submit', function() {
+            gtag('event', 'contact_form_submit', {
+              'event_category': 'Contact',
+              'event_label': 'Homepage Contact Form'
+            });
+          });
+        }
+
+        // Track resume downloads
+        document.querySelectorAll('a[href*="drive.google.com"]').forEach(function(link) {
+          link.addEventListener('click', function() {
+            gtag('event', 'resume_download', {
+              'event_category': 'Resume',
+              'event_label': 'Resume PDF Download'
+            });
+          });
+        });
+
+        // Track external link clicks
+        document.querySelectorAll('a[target="_blank"]').forEach(function(link) {
+          link.addEventListener('click', function() {
+            gtag('event', 'click', {
+              'event_category': 'External Link',
+              'event_label': this.href
+            });
+          });
+        });
+
+        // Track social link clicks
+        document.querySelectorAll('.share a, .linkedin a, .github a, .twitter a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            var platform = this.getAttribute('aria-label') || 'Unknown';
+            gtag('event', 'social_click', {
+              'event_category': 'Social Media',
+              'event_label': platform
+            });
+          });
+        });
+      });
     </script>
 
     <!-- Service Worker Registration -->

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import TimelineItem from '../../components/TimelineItem.astro';
 import { getExperience } from '../../lib/supabase';
 import '../../styles/experience.css';
@@ -62,6 +63,11 @@ const webPageSchema = {
     ]
   }
 };
+
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Experience', href: '/experience/', current: true },
+];
 ---
 
 <Layout
@@ -72,6 +78,7 @@ const webPageSchema = {
   schema={webPageSchema}
 >
   <Header currentPage="experience" isSubPage={true} />
+  <Breadcrumb items={breadcrumbItems} theme="light" />
 
   <main id="main-content">
     <!-- Experience Section -->

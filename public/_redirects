@@ -1,3 +1,0 @@
-# Redirect www to apex domain (non-www)
-https://www.sheikhshariarnehal.me/* https://sheikhshariarnehal.me/:splat 301!
-http://www.sheikhshariarnehal.me/* https://sheikhshariarnehal.me/:splat 301!

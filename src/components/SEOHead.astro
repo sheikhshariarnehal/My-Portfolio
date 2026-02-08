@@ -103,12 +103,20 @@ const currentYear = new Date().getFullYear();
 <!-- Web App Manifest for PWA -->
 <link rel="manifest" href="/manifest.json" />
 
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="Sheikh Shariar Nehal - Portfolio Updates" href="/rss.xml" />
+
 <!-- Preconnect for Performance -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
 <link rel="dns-prefetch" href="https://unpkg.com" />
 <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+<!-- Prefetch likely next navigation -->
+<link rel="prefetch" href="/projects/" />
+<link rel="prefetch" href="/experience/" />
 
 <!-- Google Fonts - Optimized -->
 <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" as="style" />

@@ -9,6 +9,7 @@ import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { getEducation, getExperience } from '../lib/supabase';
+import { getOrganizationSchema, getFAQSchema, getLocalBusinessSchema, defaultFAQs } from '../lib/seo-utils';
 
 import skills from '../data/skills.json';
 import projects from '../data/projects.json';
@@ -125,13 +126,18 @@ const breadcrumbSchema = {
     { "@type": "ListItem", "position": 3, "name": "Experience", "item": "https://sheikhshariarnehal.me/experience/" }
   ]
 };
+
+// Additional SEO Schemas
+const organizationSchema = getOrganizationSchema();
+const faqSchema = getFAQSchema(defaultFAQs);
+const localBusinessSchema = getLocalBusinessSchema();
 ---
 
 <Layout
   title="Sheikh Shariar Nehal – Full-Stack Developer"
   description="Sheikh Shariar Nehal – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
   canonical="https://sheikhshariarnehal.me/"
-  schema={[personSchema, websiteSchema, breadcrumbSchema]}
+  schema={[personSchema, websiteSchema, breadcrumbSchema, organizationSchema, faqSchema, localBusinessSchema]}
 >
   <Header currentPage="home" />
 
@@ -334,6 +340,22 @@ const breadcrumbSchema = {
     </div>
   </section>
   </main>
+
+  <!-- FAQ Section for SEO -->
+  <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="heading"><i class="fas fa-question-circle" aria-hidden="true"></i> Frequently Asked <span>Questions</span></h2>
+    <div class="faq-container">
+      {defaultFAQs.map((faq, index) => (
+        <details class="faq-item" open={index === 0}>
+          <summary class="faq-question">
+            <span>{faq.question}</span>
+            <i class="fas fa-chevron-down faq-icon" aria-hidden="true"></i>
+          </summary>
+          <p class="faq-answer">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 
   <Footer />
 
