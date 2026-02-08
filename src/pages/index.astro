@@ -161,10 +161,11 @@ const localBusinessSchema = getLocalBusinessSchema();
         class="tilt"
         src="/assets/images/hero.webp"
         alt="Sheikh Shariar Nehal - Full Stack Web Developer"
-        width={400}
-        height={400}
+        width={500}
+        height={500}
         sizes="(max-width: 768px) 60vw, 400px"
         loading="eager"
+        decoding="async"
       />
     </div>
   </section>
@@ -183,7 +184,8 @@ const localBusinessSchema = getLocalBusinessSchema();
           width={300}
           height={300}
           sizes="(max-width: 768px) 50vw, 300px"
-          loading="lazy"
+          loading="eager"
+          decoding="async"
         />
       </div>
       <div class="content">
@@ -395,9 +397,9 @@ const localBusinessSchema = getLocalBusinessSchema();
       }
     </script>
 
-    <!-- Particles.js - Lazy loaded for better LCP -->
+    <!-- Particles.js - Loaded after LCP to avoid blocking rendering -->
     <script>
-      // Lazy load particles.js from CDN after page becomes interactive
+      // Defer particles.js well past LCP to prevent layout thrashing
       function loadParticlesJs() {
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js';
@@ -405,18 +407,13 @@ const localBusinessSchema = getLocalBusinessSchema();
         script.crossOrigin = 'anonymous';
         script.referrerPolicy = 'no-referrer';
         script.onload = async () => {
-          // Import bundled particles config module (processed by Vite)
           const { initParticles } = await import('../scripts/particles-config');
           initParticles();
         };
         document.body.appendChild(script);
       }
-      
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => loadParticlesJs());
-      } else {
-        setTimeout(loadParticlesJs, 1500);
-      }
+      // Delay particles well past LCP (3.5s) to avoid causing layout recalculations
+      setTimeout(loadParticlesJs, 3500);
     </script>
 
     <!-- Vanilla Tilt - Lazy loaded -->
@@ -436,11 +433,8 @@ const localBusinessSchema = getLocalBusinessSchema();
         document.body.appendChild(script);
       }
 
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadVanillaTilt);
-      } else {
-        setTimeout(loadVanillaTilt, 2000);
-      }
+      // Delay VanillaTilt past LCP window
+      setTimeout(loadVanillaTilt, 2500);
     </script>
 
     <!-- ScrollReveal - Lazy loaded to avoid forced reflows during initial paint -->
@@ -471,12 +465,8 @@ const localBusinessSchema = getLocalBusinessSchema();
         document.body.appendChild(script);
       }
 
-      // Load ScrollReveal after first meaningful paint (2s delay)
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadScrollReveal, { timeout: 3000 });
-      } else {
-        setTimeout(loadScrollReveal, 2500);
-      }
+      // Delay ScrollReveal to avoid forced reflows during LCP window
+      setTimeout(loadScrollReveal, 3000);
     </script>
 
     <!-- Main Script -->

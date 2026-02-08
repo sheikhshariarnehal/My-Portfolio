@@ -102,6 +102,13 @@ a, button, .btn, .box .content, .navbar li a {
    LOADER COMPONENT
    ============================================ */
 
+/* Content-visibility for below-fold sections to reduce initial layout cost */
+/* .about excluded because profile2.webp is LCP on mobile viewports */
+.skills, .education, .work, .experience, .contact, .faq-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+
 @layer components {
   .loader-container {
     @apply fixed top-0 left-0 z-[10000] bg-[#e6eff1] flex items-center justify-center h-full w-full transition-opacity duration-300 ease-out;

@@ -118,25 +118,17 @@ const currentYear = new Date().getFullYear();
 <link rel="prefetch" href="/projects/" />
 <link rel="prefetch" href="/experience/" />
 
-<!-- Google Fonts - Optimized -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" as="style" />
+<!-- Google Fonts - Deferred (no preload to avoid double fetch) -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" media="print" onload="this.media='all'" />
 <noscript>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" />
 </noscript>
 
-<!-- Font Awesome deferred -->
-<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet'" />
+<!-- Font Awesome deferred with font-display:swap override -->
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" as="style" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" onload="this.onload=null;this.rel='stylesheet';var s=document.createElement('style');s.textContent='@font-face{font-family:Font Awesome\\ 5 Brands;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/webfonts/fa-brands-400.woff2) format(woff2)}@font-face{font-family:Font Awesome\\ 5 Free;font-weight:900;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/webfonts/fa-solid-900.woff2) format(woff2)}@font-face{font-family:Font Awesome\\ 5 Free;font-weight:400;font-display:swap;src:url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/webfonts/fa-regular-400.woff2) format(woff2)}';document.head.appendChild(s)" />
 <noscript>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </noscript>
-
-<!-- Force font-display:swap for Font Awesome web fonts to prevent invisible text -->
-<style is:inline>
-@font-face{font-family:'Font Awesome 5 Brands';font-display:swap}
-@font-face{font-family:'Font Awesome 5 Free';font-display:swap}
-@font-face{font-family:'Font Awesome 5 Regular';font-display:swap}
-</style>
 
 <!-- JSON-LD Schema -->
 {schema && (
