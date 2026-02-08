@@ -131,6 +131,13 @@ const currentYear = new Date().getFullYear();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </noscript>
 
+<!-- Force font-display:swap for Font Awesome web fonts to prevent invisible text -->
+<style is:inline>
+@font-face{font-family:'Font Awesome 5 Brands';font-display:swap}
+@font-face{font-family:'Font Awesome 5 Free';font-display:swap}
+@font-face{font-family:'Font Awesome 5 Regular';font-display:swap}
+</style>
+
 <!-- JSON-LD Schema -->
 {schema && (
   Array.isArray(schema) ? (
