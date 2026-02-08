@@ -12,6 +12,7 @@ export interface Props {
 }
 
 const { title, description, canonical, image, keywords, schema } = Astro.props;
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID || 'G-XXXXXXXXXX';
 ---
 
 <!DOCTYPE html>
@@ -41,11 +42,12 @@ const { title, description, canonical, image, keywords, schema } = Astro.props;
     <a href="#home" aria-label="Scroll to top of page" class="fas fa-angle-up" id="scroll-top"></a>
 
     <!-- Google Analytics -->
-    <script>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}></script>
+    <script define:vars={{ GA4_ID }}>
       window.dataLayer = window.dataLayer || [];
       function gtag() { dataLayer.push(arguments); }
       gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
+      gtag('config', GA4_ID);
     </script>
 
     <!-- Service Worker Registration -->

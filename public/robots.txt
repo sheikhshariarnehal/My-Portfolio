@@ -14,11 +14,13 @@ User-agent: *
 Allow: /
 
 # Disallow crawling of non-essential directories
-Disallow: /assets/js/
-Disallow: /assets/css/
 Disallow: /admin/
 Disallow: /*.json$
 Disallow: /api/
+
+# Allow render-critical resources
+Allow: /assets/js/
+Allow: /assets/css/
 
 # Allow important resources for rendering
 Allow: /assets/images/

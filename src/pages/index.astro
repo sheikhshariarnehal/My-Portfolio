@@ -157,6 +157,7 @@ const breadcrumbSchema = {
         alt="Sheikh Shariar Nehal - Full Stack Web Developer"
         width={400}
         height={400}
+        sizes="(max-width: 768px) 60vw, 400px"
         loading="eager"
       />
     </div>
@@ -175,6 +176,7 @@ const breadcrumbSchema = {
           alt="Sheikh Shariar Nehal Profile Picture - Web Developer and Designer"
           width={300}
           height={300}
+          sizes="(max-width: 768px) 50vw, 300px"
           loading="lazy"
         />
       </div>
@@ -256,6 +258,7 @@ const breadcrumbSchema = {
             alt={`${project.name} project`}
             width={350}
             height={200}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 350px"
             loading="lazy"
           />
           <div class="content">
@@ -322,6 +325,7 @@ const breadcrumbSchema = {
             alt="Contact Sheikh Shariar Nehal - Get In Touch"
             width={400}
             height={400}
+            sizes="(max-width: 768px) 80vw, 400px"
             loading="lazy"
           />
         </div>
@@ -345,23 +349,26 @@ const breadcrumbSchema = {
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Particles.js - Lazy loaded for better LCP -->
-    <script is:inline>
-      // Lazy load particles.js after page becomes interactive
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => loadParticles());
-      } else {
-        setTimeout(loadParticles, 1500);
-      }
-      
-      function loadParticles() {
+    <script>
+      // Lazy load particles.js from CDN after page becomes interactive
+      function loadParticlesJs() {
         const script = document.createElement('script');
-        script.src = '/assets/js/particles.min.js';
-        script.onload = () => {
-          const appScript = document.createElement('script');
-          appScript.src = '/assets/js/app.js';
-          document.body.appendChild(appScript);
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js';
+        script.integrity = 'sha512-Kef5sc7gfTacR7TZKelcrRs15ipf7+t+n7Zh6mKNJbmW+/RRdCW9nwfLn4YX0s2nO6Kv5Y2ChqgIakaC6PW09A==';
+        script.crossOrigin = 'anonymous';
+        script.referrerPolicy = 'no-referrer';
+        script.onload = async () => {
+          // Import bundled particles config module (processed by Vite)
+          const { initParticles } = await import('../scripts/particles-config');
+          initParticles();
         };
         document.body.appendChild(script);
+      }
+      
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => loadParticlesJs());
+      } else {
+        setTimeout(loadParticlesJs, 1500);
       }
     </script>
 
