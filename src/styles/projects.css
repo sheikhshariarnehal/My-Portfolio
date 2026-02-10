@@ -3,7 +3,7 @@
 /* Work Section */
 section.work {
   background: linear-gradient(to bottom, #010136, #00003a);
-  margin-top: 0;
+  margin-top: 5rem;
   padding-bottom: 2rem;
 }
 
@@ -110,7 +110,6 @@ section.work .box-container .grid-item .box img {
   height: 100%;
   object-fit: cover;
   content-visibility: auto;
-  aspect-ratio: 16 / 9;
 }
 
 /* Card Content Overlay - Matching home page style */

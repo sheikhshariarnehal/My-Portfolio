@@ -164,14 +164,12 @@ const isHomePage = Astro.url.pathname === '/' || Astro.url.pathname === '';
         }, { passive: true });
       }
 
-      // Visibility change handler
+      // Visibility change handler - only change favicon, preserve page title for SEO
       document.addEventListener('visibilitychange', function () {
         const favicon = document.getElementById('favicon') as HTMLLinkElement;
         if (document.visibilityState === 'visible') {
-          document.title = 'Portfolio | Shariar Nehal';
           if (favicon) favicon.href = '/assets/images/Favicon.webp';
         } else {
-          document.title = 'Come Back To Portfolio';
           if (favicon) favicon.href = '/assets/images/favhand.png';
         }
       });

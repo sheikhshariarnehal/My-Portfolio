@@ -1,278 +1,136 @@
-/**
- * SEO Utility Functions
- * Centralized SEO helpers for schema generation, URL formatting, and metadata
- */
+// SEO Utility Functions for Schema.org JSON-LD structured data
 
-const SITE_URL = 'https://sheikhshariarnehal.me';
-const SITE_NAME = 'Sheikh Shariar Nehal Portfolio';
-const AUTHOR_NAME = 'Sheikh Shariar Nehal';
-
-export { SITE_URL, SITE_NAME, AUTHOR_NAME };
-
-/**
- * Generate a full URL from a relative path
- */
-export function getFullUrl(path: string): string {
-  if (path.startsWith('http')) return path;
-  return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`;
+export interface FAQ {
+  question: string;
+  answer: string;
 }
 
-/**
- * Generate Person schema (reusable reference)
- */
-export function getPersonSchemaRef() {
-  return {
-    '@type': 'Person',
-    '@id': `${SITE_URL}/#person`,
-    'name': AUTHOR_NAME,
-  };
-}
-
-/**
- * Generate Organization schema for the portfolio/brand
- */
-export function getOrganizationSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    'name': 'Sheikh Shariar Nehal - Full Stack Development',
-    'alternateName': 'Shariar Nehal Portfolio',
-    'url': SITE_URL,
-    'logo': `${SITE_URL}/assets/images/Favicon.webp`,
-    'founder': {
-      '@id': `${SITE_URL}/#person`,
-    },
-    'sameAs': [
-      'https://github.com/sheikhshariarnehal',
-      'https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/',
-      'https://twitter.com/shariar_nehal',
-      'https://t.me/sheikhshariarnehal',
-      'https://instagram.com/sheikhshariarnehal',
-      'https://www.facebook.com/sheikhshariarnehal.cse',
-    ],
-    'contactPoint': {
-      '@type': 'ContactPoint',
-      'telephone': '+8801750627421',
-      'contactType': 'Customer Service',
-      'email': 'nehal22205101260@diu.edu.bd',
-      'availableLanguage': ['English', 'Bengali'],
-    },
-  };
-}
-
-/**
- * Generate FAQ schema from Q&A pairs
- */
-export function getFAQSchema(
-  faqs: Array<{ question: string; answer: string }>
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    'mainEntity': faqs.map((faq) => ({
-      '@type': 'Question',
-      'name': faq.question,
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': faq.answer,
-      },
-    })),
-  };
-}
-
-/**
- * Generate LocalBusiness schema
- */
-export function getLocalBusinessSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    'name': 'Sheikh Shariar Nehal - Full Stack Development Services',
-    'image': `${SITE_URL}/assets/images/profile2.webp`,
-    '@id': `${SITE_URL}/#business`,
-    'url': SITE_URL,
-    'telephone': '+8801750627421',
-    'email': 'nehal22205101260@diu.edu.bd',
-    'priceRange': '$$',
-    'address': {
-      '@type': 'PostalAddress',
-      'streetAddress': 'Nowabgonj',
-      'addressLocality': 'Dhaka',
-      'addressRegion': 'Dhaka Division',
-      'postalCode': '1212',
-      'addressCountry': 'BD',
-    },
-    'geo': {
-      '@type': 'GeoCoordinates',
-      'latitude': 23.7104,
-      'longitude': 90.4074,
-    },
-    'openingHoursSpecification': {
-      '@type': 'OpeningHoursSpecification',
-      'dayOfWeek': [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-      ],
-      'opens': '09:00',
-      'closes': '18:00',
-    },
-    'founder': {
-      '@id': `${SITE_URL}/#person`,
-    },
-    'areaServed': [
-      { '@type': 'Country', 'name': 'Bangladesh' },
-      { '@type': 'AdministrativeArea', 'name': 'Remote / Worldwide' },
-    ],
-    'hasOfferCatalog': {
-      '@type': 'OfferCatalog',
-      'name': 'Web Development Services',
-      'itemListElement': [
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Full Stack Web Development',
-            'description':
-              'Custom web applications built with MERN Stack, Next.js, and modern technologies',
-          },
-        },
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Machine Learning Solutions',
-            'description':
-              'AI and ML solutions using Python, TensorFlow, and scikit-learn',
-          },
-        },
-        {
-          '@type': 'Offer',
-          'itemOffered': {
-            '@type': 'Service',
-            'name': 'Mobile App Development',
-            'description':
-              'Cross-platform mobile applications using React Native',
-          },
-        },
-      ],
-    },
-  };
-}
-
-/**
- * Generate SoftwareApplication schema for a project
- */
-export function getProjectSchema(project: {
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-  tags?: string[] | null;
-  live_url?: string | null;
-  github_url?: string | null;
-  created_at?: string;
-}) {
-  const categoryMap: Record<string, string> = {
-    web: 'WebApplication',
-    mern: 'WebApplication',
-    ml: 'SoftwareApplication',
-    mobile: 'MobileApplication',
-    android: 'MobileApplication',
-    basicweb: 'WebApplication',
-    other: 'SoftwareApplication',
-  };
-
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    'name': project.title,
-    'applicationCategory': categoryMap[project.category] || 'WebApplication',
-    'description': project.description,
-    ...(project.live_url && { 'url': project.live_url }),
-    'author': {
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#person`,
-      'name': AUTHOR_NAME,
-    },
-    ...(project.created_at && {
-      'datePublished': new Date(project.created_at)
-        .toISOString()
-        .split('T')[0],
-    }),
-    ...(project.tags && { 'programmingLanguage': project.tags }),
-    ...(project.image && {
-      'screenshot': project.image.startsWith('http')
-        ? project.image
-        : `${SITE_URL}${project.image}`,
-    }),
-    ...(project.github_url && {
-      'codeRepository': project.github_url,
-    }),
-    'offers': {
-      '@type': 'Offer',
-      'price': '0',
-      'priceCurrency': 'USD',
-    },
-    'operatingSystem': 'Web Browser',
-  };
-}
-
-/**
- * Generate breadcrumb schema from path segments
- */
-export function getBreadcrumbSchema(
-  items: Array<{ name: string; url: string }>
-) {
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
-    'itemListElement': items.map((item, index) => ({
-      '@type': 'ListItem',
-      'position': index + 1,
-      'name': item.name,
-      'item': item.url,
-    })),
-  };
-}
-
-/**
- * Default FAQ items for the portfolio
- */
-export const defaultFAQs = [
+export const defaultFAQs: FAQ[] = [
   {
-    question: 'What technologies does Sheikh Shariar Nehal specialize in?',
-    answer:
-      'Sheikh Shariar Nehal specializes in MERN Stack (MongoDB, Express.js, React, Node.js), Next.js, TypeScript, Python, Machine Learning, and React Native for mobile development. He also has strong expertise in Supabase, Firebase, PostgreSQL, and modern CSS frameworks like Tailwind CSS.',
+    question: "Who is Sheikh Shariar Nehal?",
+    answer: "Sheikh Shariar Nehal is a Full-Stack Web Developer and Machine Learning enthusiast from Bangladesh, specializing in React, Next.js, Node.js, Python, and MERN Stack development with 3+ years of experience."
   },
   {
-    question: 'How can I hire Sheikh Shariar Nehal for a project?',
-    answer:
-      'You can contact Sheikh Shariar Nehal through the contact form on the website, via email at nehal22205101260@diu.edu.bd, or connect on LinkedIn. He is available for freelance projects, contract work, and full-time opportunities.',
+    question: "What technologies does Shariar Nehal work with?",
+    answer: "Shariar Nehal works with React.js, Next.js, Node.js, TypeScript, JavaScript, Python, MongoDB, PostgreSQL, Supabase, Firebase, and various other modern web technologies."
   },
   {
-    question: 'What kind of projects does Sheikh Shariar Nehal work on?',
-    answer:
-      'Sheikh Shariar Nehal works on a wide range of projects including full-stack web applications, e-commerce platforms, learning management systems, mobile apps, machine learning solutions, and progressive web apps (PWAs). His portfolio showcases projects like NestTask, DIU Learning, and Surjamukhi Kindergarten.',
+    question: "How can I contact Sheikh Shariar Nehal?",
+    answer: "You can contact Sheikh Shariar Nehal through the contact form on this portfolio website, via email at nehal22205101260@diu.edu.bd, or through social media platforms like LinkedIn and GitHub."
   },
   {
-    question: 'Where is Sheikh Shariar Nehal based?',
-    answer:
-      'Sheikh Shariar Nehal is based in Dhaka, Bangladesh. He is currently studying B.Sc. in Computer Science and Engineering at Daffodil International University. He is available for remote work and accepts international clients.',
+    question: "Does Shariar Nehal offer freelance web development services?",
+    answer: "Yes, Sheikh Shariar Nehal offers freelance full-stack web development services including website design, MERN stack development, and custom web application development."
   },
   {
-    question:
-      'Does Sheikh Shariar Nehal offer freelance web development services?',
-    answer:
-      'Yes, Sheikh Shariar Nehal offers freelance web development services with 3+ years of professional experience. Services include full-stack web development, mobile app development, machine learning solutions, and UI/UX design. Contact him for project quotes and consultations.',
-  },
+    question: "Where is Sheikh Shariar Nehal based?",
+    answer: "Sheikh Shariar Nehal is based in Nowabgonj, Dhaka, Bangladesh. He is currently studying B.Sc. in Computer Science and Engineering at Daffodil International University."
+  }
 ];
 
-/**
- * Generate an ISO date string for lastmod
- */
-export function getLastModDate(): string {
-  return new Date().toISOString().split('T')[0];
+export function getOrganizationSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://sheikhshariarnehal.me/#organization",
+    "name": "Sheikh Shariar Nehal - Web Development Services",
+    "url": "https://sheikhshariarnehal.me",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://sheikhshariarnehal.me/assets/images/Favicon.webp",
+      "width": 512,
+      "height": 512
+    },
+    "founder": {
+      "@type": "Person",
+      "@id": "https://sheikhshariarnehal.me/#person"
+    },
+    "sameAs": [
+      "https://github.com/sheikhshariarnehal",
+      "https://www.linkedin.com/in/shekhshariarnehal/",
+      "https://twitter.com/shariar_nehal"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "nehal22205101260@diu.edu.bd",
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Bengali"]
+    }
+  };
+}
+
+export function getFAQSchema(faqs: FAQ[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+}
+
+export function getLocalBusinessSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Sheikh Shariar Nehal - Full Stack Web Development",
+    "url": "https://sheikhshariarnehal.me",
+    "image": "https://sheikhshariarnehal.me/assets/images/profile2.webp",
+    "telephone": "+8801750627421",
+    "email": "nehal22205101260@diu.edu.bd",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nowabgonj",
+      "addressRegion": "Dhaka",
+      "addressCountry": "BD"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 23.7104,
+      "longitude": 90.4074
+    },
+    "priceRange": "$$",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    },
+    "areaServed": {
+      "@type": "GeoCircle",
+      "geoMidpoint": {
+        "@type": "GeoCoordinates",
+        "latitude": 23.7104,
+        "longitude": 90.4074
+      },
+      "geoRadius": "50000"
+    }
+  };
+}
+
+export function getProjectSchema(project: any) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": project.name || project.title,
+    "description": project.description || project.desc || '',
+    "url": project.live_url || project.links?.view || '',
+    "applicationCategory": "WebApplication",
+    "operatingSystem": "Web",
+    "author": {
+      "@type": "Person",
+      "name": "Sheikh Shariar Nehal",
+      "@id": "https://sheikhshariarnehal.me/#person"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
 }

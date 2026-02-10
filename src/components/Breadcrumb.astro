@@ -1,130 +1,72 @@
 ---
-/**
- * Breadcrumb Navigation Component
- * Renders visible breadcrumb navigation with Schema.org microdata
- */
-export interface BreadcrumbItem {
-  label: string;
-  href: string;
-  current?: boolean;
-}
-
 export interface Props {
-  items: BreadcrumbItem[];
-  theme?: 'dark' | 'light';
+  items: Array<{
+    label: string;
+    href: string;
+  }>;
 }
 
-const { items, theme = 'dark' } = Astro.props;
+const { items } = Astro.props;
 ---
 
-<nav class:list={['breadcrumb-nav', { 'breadcrumb-light': theme === 'light' }]} aria-label="Breadcrumb">
-  <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb-list">
+<nav class="breadcrumb" aria-label="Breadcrumb navigation">
+  <ol class="breadcrumb-list" itemscope itemtype="https://schema.org/BreadcrumbList">
     {items.map((item, index) => (
-      <li
-        class:list={['breadcrumb-item', { active: item.current }]}
-        itemprop="itemListElement"
-        itemscope
-        itemtype="https://schema.org/ListItem"
-      >
-        {item.current ? (
-          <span itemprop="name" aria-current="page">{item.label}</span>
-        ) : (
-          <a itemprop="item" href={item.href}>
+      <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        {index < items.length - 1 ? (
+          <a href={item.href} itemprop="item">
             <span itemprop="name">{item.label}</span>
           </a>
+        ) : (
+          <span itemprop="name" aria-current="page">{item.label}</span>
         )}
         <meta itemprop="position" content={String(index + 1)} />
-        {index < items.length - 1 && (
-          <span class="breadcrumb-separator" aria-hidden="true">
-            <i class="fas fa-chevron-right"></i>
-          </span>
-        )}
       </li>
     ))}
   </ol>
 </nav>
 
 <style>
-  .breadcrumb-nav {
-    padding: 1rem 2rem;
-    max-width: 1200px;
-    margin: 5.5rem auto 0;
+  .breadcrumb {
+    padding: 1.2rem 9%;
+    margin-top: 6.5rem;
   }
 
   .breadcrumb-list {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     list-style: none;
-    padding: 0.75rem 1.25rem;
+    padding: 0;
     margin: 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    backdrop-filter: blur(4px);
-    gap: 0;
+    gap: 0.5rem;
+    align-items: center;
   }
 
   .breadcrumb-item {
     display: flex;
     align-items: center;
-    font-size: 0.9rem;
+    font-size: 1.4rem;
+    color: #666;
+  }
+
+  .breadcrumb-item:not(:last-child)::after {
+    content: '>';
+    margin-left: 0.5rem;
+    color: #999;
   }
 
   .breadcrumb-item a {
-    color: rgba(255, 255, 255, 0.7);
+    color: #2b3dda;
     text-decoration: none;
-    transition: color 0.2s ease;
     font-weight: 500;
   }
 
-  .breadcrumb-item a:hover,
-  .breadcrumb-item a:focus {
-    color: rgb(255, 230, 0);
+  .breadcrumb-item a:hover {
     text-decoration: underline;
   }
 
-  .breadcrumb-item.active span {
-    color: rgb(255, 230, 0);
+  .breadcrumb-item span[aria-current="page"] {
+    color: #333;
     font-weight: 600;
-  }
-
-  .breadcrumb-separator {
-    margin: 0 0.6rem;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.7rem;
-  }
-
-  /* Light background pages */
-  .breadcrumb-light .breadcrumb-list {
-    background: rgba(0, 0, 0, 0.04);
-  }
-
-  .breadcrumb-light .breadcrumb-item a {
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  .breadcrumb-light .breadcrumb-item a:hover,
-  .breadcrumb-light .breadcrumb-item a:focus {
-    color: #2b3dda;
-  }
-
-  .breadcrumb-light .breadcrumb-item.active span {
-    color: #2b3dda;
-  }
-
-  .breadcrumb-light .breadcrumb-separator {
-    color: rgba(0, 0, 0, 0.3);
-  }
-
-  @media (max-width: 768px) {
-    .breadcrumb-nav {
-      padding: 0.75rem 1rem;
-      margin-top: 5rem;
-    }
-
-    .breadcrumb-list {
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
-    }
   }
 </style>
