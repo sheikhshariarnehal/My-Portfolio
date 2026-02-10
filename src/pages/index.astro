@@ -9,7 +9,6 @@ import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
 import { getEducation, getExperience } from '../lib/supabase';
-import { getOrganizationSchema, getFAQSchema, getLocalBusinessSchema, defaultFAQs } from '../lib/seo-utils';
 
 import skills from '../data/skills.json';
 import projects from '../data/projects.json';
@@ -126,18 +125,13 @@ const breadcrumbSchema = {
     { "@type": "ListItem", "position": 3, "name": "Experience", "item": "https://sheikhshariarnehal.me/experience/" }
   ]
 };
-
-// Additional SEO Schemas
-const organizationSchema = getOrganizationSchema();
-const faqSchema = getFAQSchema(defaultFAQs);
-const localBusinessSchema = getLocalBusinessSchema();
 ---
 
 <Layout
   title="Sheikh Shariar Nehal – Full-Stack Developer"
   description="Sheikh Shariar Nehal – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
   canonical="https://sheikhshariarnehal.me/"
-  schema={[personSchema, websiteSchema, breadcrumbSchema, organizationSchema, faqSchema, localBusinessSchema]}
+  schema={[personSchema, websiteSchema, breadcrumbSchema]}
 >
   <Header currentPage="home" />
 
@@ -161,11 +155,9 @@ const localBusinessSchema = getLocalBusinessSchema();
         class="tilt"
         src="/assets/images/hero.webp"
         alt="Sheikh Shariar Nehal - Full Stack Web Developer"
-        width={500}
-        height={500}
-        sizes="(max-width: 768px) 60vw, 400px"
+        width={400}
+        height={400}
         loading="eager"
-        decoding="async"
       />
     </div>
   </section>
@@ -183,9 +175,7 @@ const localBusinessSchema = getLocalBusinessSchema();
           alt="Sheikh Shariar Nehal Profile Picture - Web Developer and Designer"
           width={300}
           height={300}
-          sizes="(max-width: 768px) 50vw, 300px"
-          loading="eager"
-          decoding="async"
+          loading="lazy"
         />
       </div>
       <div class="content">
@@ -266,7 +256,6 @@ const localBusinessSchema = getLocalBusinessSchema();
             alt={`${project.name} project`}
             width={350}
             height={200}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 350px"
             loading="lazy"
           />
           <div class="content">
@@ -290,8 +279,8 @@ const localBusinessSchema = getLocalBusinessSchema();
     </div>
 
     <div class="viewall">
-      <a href="/projects/" class="btn">
-        <span>View All Projects</span>
+      <a href="/projects" class="btn">
+        <span>View All</span>
         <i class="fas fa-arrow-right"></i>
       </a>
     </div>
@@ -313,8 +302,8 @@ const localBusinessSchema = getLocalBusinessSchema();
     </div>
 
     <div class="morebtn">
-      <a href="/experience/" class="btn">
-        <span>View All Experience</span>
+      <a href="/experience" class="btn">
+        <span>View All</span>
         <i class="fas fa-arrow-right"></i>
       </a>
     </div>
@@ -333,7 +322,6 @@ const localBusinessSchema = getLocalBusinessSchema();
             alt="Contact Sheikh Shariar Nehal - Get In Touch"
             width={400}
             height={400}
-            sizes="(max-width: 768px) 80vw, 400px"
             loading="lazy"
           />
         </div>
@@ -343,103 +331,69 @@ const localBusinessSchema = getLocalBusinessSchema();
   </section>
   </main>
 
-  <!-- FAQ Section for SEO -->
-  <section class="faq-section" id="faq" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" class="heading"><i class="fas fa-question-circle" aria-hidden="true"></i> Frequently Asked <span>Questions</span></h2>
-    <div class="faq-container">
-      {defaultFAQs.map((faq, index) => (
-        <details class="faq-item" open={index === 0}>
-          <summary class="faq-question">
-            <span>{faq.question}</span>
-            <i class="fas fa-chevron-down faq-icon" aria-hidden="true"></i>
-          </summary>
-          <p class="faq-answer">{faq.answer}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-
   <Footer />
 
-
+  <!-- SEO Hidden Content -->
+  <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+    <h2>Sheikh Shariar Nehal - Full Stack Web Developer & Machine Learning Engineer</h2>
+    <p>Sheikh Shariar Nehal (Shariar Nehal) is a top-rated Full Stack Web Developer and Machine Learning enthusiast from Bangladesh.</p>
+  </div>
 
   <!-- Scripts Slot -->
   <Fragment slot="scripts">
-    <!-- Typed.js - Lazy loaded for better LCP -->
-    <script>
-      function loadTypedJs() {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js';
-        script.integrity = 'sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==';
-        script.crossOrigin = 'anonymous';
-        script.referrerPolicy = 'no-referrer';
-        script.onload = () => {
-          if (typeof Typed !== 'undefined') {
-            new Typed('.typing-text', {
-              strings: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
-              loop: true,
-              typeSpeed: 50,
-              backSpeed: 25,
-              backDelay: 500,
-            });
-          }
-        };
-        document.body.appendChild(script);
-      }
+    <!-- Typed.js -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Particles.js - Lazy loaded for better LCP -->
+    <script is:inline>
+      // Lazy load particles.js after page becomes interactive
       if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadTypedJs, { timeout: 2000 });
+        requestIdleCallback(() => loadParticles());
       } else {
-        setTimeout(loadTypedJs, 1500);
+        setTimeout(loadParticles, 1500);
       }
-    </script>
-
-    <!-- Particles.js - Loaded after LCP to avoid blocking rendering -->
-    <script>
-      // Defer particles.js well past LCP to prevent layout thrashing
-      function loadParticlesJs() {
+      
+      function loadParticles() {
         const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js';
-        script.integrity = 'sha512-Kef5sc7gfTacR7TZKelcrRs15ipf7+t+n7Zh6mKNJbmW+/RRdCW9nwfLn4YX0s2nO6Kv5Y2ChqgIakaC6PW09A==';
-        script.crossOrigin = 'anonymous';
-        script.referrerPolicy = 'no-referrer';
-        script.onload = async () => {
-          const { initParticles } = await import('../scripts/particles-config');
-          initParticles();
+        script.src = '/assets/js/particles.min.js';
+        script.onload = () => {
+          const appScript = document.createElement('script');
+          appScript.src = '/assets/js/app.js';
+          document.body.appendChild(appScript);
         };
         document.body.appendChild(script);
       }
-      // Delay particles well past LCP (3.5s) to avoid causing layout recalculations
-      setTimeout(loadParticlesJs, 3500);
     </script>
 
-    <!-- Vanilla Tilt - Lazy loaded -->
-    <script>
-      // Lazy load Vanilla Tilt after page is interactive
-      function loadVanillaTilt() {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js';
-        script.integrity = 'sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==';
-        script.crossOrigin = 'anonymous';
-        script.referrerPolicy = 'no-referrer';
-        script.onload = () => {
-          if (typeof VanillaTilt !== 'undefined') {
-            VanillaTilt.init(document.querySelectorAll('.tilt'), { max: 15 });
-          }
-        };
-        document.body.appendChild(script);
-      }
+    <!-- Vanilla Tilt -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-      // Delay VanillaTilt past LCP window
-      setTimeout(loadVanillaTilt, 2500);
-    </script>
+    <!-- ScrollReveal -->
+    <script defer src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
 
-    <!-- ScrollReveal - Lazy loaded to avoid forced reflows during initial paint -->
-    <script>
-      function loadScrollReveal() {
-        const script = document.createElement('script');
-        script.src = 'https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js';
-        script.onload = () => {
-          if (typeof ScrollReveal === 'undefined') return;
+    <!-- Main Script -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Typed.js effect
+        if (typeof Typed !== 'undefined') {
+          new Typed('.typing-text', {
+            strings: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
+            loop: true,
+            typeSpeed: 50,
+            backSpeed: 25,
+            backDelay: 500,
+          });
+        }
+
+        // Vanilla Tilt
+        if (typeof VanillaTilt !== 'undefined') {
+          VanillaTilt.init(document.querySelectorAll('.tilt'), {
+            max: 15,
+          });
+        }
+
+        // ScrollReveal
+        if (typeof ScrollReveal !== 'undefined') {
           const srtop = ScrollReveal({
             origin: 'top',
             distance: '80px',
@@ -447,54 +401,52 @@ const localBusinessSchema = getLocalBusinessSchema();
             reset: true
           });
 
-          // Batch reveals to minimize reflows
-          srtop.reveal('.home .content h3, .home .content p, .home .content .btn', { delay: 200 });
-          srtop.reveal('.home .linkedin, .home .github, .home .twitter, .home .telegram, .home .instagram, .home .dev', { interval: 400 });
-          srtop.reveal('.about .content h3, .about .content .tag, .about .content p, .about .content .box-container, .about .content .resumebtn', { delay: 200 });
+          srtop.reveal('.home .content h3', { delay: 200 });
+          srtop.reveal('.home .content p', { delay: 200 });
+          srtop.reveal('.home .content .btn', { delay: 200 });
+          // Hero image excluded from ScrollReveal to prevent reload animation effect
+          srtop.reveal('.home .linkedin', { interval: 600 });
+          srtop.reveal('.home .github', { interval: 800 });
+          srtop.reveal('.home .twitter', { interval: 1000 });
+          srtop.reveal('.home .telegram', { interval: 600 });
+          srtop.reveal('.home .instagram', { interval: 600 });
+          srtop.reveal('.home .dev', { interval: 600 });
+          srtop.reveal('.about .content h3', { delay: 200 });
+          srtop.reveal('.about .content .tag', { delay: 200 });
+          srtop.reveal('.about .content p', { delay: 200 });
+          srtop.reveal('.about .content .box-container', { delay: 200 });
+          srtop.reveal('.about .content .resumebtn', { delay: 200 });
           srtop.reveal('.skills .container', { interval: 200 });
+          srtop.reveal('.skills .container .bar', { delay: 400 });
           srtop.reveal('.education .box', { interval: 200 });
           srtop.reveal('.work .box', { interval: 200 });
           srtop.reveal('.experience .timeline', { delay: 400 });
           srtop.reveal('.experience .timeline .container', { interval: 400 });
           srtop.reveal('.contact .container', { delay: 400 });
-        };
-        document.body.appendChild(script);
-      }
+          srtop.reveal('.contact .container .form-group', { delay: 400 });
+        }
 
-      // Delay ScrollReveal to avoid forced reflows during LCP window
-      setTimeout(loadScrollReveal, 3000);
-    </script>
-
-    <!-- Main Script -->
-    <script is:inline>
-      document.addEventListener('DOMContentLoaded', function() {
         // Scroll spy for navigation
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.navbar ul li a');
         
-        let ticking = false;
         window.addEventListener('scroll', () => {
-          if (!ticking) {
-            requestAnimationFrame(() => {
-              let current = '';
-              sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 200) {
-                  current = section.getAttribute('id') || '';
-                }
-              });
+          let current = '';
+          sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (scrollY >= sectionTop - 200) {
+              current = section.getAttribute('id') || '';
+            }
+          });
 
-              navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href')?.includes(current)) {
-                  link.classList.add('active');
-                }
-              });
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href')?.includes(current)) {
+              link.classList.add('active');
+            }
+          });
+        });
       });
 
       // Tawk.to Live Chat - Lazy loaded

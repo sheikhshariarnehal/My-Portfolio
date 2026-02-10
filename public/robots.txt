@@ -4,27 +4,29 @@
 # Allow all major search engines
 User-agent: Googlebot
 Allow: /
-
-User-agent: Googlebot-Image
-Allow: /assets/images/
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: *
 Allow: /
 
 # Disallow crawling of non-essential directories
+Disallow: /assets/js/
+Disallow: /assets/css/
 Disallow: /admin/
+Disallow: /*.json$
 Disallow: /api/
 
 # Allow important resources for rendering
-Allow: /assets/js/
-Allow: /assets/css/
 Allow: /assets/images/
 Allow: /manifest.json
 
-# Sitemap locations
+# Sitemap location
 Sitemap: https://sheikhshariarnehal.me/sitemap-index.xml
 Sitemap: https://sheikhshariarnehal.me/sitemap.xml
 
+# Host preference
+Host: https://sheikhshariarnehal.me
