@@ -4,8 +4,28 @@
 @tailwind utilities;
 
 /* ============================================
-   CUSTOM BASE STYLES & FONT FALLBACKS
-   These cannot be converted to Tailwind
+   DESIGN TOKENS
+   Centralized colors, shadows, and typography
+   ============================================ */
+
+:root {
+  --color-primary: #2506ad;
+  --color-primary-hover: #1a047e;
+  --color-accent: #011aff;
+  --color-focus: #2b3dda;
+  --color-orange: #ffae00;
+  --color-heading-accent: rgb(115, 3, 167);
+  --color-experience: #f68c09;
+  --color-dark-text: #0e2431;
+  --color-navy: #020133;
+  --shadow-btn: 0px 5px 10px rgba(48, 68, 247, 0.6);
+  --font-heading: "Poppins", "Poppins-fallback", sans-serif;
+  --font-body: "Nunito", "Nunito-fallback", sans-serif;
+}
+
+/* ============================================
+   FONT FALLBACKS
+   Reduce CLS during font loading
    ============================================ */
 
 /* Font fallback metrics to reduce CLS during font loading */
@@ -36,10 +56,14 @@ html {
 
 body {
   @apply bg-[#f7f7f7];
-  font-family: "Poppins", "Poppins-fallback", sans-serif;
+  font-family: var(--font-heading);
 }
 
-/* Universal Reset */
+/*
+ * Universal Reset
+ * NOTE: `capitalize` on all elements is intentional for this design.
+ * `outline: none` is overridden by :focus-visible styles for accessibility.
+ */
 * {
   @apply m-0 p-0 box-border no-underline border-none capitalize;
   outline: none;
@@ -295,9 +319,9 @@ a, button, .btn, .box .content, .navbar li a {
     line-height: 1;
     padding: 1.5rem 3rem;
     border-radius: 4em;
-    background: #2506ad;
+    background: var(--color-primary);
     box-shadow: 0px 5px 18px rgba(48, 68, 247, 0.6);
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-body);
   }
 
   .home .btn span {
@@ -538,12 +562,12 @@ a, button, .btn, .box .content, .navbar li a {
   .about .row .content p {
     @apply mt-6 font-semibold normal-case;
     font-size: 1.5rem;
-    font-family: "Nunito";
+    font-family: var(--font-body);
   }
 
   .about .row .content .box-container {
     @apply flex flex-wrap gap-6 font-semibold;
-    font-family: "Nunito";
+    font-family: var(--font-body);
   }
 
   .about .row .content .box-container .box p {
@@ -562,9 +586,9 @@ a, button, .btn, .box .content, .navbar li a {
     @apply transition-all duration-300 text-white;
     padding: 1.7rem 3rem;
     border-radius: 0.5em;
-    background: #2506ad;
-    box-shadow: 0px 5px 10px rgba(48, 68, 247, 0.6);
-    font-family: "Nunito", sans-serif;
+    background: var(--color-primary);
+    box-shadow: var(--shadow-btn);
+    font-family: var(--font-body);
   }
 
   .resumebtn .btn span {
@@ -660,23 +684,19 @@ a, button, .btn, .box .content, .navbar li a {
   .skills .container .bar .info span {
     @apply font-medium ml-2;
     font-size: 2rem;
-    font-family: "Poppins";
+    font-family: var(--font-heading);
   }
 }
 
 @media screen and (max-width: 600px) {
   .skills .container {
-    @apply p-0 m-0;
+    @apply p-0 mx-0 mb-0 mt-1 w-full;
   }
 
   .skills .container .row {
     @apply m-4 gap-4;
     grid-template-columns: repeat(2, 1fr);
     padding: 2rem 0.2rem;
-  }
-
-  .skills .container {
-    @apply mt-1 w-full;
   }
 }
 
@@ -693,7 +713,7 @@ a, button, .btn, .box .content, .navbar li a {
   .education .qoute {
     @apply text-center font-semibold mt-2;
     font-size: 1.5rem;
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-body);
   }
 
   .education .box-container {
@@ -741,7 +761,7 @@ a, button, .btn, .box .content, .navbar li a {
     @apply font-bold text-left m-4;
     font-size: 2rem;
     color: rgb(34, 109, 0);
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-body);
   }
 }
 
@@ -859,7 +879,7 @@ a, button, .btn, .box .content, .navbar li a {
   .work .viewall .btn span {
     @apply font-semibold;
     font-size: 1.7rem;
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-body);
   }
 
   .work .viewall .btn i {
@@ -928,9 +948,9 @@ a, button, .btn, .box .content, .navbar li a {
     top: 22px;
     width: 0;
     right: 30px;
-    border: medium solid #f68c09;
+    border: medium solid var(--color-experience);
     border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent #f68c09;
+    border-color: transparent transparent transparent var(--color-experience);
   }
 
   .experience .right::before {
@@ -940,9 +960,9 @@ a, button, .btn, .box .content, .navbar li a {
     top: 22px;
     width: 0;
     left: 30px;
-    border: medium solid #f68c09;
+    border: medium solid var(--color-experience);
     border-width: 10px 10px 10px 0;
-    border-color: transparent #f68c09 transparent transparent;
+    border-color: transparent var(--color-experience) transparent transparent;
   }
 
   .experience .right::after {
@@ -951,7 +971,7 @@ a, button, .btn, .box .content, .navbar li a {
 
   .experience .content {
     @apply relative rounded-md;
-    background-color: #f68c09;
+    background-color: var(--color-experience);
   }
 
   .experience .content .tag {
@@ -985,14 +1005,14 @@ a, button, .btn, .box .content, .navbar li a {
     line-height: 0;
     padding: 1.6rem 3rem;
     border-radius: 0.5em;
-    background: #2506ad;
-    box-shadow: 0px 5px 10px rgba(48, 68, 247, 0.6);
+    background: var(--color-primary);
+    box-shadow: var(--shadow-btn);
   }
 
   .morebtn .btn span {
     @apply font-semibold;
     font-size: 1.7rem;
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-body);
   }
 
   .morebtn .btn i {
@@ -1034,9 +1054,9 @@ a, button, .btn, .box .content, .navbar li a {
 
   .experience .container::before {
     left: 61px;
-    border: medium solid #f68c09;
+    border: medium solid var(--color-experience);
     border-width: 10px 10px 10px 0;
-    border-color: transparent #f68c09 transparent transparent;
+    border-color: transparent var(--color-experience) transparent transparent;
   }
 
   .experience .left::after {
@@ -1113,7 +1133,7 @@ a, button, .btn, .box .content, .navbar li a {
     @apply w-full h-full outline-none rounded-md;
     padding: 0 16px 0 48px;
     font-size: 16px;
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font-heading);
     border: 1px solid rgb(51, 51, 51);
     background: #e5ecfb;
   }
@@ -1164,9 +1184,9 @@ a, button, .btn, .box .content, .navbar li a {
     @apply text-white border-none outline-none cursor-pointer rounded-md transition-all duration-300 ease-out;
     font-size: 1.8rem;
     padding: 13px 25px;
-    background: #2506ad;
-    box-shadow: 0px 5px 10px rgba(48, 68, 247, 0.6);
-    font-family: "Nunito", sans-serif;
+    background: var(--color-primary);
+    box-shadow: var(--shadow-btn);
+    font-family: var(--font-body);
   }
 
   .button-area button:hover {
@@ -1280,7 +1300,7 @@ a, button, .btn, .box .content, .navbar li a {
     @apply text-center font-semibold text-white;
     padding: 1rem 0 0 0;
     font-size: 1.5rem;
-    font-family: "Nunito", sans-serif;
+    font-family: var(--font-body);
     border-top: 0.1rem solid #fff3;
   }
 
