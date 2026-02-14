@@ -67,7 +67,13 @@ const [homepageSettings, educationData, experienceData, skillsData] = await Prom
 ]);
 
 // Merge DB data over defaults – every field has a guaranteed fallback
-const hero = { ...DEFAULTS.hero, ...homepageSettings.hero };
+const hero = {
+  ...DEFAULTS.hero,
+  ...homepageSettings.hero,
+  // Always use static hero image for faster load (override DB value)
+  heroImage: '/assets/images/hero.webp',
+  heroImageAlt: homepageSettings.hero?.heroImageAlt || DEFAULTS.hero.heroImageAlt
+};
 const about = { ...DEFAULTS.about, ...homepageSettings.about };
 const contact = { ...DEFAULTS.contact, ...homepageSettings.contact };
 const seo = { ...DEFAULTS.seo, ...homepageSettings.seo };
