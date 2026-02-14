@@ -8,57 +8,16 @@ import EducationCard from '../components/EducationCard.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
+
 import { getEducation, getExperience, getSkills, getHomepageSettings } from '../lib/supabase';
+import { buildPersonSchema, buildWebsiteSchema, buildBreadcrumbSchema } from '../lib/schema';
+import { buildSocialLinks, formatDateRange, splitName } from '../lib/helpers';
+import { heroDefaults, aboutDefaults, contactDefaults, seoDefaults, SITE_URL } from '../data/defaults';
 
-// ============ HARDCODED DEFAULTS (fallback if DB is empty) ============
-const DEFAULTS = {
-  hero: {
-    greeting: 'Hi There,',
-    name: 'Sheikh Shariar Nehal',
-    subtitle: 'I Am Into',
-    ctaText: 'About Me',
-    ctaLink: '#about',
-    heroImage: '/assets/images/hero.webp',
-    heroImageAlt: 'Sheikh Shariar Nehal - Full Stack Web Developer',
-    typingTexts: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
-  },
-  about: {
-    title: "I'm Sheikh Shariar Nehal",
-    subtitle: 'Web Developer',
-    bio: "I'm Sheikh Shariar Nehal (also known as Shariar Nehal or Sheikh Nehal), a Web Developer and programmer with 3 years of experience. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International University. I know React, Python, JavaScript, and C++, I also good with design tools like Photoshop and Illustrator. I helped create a web app that increased user activity by 40%. I'm detail-oriented and love combining design with tech.",
-    email: 'nehal22205101260@diu.edu.bd',
-    location: 'Nowabgonj, Dhaka',
-    resumeUrl: 'https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view',
-    resumeText: 'Resume',
-    profileImage: '/assets/images/profile2.webp',
-    profileImageAlt: 'Sheikh Shariar Nehal Profile Picture - Web Developer and Designer',
-  },
-  contact: {
-    contactImage: '/assets/images/contact1.webp',
-    contactImageAlt: 'Contact Sheikh Shariar Nehal - Get In Touch',
-  },
-  seo: {
-    name: 'Sheikh Shariar Nehal',
-    jobTitle: 'Full-Stack Web Developer & Designer',
-    description: 'Sheikh Shariar Nehal is a Full-Stack Web Developer with 3+ years of experience specializing in React, Next.js, Python, and JavaScript.',
-    email: 'nehal22205101260@diu.edu.bd',
-    telephone: '+8801750627421',
-    nationality: 'Bangladesh',
-    addressLocality: 'Nowabgonj',
-    addressRegion: 'Dhaka',
-    addressCountry: 'BD',
-    university: 'Daffodil International University',
-    universityUrl: 'https://daffodilvarsity.edu.bd',
-    github: 'https://github.com/sheikhshariarnehal',
-    linkedin: 'https://www.linkedin.com/in/shekhshariarnehal/',
-    twitter: 'https://twitter.com/shariar_nehal',
-    telegram: 'https://t.me/sheikhshariarnehal',
-    instagram: 'https://instagram.com/sheikhshariarnehal',
-    facebook: 'https://www.facebook.com/sheikhshariarnehal.cse',
-  },
-};
+import skillsFallback from '../data/skills.json';
+import projectsFallback from '../data/projects.json';
 
-// ============ FETCH DATA FROM DB (with safe fallbacks) ============
+// --- Fetch all data in parallel with safe fallbacks ---
 const [homepageSettings, educationData, experienceData, skillsData] = await Promise.all([
   getHomepageSettings().catch(() => ({})),
   getEducation(),
@@ -66,157 +25,53 @@ const [homepageSettings, educationData, experienceData, skillsData] = await Prom
   getSkills(),
 ]);
 
-// Merge DB data over defaults – every field has a guaranteed fallback
-const hero = {
-  ...DEFAULTS.hero,
-  ...homepageSettings.hero,
-  // Always use static hero image for faster load (override DB value)
-  heroImage: '/assets/images/hero.webp',
-  heroImageAlt: homepageSettings.hero?.heroImageAlt || DEFAULTS.hero.heroImageAlt
-};
-const about = { ...DEFAULTS.about, ...homepageSettings.about };
-const contact = { ...DEFAULTS.contact, ...homepageSettings.contact };
-const seo = { ...DEFAULTS.seo, ...homepageSettings.seo };
+// Hero uses only hardcoded defaults (no DB merge)
+const hero = { ...heroDefaults };
+const about = { ...aboutDefaults, ...homepageSettings.about };
+const contact = { ...contactDefaults, ...homepageSettings.contact };
+const seo = { ...seoDefaults, ...homepageSettings.seo };
 
-// Skills: use DB if available, else fall back to JSON file
-import skillsFallback from '../data/skills.json';
-const skills = skillsData && skillsData.length > 0
-  ? skillsData.map(s => ({ name: s.name, icon: s.icon }))
+// --- Transform data into view-ready shapes ---
+const skills = skillsData?.length
+  ? skillsData.map(({ name, icon }) => ({ name, icon }))
   : skillsFallback;
 
-// Education
-const education = educationData.map(edu => ({
+const education = educationData.map((edu) => ({
   degree: edu.degree,
   institution: edu.institution,
   image: edu.image || '/assets/images/educat/default.webp',
   duration: `${edu.start_year}-${edu.end_year || 'Present'}`,
   status: edu.status || 'Completed',
-  altText: `${edu.institution} - ${edu.degree}`
+  altText: `${edu.institution} - ${edu.degree}`,
 }));
 
-// Projects: still from DB via getProjects or JSON fallback for homepage
-import projectsFallback from '../data/projects.json';
-const homeProjects = projectsFallback.filter(p => p.category !== 'android').slice(0, 10);
+const projects = projectsFallback
+  .filter((p) => p.category !== 'android')
+  .slice(0, 10);
 
-// Experience
-const homeExperience = experienceData.map((exp, index) => {
-  const startDate = new Date(exp.start_date);
-  const endDate = exp.end_date ? new Date(exp.end_date) : null;
-  const startStr = startDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-  const endStr = endDate ? endDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Present';
-  
-  return {
-    organization: exp.company,
-    role: exp.title,
-    duration: `${startStr} - ${endStr}`,
-    position: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right'
-  };
-});
+const experience = experienceData.map((exp, i) => ({
+  organization: exp.company,
+  role: exp.title,
+  duration: formatDateRange(exp.start_date, exp.end_date),
+  position: (i % 2 === 0 ? 'left' : 'right') as 'left' | 'right',
+}));
 
-// Build name parts for hero heading
-const nameParts = hero.name.split(' ');
-const lastName = nameParts.pop() || '';
-const firstName = nameParts.join(' ');
+const { firstName, lastName } = splitName(hero.name);
+const socialLinks = buildSocialLinks(seo);
 
-// Collect social links from SEO data for SocialIcons
-const socialLinks = [
-  seo.linkedin ? { href: seo.linkedin, icon: 'fab fa-linkedin', label: 'LinkedIn', className: 'linkedin' } : null,
-  seo.github ? { href: seo.github, icon: 'fab fa-github', label: 'GitHub', className: 'github' } : null,
-  seo.twitter ? { href: seo.twitter, icon: 'fab fa-twitter', label: 'Twitter', className: 'twitter' } : null,
-  seo.telegram ? { href: seo.telegram, icon: 'fab fa-telegram-plane', label: 'Telegram', className: 'telegram' } : null,
-  seo.instagram ? { href: seo.instagram, icon: 'fab fa-instagram', label: 'Instagram', className: 'instagram' } : null,
-  seo.facebook ? { href: seo.facebook, icon: 'fab fa-facebook', plane: true, label: 'Facebook', className: 'dev' } : null,
-].filter(Boolean);
-
-// Schema.org JSON-LD - Enhanced Person Schema (uses DB data)
-const personSchema = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": "https://sheikhshariarnehal.me/#person",
-  "name": seo.name,
-  "alternateName": ["Shariar Nehal", "Sheikh Nehal", "Nehal"],
-  "givenName": seo.name.split(' ').slice(0, -1).join(' '),
-  "familyName": seo.name.split(' ').pop(),
-  "url": "https://sheikhshariarnehal.me",
-  "image": {
-    "@type": "ImageObject",
-    "url": "https://sheikhshariarnehal.me" + about.profileImage,
-    "width": 400,
-    "height": 400
-  },
-  "jobTitle": seo.jobTitle,
-  "description": seo.description,
-  "email": seo.email,
-  "telephone": seo.telephone,
-  "nationality": {
-    "@type": "Country",
-    "name": seo.nationality
-  },
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": seo.addressLocality,
-    "addressRegion": seo.addressRegion,
-    "addressCountry": seo.addressCountry
-  },
-  "alumniOf": {
-    "@type": "EducationalOrganization",
-    "name": seo.university,
-    "url": seo.universityUrl
-  },
-  "knowsAbout": [
-    "React.js", "Next.js", "Node.js", "TypeScript", "JavaScript", "Python",
-    "MERN Stack", "Full Stack Development", "Machine Learning", "Web Design",
-    "REST APIs", "PostgreSQL", "MongoDB", "Supabase", "Firebase"
-  ],
-  "knowsLanguage": ["en", "bn"],
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Freelance"
-  },
-  "sameAs": [
-    seo.github,
-    seo.linkedin,
-    seo.twitter,
-    seo.telegram,
-    seo.instagram,
-    seo.facebook
-  ].filter(Boolean)
-};
-
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": "https://sheikhshariarnehal.me/#website",
-  "name": `${seo.name} Portfolio`,
-  "alternateName": "Shariar Nehal Portfolio",
-  "url": "https://sheikhshariarnehal.me",
-  "description": `Portfolio website of ${seo.name} showcasing web development projects, skills, and professional experience`,
-  "publisher": {
-    "@id": "https://sheikhshariarnehal.me/#person"
-  },
-  "inLanguage": "en-US",
-  "copyrightYear": new Date().getFullYear(),
-  "copyrightHolder": {
-    "@id": "https://sheikhshariarnehal.me/#person"
-  }
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://sheikhshariarnehal.me/" },
-    { "@type": "ListItem", "position": 2, "name": "Projects", "item": "https://sheikhshariarnehal.me/projects/" },
-    { "@type": "ListItem", "position": 3, "name": "Experience", "item": "https://sheikhshariarnehal.me/experience/" }
-  ]
-};
+// --- Structured data (JSON-LD) ---
+const schemas = [
+  buildPersonSchema(seo, about.profileImage),
+  buildWebsiteSchema(seo),
+  buildBreadcrumbSchema(),
+];
 ---
 
 <Layout
   title={`${seo.name} – Full-Stack Developer`}
   description={seo.description}
-  canonical="https://sheikhshariarnehal.me/"
-  schema={[personSchema, websiteSchema, breadcrumbSchema]}
+  canonical={`${SITE_URL}/`}
+  schema={schemas}
 >
   <Header currentPage="home" />
 
@@ -225,27 +80,27 @@ const breadcrumbSchema = {
     <section class="home" id="home" aria-labelledby="hero-heading">
       <div id="particles-js" aria-hidden="true"></div>
 
-    <div class="content">
-      <h1 id="hero-heading">{hero.greeting}<br /> I'm {firstName}<span> {lastName}</span></h1>
-      <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
-      <a href={hero.ctaLink} class="btn" aria-label="Learn more about me">
-        <span>{hero.ctaText}</span>
-        <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
-      </a>
-      <SocialIcons />
-    </div>
-    <div class="image">
-      <Image
-        draggable="false"
-        class="tilt"
-        src={hero.heroImage}
-        alt={hero.heroImageAlt}
-        width={400}
-        height={400}
-        loading="eager"
-      />
-    </div>
-  </section>
+      <div class="content">
+        <h1 id="hero-heading">{hero.greeting}<br /> I'm {firstName}<span> {lastName}</span></h1>
+        <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
+        <a href={hero.ctaLink} class="btn" aria-label="Learn more about me">
+          <span>{hero.ctaText}</span>
+          <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
+        </a>
+        <SocialIcons />
+      </div>
+      <div class="image">
+        <Image
+          draggable="false"
+          class="tilt"
+          src={hero.heroImage}
+          alt={hero.heroImageAlt}
+          width={400}
+          height={400}
+          loading="eager"
+        />
+      </div>
+    </section>
 
   <!-- About Section -->
   <section class="about" id="about" aria-labelledby="about-heading">
@@ -327,7 +182,7 @@ const breadcrumbSchema = {
     <h2 id="projects-heading" class="heading"><i class="fas fa-laptop-code" aria-hidden="true"></i> Projects <span>Made</span></h2>
 
     <div class="box-container">
-      {homeProjects.map((project) => (
+      {projects.map((project) => (
         <div class="box tilt">
           <Image
             draggable="false"
@@ -370,7 +225,7 @@ const breadcrumbSchema = {
     <h2 id="experience-heading" class="heading"><i class="fas fa-briefcase" aria-hidden="true"></i> Experience</h2>
 
     <div class="timeline">
-      {homeExperience.map((exp) => (
+      {experience.map((exp) => (
         <TimelineItem
           organization={exp.organization}
           role={exp.role}
@@ -411,12 +266,6 @@ const breadcrumbSchema = {
   </main>
 
   <Footer />
-
-  <!-- SEO Hidden Content -->
-  <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
-    <h2>{seo.name} - {seo.jobTitle}</h2>
-    <p>{seo.description}</p>
-  </div>
 
   <!-- Typing Texts Data (for Typed.js) -->
   <script type="application/json" id="typing-data" set:html={JSON.stringify(hero.typingTexts)}></script>
@@ -515,9 +364,7 @@ const breadcrumbSchema = {
         window.addEventListener('scroll', () => {
           let current = '';
           sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (scrollY >= sectionTop - 200) {
+            if (scrollY >= section.offsetTop - 200) {
               current = section.getAttribute('id') || '';
             }
           });
@@ -531,31 +378,29 @@ const breadcrumbSchema = {
         });
       });
 
-      // Tawk.to Live Chat - Lazy loaded
-      let tawkLoaded = false;
-      function loadTawk() {
-        if (tawkLoaded) return;
-        tawkLoaded = true;
-        var s1 = document.createElement('script');
-        s1.async = true;
-        s1.src = 'https://embed.tawk.to/60df10bf7f4b000ac03ab6a8/1f9jlirg6';
-        s1.charset = 'UTF-8';
-        s1.setAttribute('crossorigin', '*');
-        document.head.appendChild(s1);
-      }
+      // Tawk.to Live Chat - Lazy loaded on first interaction or after 5s
+      (function initTawk() {
+        let loaded = false;
+        const TAWK_SRC = 'https://embed.tawk.to/60df10bf7f4b000ac03ab6a8/1f9jlirg6';
+        const INTERACTION_EVENTS = ['scroll', 'click', 'touchstart', 'mousemove'];
 
-      window.addEventListener('load', () => {
-        const loadOnInteraction = () => {
-          loadTawk();
-          ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt =>
-            window.removeEventListener(evt, loadOnInteraction, { passive: true })
-          );
-        };
-        ['scroll', 'click', 'touchstart', 'mousemove'].forEach(evt =>
-          window.addEventListener(evt, loadOnInteraction, { passive: true, once: true })
+        function load() {
+          if (loaded) return;
+          loaded = true;
+          const s = document.createElement('script');
+          s.async = true;
+          s.src = TAWK_SRC;
+          s.charset = 'UTF-8';
+          s.setAttribute('crossorigin', '*');
+          document.head.appendChild(s);
+          INTERACTION_EVENTS.forEach(e => window.removeEventListener(e, load));
+        }
+
+        INTERACTION_EVENTS.forEach(e =>
+          window.addEventListener(e, load, { passive: true, once: true })
         );
-        setTimeout(loadTawk, 5000);
-      });
+        setTimeout(load, 5000);
+      })();
     </script>
   </Fragment>
 </Layout>
