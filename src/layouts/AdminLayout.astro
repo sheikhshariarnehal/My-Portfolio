@@ -70,6 +70,10 @@ const { title, activeTab = 'dashboard' } = Astro.props;
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
           </a>
+          <a href="/admin/homepage/" class={`nav-item ${activeTab === 'homepage' ? 'active' : ''}`}>
+            <i class="fas fa-globe"></i>
+            <span>Homepage</span>
+          </a>
           <a href="/admin/skills/" class={`nav-item ${activeTab === 'skills' ? 'active' : ''}`}>
             <i class="fas fa-code"></i>
             <span>Skills</span>
@@ -104,6 +108,9 @@ const { title, activeTab = 'dashboard' } = Astro.props;
         <header class="admin-header">
           <h1>{title}</h1>
           <div class="header-user" id="header-user">
+            <button class="theme-toggle" id="theme-toggle" title="Toggle dark mode" aria-label="Toggle dark mode">
+              <i class="fas fa-moon" id="theme-icon"></i>
+            </button>
             <span id="user-email"></span>
             <img src="/assets/images/profile2.webp" alt="User" class="user-avatar">
           </div>
@@ -209,6 +216,51 @@ const { title, activeTab = 'dashboard' } = Astro.props;
 
     // Initialize
     checkAuth();
+  </script>
+
+  <!-- Theme toggle styles & logic -->
+  <style>
+    .theme-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--admin-border, #e2e8f0);
+      background: var(--admin-input-bg, #f9fafb);
+      color: var(--admin-text-secondary, #64748b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.25s ease;
+    }
+    .theme-toggle:hover {
+      background: var(--admin-primary);
+      color: white;
+      border-color: var(--admin-primary);
+    }
+  </style>
+  <script is:inline>
+    // Apply saved theme immediately to prevent flash
+    (function() {
+      const saved = localStorage.getItem('admin-theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+      // Update icon after DOM ready
+      document.addEventListener('DOMContentLoaded', function() {
+        const icon = document.getElementById('theme-icon');
+        if (icon) icon.className = 'fas ' + (saved === 'dark' ? 'fa-sun' : 'fa-moon');
+        const btn = document.getElementById('theme-toggle');
+        if (btn) {
+          btn.addEventListener('click', function() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('admin-theme', next);
+            icon.className = 'fas ' + (next === 'dark' ? 'fa-sun' : 'fa-moon');
+          });
+        }
+      });
+    })();
   </script>
 </body>
 </html>

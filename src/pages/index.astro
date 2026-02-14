@@ -7,10 +7,48 @@ import EducationCard from '../components/EducationCard.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { getEducation, getExperience } from '../lib/supabase';
+import { Image } from 'astro:assets';
+import { getEducation, getExperience, getHomepageSettings } from '../lib/supabase';
+import { getOrganizationSchema, getFAQSchema, getLocalBusinessSchema, defaultFAQs } from '../lib/seo-utils';
 
 import skills from '../data/skills.json';
 import projects from '../data/projects.json';
+
+// Fetch homepage settings from database
+const homepageSettings = await getHomepageSettings();
+const heroData = homepageSettings.hero || {};
+const aboutData = homepageSettings.about || {};
+const contactData = homepageSettings.contact || {};
+const seoData = homepageSettings.seo || {};
+
+// Default values as fallback
+const hero = {
+  greeting: heroData.greeting || "Hi There,",
+  name: heroData.name || "Sheikh Shariar Nehal",
+  subtitle: heroData.subtitle || "I Am Into",
+  typingTexts: heroData.typingTexts || ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
+  heroImage: heroData.heroImage || "/assets/images/hero.webp",
+  heroImageAlt: heroData.heroImageAlt || "Sheikh Shariar Nehal - Full Stack Web Developer",
+  ctaText: heroData.ctaText || "About Me",
+  ctaLink: heroData.ctaLink || "#about"
+};
+
+const about = {
+  title: aboutData.title || "I'm Sheikh Shariar Nehal",
+  subtitle: aboutData.subtitle || "Web Developer",
+  profileImage: aboutData.profileImage || "/assets/images/profile2.webp",
+  profileImageAlt: aboutData.profileImageAlt || "Sheikh Shariar Nehal Profile Picture - Web Developer and Designer",
+  bio: aboutData.bio || "I'm a Web Developer and programmer with 3 years of experience.",
+  email: aboutData.email || "nehal22205101260@diu.edu.bd",
+  location: aboutData.location || "Nowabgonj, Dhaka",
+  resumeText: aboutData.resumeText || "Resume",
+  resumeUrl: aboutData.resumeUrl || "#"
+};
+
+const contact = {
+  contactImage: contactData.contactImage || "/assets/images/contact1.webp",
+  contactImageAlt: contactData.contactImageAlt || "Contact Sheikh Shariar Nehal - Get In Touch"
+};
 
 // Fetch education from database
 const educationData = await getEducation();
@@ -23,8 +61,8 @@ const education = educationData.map(edu => ({
   altText: `${edu.institution} - ${edu.degree}`
 }));
 
-// Filter projects for home page (exclude android, limit to 10)
-const homeProjects = projects.filter(p => p.category !== 'android').slice(0, 10);
+// Filter projects for home page (exclude android, limit to 6 for better performance)
+const homeProjects = projects.filter(p => p.category !== 'android').slice(0, 6);
 
 // Fetch experience from database
 const experienceData = await getExperience();
@@ -42,30 +80,57 @@ const homeExperience = experienceData.map((exp, index) => {
   };
 });
 
-// Schema.org JSON-LD
+// Schema.org JSON-LD - Enhanced Person Schema (using database values or defaults)
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "Sheikh Shariar Nehal",
+  "@id": "https://sheikhshariarnehal.me/#person",
+  "name": seoData.name || "Sheikh Shariar Nehal",
   "alternateName": ["Shariar Nehal", "Sheikh Nehal", "Nehal"],
   "url": "https://sheikhshariarnehal.me",
-  "image": "https://sheikhshariarnehal.me/assets/images/profile2.webp",
-  "jobTitle": "Full-Stack Web Developer & Designer",
-  "description": "Sheikh Shariar Nehal is a Full-Stack Web Developer with 3 years of experience specializing in React, Next.js, Python, and JavaScript.",
-  "email": "nehal22205101260@diu.edu.bd",
-  "telephone": "+8801750627421",
+  "image": {
+    "@type": "ImageObject",
+    "url": about.profileImage.startsWith('http') ? about.profileImage : `https://sheikhshariarnehal.me${about.profileImage}`,
+    "width": 400,
+    "height": 400
+  },
+  "jobTitle": seoData.jobTitle || "Full-Stack Web Developer & Designer",
+  "description": seoData.description || "Sheikh Shariar Nehal is a Full-Stack Web Developer with 3+ years of experience.",
+  "email": seoData.email || about.email,
+  "telephone": seoData.telephone || "+8801750627421",
+  "nationality": {
+    "@type": "Country",
+    "name": seoData.nationality || "Bangladesh"
+  },
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Nowabgonj",
-    "addressRegion": "Dhaka",
-    "addressCountry": "Bangladesh"
+    "addressLocality": seoData.addressLocality || "Nowabgonj",
+    "addressRegion": seoData.addressRegion || "Dhaka",
+    "addressCountry": seoData.addressCountry || "BD"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": seoData.university || "Daffodil International University",
+    "url": seoData.universityUrl || "https://daffodilvarsity.edu.bd"
+  },
+  "knowsAbout": [
+    "React.js", "Next.js", "Node.js", "TypeScript", "JavaScript", "Python",
+    "MERN Stack", "Full Stack Development", "Machine Learning", "Web Design",
+    "REST APIs", "PostgreSQL", "MongoDB", "Supabase", "Firebase"
+  ],
+  "knowsLanguage": ["en", "bn"],
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Freelance"
   },
   "sameAs": [
-    "https://github.com/sheikhshariarnehal",
-    "https://www.linkedin.com/in/shekhshariarnehal/",
-    "https://twitter.com/shariar_nehal",
-    "https://t.me/sheikhshariarnehal"
-  ]
+    seoData.github || "https://github.com/sheikhshariarnehal",
+    seoData.linkedin || "https://www.linkedin.com/in/shekhshariarnehal/",
+    seoData.twitter || "https://twitter.com/shariar_nehal",
+    seoData.telegram || "https://t.me/sheikhshariarnehal",
+    seoData.instagram || "https://instagram.com/sheikhshariarnehal",
+    seoData.facebook || "https://www.facebook.com/sheikhshariarnehal.cse"
+  ].filter(Boolean)
 };
 
 const websiteSchema = {
@@ -85,13 +150,18 @@ const breadcrumbSchema = {
     { "@type": "ListItem", "position": 3, "name": "Experience", "item": "https://sheikhshariarnehal.me/experience/" }
   ]
 };
+
+// Additional SEO Schemas
+const organizationSchema = getOrganizationSchema();
+const faqSchema = getFAQSchema(defaultFAQs);
+const localBusinessSchema = getLocalBusinessSchema();
 ---
 
 <Layout
   title="Sheikh Shariar Nehal | Shariar Nehal - Full-Stack Web Developer & Designer"
   description="Sheikh Shariar Nehal (Shariar Nehal) – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
   canonical="https://sheikhshariarnehal.me/"
-  schema={[personSchema, websiteSchema, breadcrumbSchema]}
+  schema={[personSchema, websiteSchema, breadcrumbSchema, organizationSchema, faqSchema, localBusinessSchema]}
 >
   <Header currentPage="home" />
 
@@ -100,25 +170,29 @@ const breadcrumbSchema = {
     <section class="home" id="home" aria-labelledby="hero-heading">
       <div id="particles-js" aria-hidden="true"></div>
 
-    <div class="content">
-      <h1 id="hero-heading">Hi There,<br /> I'm Sheikh Shariar<span> Nehal</span></h1>
-      <p>I Am Into <span class="typing-text" aria-label="Various development skills"></span></p>
-      <a href="#about" class="btn" aria-label="Learn more about me">
-        <span>About Me</span>
-        <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
-      </a>
-      <SocialIcons />
-    </div>
-    <div class="image">
-      <img
-        draggable="false"
-        class="tilt"
-        src="/assets/images/hero.webp"
-        alt="Sheikh Shariar Nehal - Full Stack Web Developer"
-        fetchpriority="high"
-      />
-    </div>
-  </section>
+      <div class="content">
+        <h1 id="hero-heading">{hero.greeting}<br /> I'm {hero.name.split(' ').slice(0, 2).join(' ')}<span> {hero.name.split(' ').slice(2).join(' ')}</span></h1>
+        <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
+        <a href={hero.ctaLink} class="btn" aria-label={`Learn more - ${hero.ctaText}`}>
+          <span>{hero.ctaText}</span>
+          <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
+        </a>
+        <SocialIcons />
+      </div>
+      <div class="image">
+        <Image
+          draggable="false"
+          class="tilt"
+          src={hero.heroImage}
+          alt={hero.heroImageAlt}
+          width={500}
+          height={500}
+          sizes="(max-width: 768px) 60vw, 400px"
+          loading="eager"
+          decoding="async"
+        />
+      </div>
+    </section>
 
   <!-- About Section -->
   <section class="about" id="about" aria-labelledby="about-heading">
@@ -129,40 +203,38 @@ const breadcrumbSchema = {
         <img
           draggable="false"
           class="tilt"
-          src="/assets/images/profile2.webp"
-          alt="Sheikh Shariar Nehal Profile Picture - Web Developer and Designer"
-          width="300"
-          height="300"
-          loading="lazy"
+          src={about.profileImage}
+          alt={about.profileImageAlt}
+          width={300}
+          height={300}
+          sizes="(max-width: 768px) 50vw, 300px"
+          loading="eager"
+          decoding="async"
         />
       </div>
       <div class="content">
-        <h3>I'm Sheikh Shariar Nehal</h3>
-        <span class="tag">Web Developer</span>
+        <h3>{about.title}</h3>
+        <span class="tag">{about.subtitle}</span>
 
         <p>
-          I'm Sheikh Shariar Nehal (also known as Shariar Nehal or Sheikh Nehal), a Web Developer and programmer with 3
-          years of experience. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International
-          University. I know React, Python, JavaScript, and C++, I also good with design tools like Photoshop and
-          Illustrator. I helped create a web app that increased user activity by 40%. I'm detail-oriented and love
-          combining design with tech.
+          {about.bio}
         </p>
 
         <div class="box-container">
           <div class="box">
-            <p><span>email : </span> nehal22205101260@diu.edu.bd</p>
-            <p><span>place : </span> Nowabgonj, Dhaka</p>
+            <p><span>email : </span> {about.email}</p>
+            <p><span>place : </span> {about.location}</p>
           </div>
         </div>
 
         <div class="resumebtn">
           <a
-            href="https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view"
+            href={about.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="btn"
           >
-            <span>Resume</span>
+            <span>{about.resumeText}</span>
             <i class="fas fa-chevron-right"></i>
           </a>
         </div>
@@ -212,6 +284,9 @@ const breadcrumbSchema = {
             draggable="false"
             src={`/assets/images/projects/${project.image}.webp`}
             alt={`${project.name} project`}
+            width={350}
+            height={200}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 350px"
             loading="lazy"
           />
           <div class="content">
@@ -274,10 +349,11 @@ const breadcrumbSchema = {
         <div class="image-box">
           <img
             draggable="false"
-            src="/assets/images/contact1.png"
-            alt="Contact Sheikh Shariar Nehal - Get In Touch"
-            width="400"
-            height="400"
+            src={contact.contactImage}
+            alt={contact.contactImageAlt}
+            width={400}
+            height={400}
+            sizes="(max-width: 768px) 80vw, 400px"
             loading="lazy"
           />
         </div>
@@ -286,6 +362,22 @@ const breadcrumbSchema = {
     </div>
   </section>
   </main>
+
+  <!-- FAQ Section for SEO -->
+  <section class="faq-section" id="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading" class="heading"><i class="fas fa-question-circle" aria-hidden="true"></i> Frequently Asked <span>Questions</span></h2>
+    <div class="faq-container">
+      {defaultFAQs.map((faq, index) => (
+        <details class="faq-item" open={index === 0}>
+          <summary class="faq-question">
+            <span>{faq.question}</span>
+            <i class="fas fa-chevron-down faq-icon" aria-hidden="true"></i>
+          </summary>
+          <p class="faq-answer">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
 
   <Footer />
 
@@ -297,45 +389,173 @@ const breadcrumbSchema = {
 
   <!-- Scripts Slot -->
   <Fragment slot="scripts">
-    <!-- jQuery -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Typed.js - Lazy loaded for better LCP -->
+    <script define:vars={{ typingTexts: hero.typingTexts }}>
+      function loadTypedJs() {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js';
+        script.integrity = 'sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==';
+        script.crossOrigin = 'anonymous';
+        script.referrerPolicy = 'no-referrer';
+        script.onload = () => {
+          if (typeof Typed !== 'undefined') {
+            new Typed('.typing-text', {
+              strings: typingTexts,
+              loop: true,
+              typeSpeed: 50,
+              backSpeed: 25,
+              backDelay: 500,
+            });
+          }
+        };
+        document.body.appendChild(script);
+      }
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadTypedJs, { timeout: 2000 });
+      } else {
+        setTimeout(loadTypedJs, 1500);
+      }
+    </script>
 
-    <!-- Typed.js -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- Particles.js -->
-    <script defer src="/assets/js/particles.min.js"></script>
-    <script defer src="/assets/js/app.js"></script>
-
-    <!-- Vanilla Tilt -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" integrity="sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- ScrollReveal -->
-    <script defer src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
-
-    <!-- Main Script -->
+    <!-- Particles.js - Loaded after LCP to avoid blocking rendering -->
     <script is:inline>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Typed.js effect
-        if (typeof Typed !== 'undefined') {
-          new Typed('.typing-text', {
-            strings: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
-            loop: true,
-            typeSpeed: 50,
-            backSpeed: 25,
-            backDelay: 500,
-          });
-        }
+      // Defer particles.js well past LCP to prevent layout thrashing
+      function loadParticlesJs() {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js';
+        script.integrity = 'sha512-Kef5sc7gfTacR7TZKelcrRs15ipf7+t+n7Zh6mKNJbmW+/RRdCW9nwfLn4YX0s2nO6Kv5Y2ChqgIakaC6PW09A==';
+        script.crossOrigin = 'anonymous';
+        script.referrerPolicy = 'no-referrer';
+        script.onload = () => {
+          if (typeof particlesJS !== 'undefined') {
+            console.log('✨ Initializing particles.js...');
+            particlesJS('particles-js', {
+              particles: {
+                number: {
+                  value: 80,
+                  density: {
+                    enable: true,
+                    value_area: 800,
+                  },
+                },
+                color: {
+                  value: '#3b5bdb',
+                },
+                shape: {
+                  type: 'circle',
+                },
+                opacity: {
+                  value: 0.6,
+                  random: true,
+                  anim: {
+                    enable: true,
+                    speed: 1,
+                    opacity_min: 0.3,
+                    sync: false,
+                  },
+                },
+                size: {
+                  value: 4,
+                  random: true,
+                  anim: {
+                    enable: true,
+                    speed: 2,
+                    size_min: 0.5,
+                    sync: false,
+                  },
+                },
+                line_linked: {
+                  enable: true,
+                  distance: 150,
+                  color: '#4c6ef5',
+                  opacity: 0.5,
+                  width: 1.5,
+                },
+                move: {
+                  enable: true,
+                  speed: 2,
+                  direction: 'none',
+                  random: false,
+                  straight: false,
+                  out_mode: 'out',
+                  bounce: false,
+                },
+              },
+              interactivity: {
+                detect_on: 'canvas',
+                events: {
+                  onhover: {
+                    enable: true,
+                    mode: 'grab',
+                  },
+                  onclick: {
+                    enable: true,
+                    mode: 'push',
+                  },
+                  resize: true,
+                },
+                modes: {
+                  grab: {
+                    distance: 140,
+                    line_linked: {
+                      opacity: 1,
+                    },
+                  },
+                  push: {
+                    particles_nb: 4,
+                  },
+                },
+              },
+              retina_detect: true,
+            });
+            console.log('✅ Particles.js initialized successfully');
+          } else {
+            console.warn('⚠️ particlesJS is not defined');
+          }
+        };
+        script.onerror = () => {
+          console.error('❌ Failed to load particles.js library');
+        };
+        document.body.appendChild(script);
+      }
+      // Load particles after page load
+      if (document.readyState === 'complete') {
+        setTimeout(loadParticlesJs, 1000);
+      } else {
+        window.addEventListener('load', () => {
+          setTimeout(loadParticlesJs, 1000);
+        });
+      }
+    </script>
 
-        // Vanilla Tilt
-        if (typeof VanillaTilt !== 'undefined') {
-          VanillaTilt.init(document.querySelectorAll('.tilt'), {
-            max: 15,
-          });
-        }
+    <!-- Vanilla Tilt - Lazy loaded -->
+    <script>
+      // Lazy load Vanilla Tilt after page is interactive
+      function loadVanillaTilt() {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js';
+        script.integrity = 'sha512-SttpKhJqONuBVxbRcuH0wezjuX+BoFoli0yPsnrAADcHsQMW8rkR84ItFHGIkPvhnlRnE2FaifDOUw+EltbuHg==';
+        script.crossOrigin = 'anonymous';
+        script.referrerPolicy = 'no-referrer';
+        script.onload = () => {
+          if (typeof VanillaTilt !== 'undefined') {
+            VanillaTilt.init(document.querySelectorAll('.tilt'), { max: 15 });
+          }
+        };
+        document.body.appendChild(script);
+      }
 
-        // ScrollReveal
-        if (typeof ScrollReveal !== 'undefined') {
+      // Delay VanillaTilt past LCP window
+      setTimeout(loadVanillaTilt, 2500);
+    </script>
+
+    <!-- ScrollReveal - Lazy loaded to avoid forced reflows during initial paint -->
+    <script>
+      function loadScrollReveal() {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js';
+        script.onload = () => {
+          if (typeof ScrollReveal === 'undefined') return;
           const srtop = ScrollReveal({
             origin: 'top',
             distance: '80px',
@@ -343,52 +563,54 @@ const breadcrumbSchema = {
             reset: true
           });
 
-          srtop.reveal('.home .content h3', { delay: 200 });
-          srtop.reveal('.home .content p', { delay: 200 });
-          srtop.reveal('.home .content .btn', { delay: 200 });
-          srtop.reveal('.home .image', { delay: 400 });
-          srtop.reveal('.home .linkedin', { interval: 600 });
-          srtop.reveal('.home .github', { interval: 800 });
-          srtop.reveal('.home .twitter', { interval: 1000 });
-          srtop.reveal('.home .telegram', { interval: 600 });
-          srtop.reveal('.home .instagram', { interval: 600 });
-          srtop.reveal('.home .dev', { interval: 600 });
-          srtop.reveal('.about .content h3', { delay: 200 });
-          srtop.reveal('.about .content .tag', { delay: 200 });
-          srtop.reveal('.about .content p', { delay: 200 });
-          srtop.reveal('.about .content .box-container', { delay: 200 });
-          srtop.reveal('.about .content .resumebtn', { delay: 200 });
+          // Batch reveals to minimize reflows
+          srtop.reveal('.home .content h3, .home .content p, .home .content .btn', { delay: 200 });
+          srtop.reveal('.home .linkedin, .home .github, .home .twitter, .home .telegram, .home .instagram, .home .dev', { interval: 400 });
+          srtop.reveal('.about .content h3, .about .content .tag, .about .content p, .about .content .box-container, .about .content .resumebtn', { delay: 200 });
           srtop.reveal('.skills .container', { interval: 200 });
-          srtop.reveal('.skills .container .bar', { delay: 400 });
           srtop.reveal('.education .box', { interval: 200 });
           srtop.reveal('.work .box', { interval: 200 });
           srtop.reveal('.experience .timeline', { delay: 400 });
           srtop.reveal('.experience .timeline .container', { interval: 400 });
           srtop.reveal('.contact .container', { delay: 400 });
-          srtop.reveal('.contact .container .form-group', { delay: 400 });
-        }
+        };
+        document.body.appendChild(script);
+      }
 
+      // Delay ScrollReveal to avoid forced reflows during LCP window
+      setTimeout(loadScrollReveal, 3000);
+    </script>
+
+    <!-- Main Script -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', function() {
         // Scroll spy for navigation
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('.navbar ul li a');
         
+        let ticking = false;
         window.addEventListener('scroll', () => {
-          let current = '';
-          sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            if (scrollY >= sectionTop - 200) {
-              current = section.getAttribute('id') || '';
-            }
-          });
+          if (!ticking) {
+            requestAnimationFrame(() => {
+              let current = '';
+              sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                  current = section.getAttribute('id') || '';
+                }
+              });
 
-          navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href')?.includes(current)) {
-              link.classList.add('active');
-            }
-          });
-        });
+              navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href')?.includes(current)) {
+                  link.classList.add('active');
+                }
+              });
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
       });
 
       // Tawk.to Live Chat - Lazy loaded

@@ -1,0 +1,1551 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Homepage Settings" activeTab="homepage">
+  <!-- Page Header -->
+  <div class="hp-page-header">
+    <div class="hp-page-header-left">
+      <h1>Homepage Settings</h1>
+      <p>Configure the content, images, and SEO for your homepage sections.</p>
+    </div>
+    <div class="hp-page-header-right">
+      <a href="/" target="_blank" rel="noopener" class="hp-view-live">
+        <i class="fas fa-external-link-alt"></i>
+        <span>View Live</span>
+      </a>
+      <span class="hp-last-saved" id="last-saved-badge">
+        <i class="fas fa-clock"></i>
+        <span id="last-saved-text">Loading...</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="hp-tabs">
+    <button class="hp-tab active" data-tab="hero">
+      <i class="fas fa-rocket"></i>
+      <span class="hp-tab-label">Hero</span>
+    </button>
+    <button class="hp-tab" data-tab="about">
+      <i class="fas fa-user-circle"></i>
+      <span class="hp-tab-label">About</span>
+    </button>
+    <button class="hp-tab" data-tab="contact">
+      <i class="fas fa-paper-plane"></i>
+      <span class="hp-tab-label">Contact</span>
+    </button>
+    <button class="hp-tab" data-tab="seo">
+      <i class="fas fa-chart-line"></i>
+      <span class="hp-tab-label">SEO & Social</span>
+    </button>
+  </div>
+
+  <!-- ==================== HERO TAB ==================== -->
+  <div class="hp-panel active" id="hero-tab">
+    <form id="hero-form">
+      <!-- Text Content Card -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon blue"><i class="fas fa-heading"></i></div>
+            <div>
+              <h2>Hero Text Content</h2>
+              <p>The first thing visitors see — make it count.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="hero-greeting">Greeting</label>
+              <input type="text" id="hero-greeting" name="greeting" placeholder="Hi There," required>
+            </div>
+            <div class="hp-field">
+              <label for="hero-name">Your Name</label>
+              <input type="text" id="hero-name" name="name" placeholder="Sheikh Shariar Nehal" required>
+            </div>
+          </div>
+          <div class="hp-field">
+            <label for="hero-subtitle">Subtitle</label>
+            <input type="text" id="hero-subtitle" name="subtitle" placeholder="I Am Into" required>
+          </div>
+          <div class="hp-field">
+            <label for="hero-typing-texts">Typing Animation Texts</label>
+            <input type="text" id="hero-typing-texts" name="typingTexts" placeholder="frontend development, backend development, web designing" required>
+            <span class="hp-hint"><i class="fas fa-info-circle"></i> Separate each phrase with a comma</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Card -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon green"><i class="fas fa-mouse-pointer"></i></div>
+            <div>
+              <h2>Call to Action</h2>
+              <p>Button that redirects visitors to the next section.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="hero-cta-text">Button Label</label>
+              <input type="text" id="hero-cta-text" name="ctaText" placeholder="About Me" required>
+            </div>
+            <div class="hp-field">
+              <label for="hero-cta-link">Button Link</label>
+              <input type="text" id="hero-cta-link" name="ctaLink" placeholder="#about" required>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Card -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon purple"><i class="fas fa-image"></i></div>
+            <div>
+              <h2>Hero Image</h2>
+              <p>Main visual for the hero section.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-image-area">
+            <div class="hp-image-preview" id="hero-image-preview">
+              <div class="hp-image-placeholder">
+                <i class="fas fa-image"></i>
+                <span>No image set</span>
+              </div>
+            </div>
+            <div class="hp-image-fields">
+              <div class="hp-field">
+                <label for="hero-image">Image URL</label>
+                <input type="text" id="hero-image" name="heroImage" placeholder="/assets/images/hero.webp" required>
+              </div>
+              <div class="hp-field">
+                <label for="hero-image-alt">Alt Text</label>
+                <input type="text" id="hero-image-alt" name="heroImageAlt" placeholder="Descriptive alt text for accessibility" required>
+              </div>
+              <div class="hp-upload-zone" id="hero-dropzone">
+                <input type="file" id="hero-image-file" accept="image/*" class="hp-file-input">
+                <div class="hp-upload-content">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <span>Drop image or <strong>browse</strong></span>
+                  <small>PNG, JPG, WebP — max 5 MB</small>
+                </div>
+                <div class="hp-upload-progress" id="hero-upload-progress" style="display:none;">
+                  <div class="hp-progress-bar"><div class="hp-progress-fill"></div></div>
+                  <span>Uploading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Save Bar -->
+      <div class="hp-save-bar">
+        <span class="hp-shortcut-hint"><kbd>Ctrl</kbd>+<kbd>S</kbd> to save</span>
+        <button type="button" class="hp-btn-save" onclick="saveSection('hero')">
+          <i class="fas fa-check"></i> Save Hero Section
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ==================== ABOUT TAB ==================== -->
+  <div class="hp-panel" id="about-tab">
+    <form id="about-form">
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon blue"><i class="fas fa-id-card"></i></div>
+            <div>
+              <h2>Personal Info</h2>
+              <p>Your name, title, and short biography.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="about-title">Title</label>
+              <input type="text" id="about-title" name="title" placeholder="I'm Sheikh Shariar Nehal" required>
+            </div>
+            <div class="hp-field">
+              <label for="about-subtitle">Subtitle</label>
+              <input type="text" id="about-subtitle" name="subtitle" placeholder="Web Developer" required>
+            </div>
+          </div>
+          <div class="hp-field">
+            <label for="about-bio">Biography</label>
+            <textarea id="about-bio" name="bio" rows="5" placeholder="Write a compelling paragraph about yourself..." required></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon green"><i class="fas fa-address-book"></i></div>
+            <div>
+              <h2>Contact & Resume</h2>
+              <p>Email, location, and resume download link.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="about-email">Email</label>
+              <div class="hp-input-icon">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="about-email" name="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+            <div class="hp-field">
+              <label for="about-location">Location</label>
+              <div class="hp-input-icon">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="about-location" name="location" placeholder="Dhaka, Bangladesh" required>
+              </div>
+            </div>
+          </div>
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="about-resume-text">Resume Button Text</label>
+              <input type="text" id="about-resume-text" name="resumeText" placeholder="Resume" required>
+            </div>
+            <div class="hp-field">
+              <label for="about-resume-url">Resume URL</label>
+              <div class="hp-input-icon">
+                <i class="fas fa-link"></i>
+                <input type="url" id="about-resume-url" name="resumeUrl" placeholder="https://drive.google.com/..." required>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon purple"><i class="fas fa-portrait"></i></div>
+            <div>
+              <h2>Profile Image</h2>
+              <p>Photo displayed in the about section.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-image-area">
+            <div class="hp-image-preview" id="about-image-preview">
+              <div class="hp-image-placeholder">
+                <i class="fas fa-user"></i>
+                <span>No image set</span>
+              </div>
+            </div>
+            <div class="hp-image-fields">
+              <div class="hp-field">
+                <label for="about-profile-image">Image URL</label>
+                <input type="text" id="about-profile-image" name="profileImage" placeholder="/assets/images/profile2.webp" required>
+              </div>
+              <div class="hp-field">
+                <label for="about-profile-image-alt">Alt Text</label>
+                <input type="text" id="about-profile-image-alt" name="profileImageAlt" placeholder="Profile photo" required>
+              </div>
+              <div class="hp-upload-zone" id="about-dropzone">
+                <input type="file" id="about-image-file" accept="image/*" class="hp-file-input">
+                <div class="hp-upload-content">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <span>Drop image or <strong>browse</strong></span>
+                  <small>PNG, JPG, WebP — max 5 MB</small>
+                </div>
+                <div class="hp-upload-progress" id="about-upload-progress" style="display:none;">
+                  <div class="hp-progress-bar"><div class="hp-progress-fill"></div></div>
+                  <span>Uploading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-save-bar">
+        <span class="hp-shortcut-hint"><kbd>Ctrl</kbd>+<kbd>S</kbd> to save</span>
+        <button type="button" class="hp-btn-save" onclick="saveSection('about')">
+          <i class="fas fa-check"></i> Save About Section
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ==================== CONTACT TAB ==================== -->
+  <div class="hp-panel" id="contact-tab">
+    <form id="contact-form">
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon blue"><i class="fas fa-image"></i></div>
+            <div>
+              <h2>Contact Section Image</h2>
+              <p>The illustration or photo shown alongside the contact form.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-image-area">
+            <div class="hp-image-preview" id="contact-image-preview">
+              <div class="hp-image-placeholder">
+                <i class="fas fa-image"></i>
+                <span>No image set</span>
+              </div>
+            </div>
+            <div class="hp-image-fields">
+              <div class="hp-field">
+                <label for="contact-image">Image URL</label>
+                <input type="text" id="contact-image" name="contactImage" placeholder="/assets/images/contact1.webp" required>
+              </div>
+              <div class="hp-field">
+                <label for="contact-image-alt">Alt Text</label>
+                <input type="text" id="contact-image-alt" name="contactImageAlt" placeholder="Contact illustration" required>
+              </div>
+              <div class="hp-upload-zone" id="contact-dropzone">
+                <input type="file" id="contact-image-file" accept="image/*" class="hp-file-input">
+                <div class="hp-upload-content">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <span>Drop image or <strong>browse</strong></span>
+                  <small>PNG, JPG, WebP — max 5 MB</small>
+                </div>
+                <div class="hp-upload-progress" id="contact-upload-progress" style="display:none;">
+                  <div class="hp-progress-bar"><div class="hp-progress-fill"></div></div>
+                  <span>Uploading...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-save-bar">
+        <span class="hp-shortcut-hint"><kbd>Ctrl</kbd>+<kbd>S</kbd> to save</span>
+        <button type="button" class="hp-btn-save" onclick="saveSection('contact')">
+          <i class="fas fa-check"></i> Save Contact Section
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ==================== SEO TAB ==================== -->
+  <div class="hp-panel" id="seo-tab">
+    <form id="seo-form">
+      <!-- Identity -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon blue"><i class="fas fa-fingerprint"></i></div>
+            <div>
+              <h2>Identity</h2>
+              <p>Used in structured data (JSON-LD) for search engines.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-name">Full Name</label>
+              <input type="text" id="seo-name" name="name" placeholder="Sheikh Shariar Nehal" required>
+            </div>
+            <div class="hp-field">
+              <label for="seo-job-title">Job Title</label>
+              <input type="text" id="seo-job-title" name="jobTitle" placeholder="Full-Stack Web Developer" required>
+            </div>
+          </div>
+          <div class="hp-field">
+            <label for="seo-description">Meta Description</label>
+            <textarea id="seo-description" name="description" rows="3" placeholder="A short professional summary for search engine results..." required></textarea>
+            <span class="hp-hint"><i class="fas fa-info-circle"></i> Keep it under 160 characters for best results</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact & Location -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon green"><i class="fas fa-map-marked-alt"></i></div>
+            <div>
+              <h2>Contact & Location</h2>
+              <p>Phone, address, nationality information.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-email">Email</label>
+              <div class="hp-input-icon">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="seo-email" name="email" required>
+              </div>
+            </div>
+            <div class="hp-field">
+              <label for="seo-telephone">Phone</label>
+              <div class="hp-input-icon">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="seo-telephone" name="telephone" placeholder="+880...">
+              </div>
+            </div>
+          </div>
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-nationality">Nationality</label>
+              <input type="text" id="seo-nationality" name="nationality" placeholder="Bangladeshi">
+            </div>
+            <div class="hp-field">
+              <label for="seo-address-locality">City</label>
+              <input type="text" id="seo-address-locality" name="addressLocality" placeholder="Dhaka">
+            </div>
+          </div>
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-address-region">Region</label>
+              <input type="text" id="seo-address-region" name="addressRegion" placeholder="Dhaka">
+            </div>
+            <div class="hp-field">
+              <label for="seo-address-country">Country Code</label>
+              <input type="text" id="seo-address-country" name="addressCountry" placeholder="BD" maxlength="2">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon purple"><i class="fas fa-graduation-cap"></i></div>
+            <div>
+              <h2>Education</h2>
+              <p>University details for structured data.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-university">University</label>
+              <input type="text" id="seo-university" name="university" placeholder="University of Dhaka">
+            </div>
+            <div class="hp-field">
+              <label for="seo-university-url">University URL</label>
+              <div class="hp-input-icon">
+                <i class="fas fa-link"></i>
+                <input type="url" id="seo-university-url" name="universityUrl" placeholder="https://www.du.ac.bd">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Media -->
+      <div class="hp-card">
+        <div class="hp-card-head">
+          <div class="hp-card-title-group">
+            <div class="hp-card-icon orange"><i class="fas fa-share-alt"></i></div>
+            <div>
+              <h2>Social Media</h2>
+              <p>Links to your profiles — shown in structured data and meta tags.</p>
+            </div>
+          </div>
+        </div>
+        <div class="hp-card-body">
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-github"><i class="fab fa-github"></i> GitHub</label>
+              <input type="url" id="seo-github" name="github" placeholder="https://github.com/username">
+            </div>
+            <div class="hp-field">
+              <label for="seo-linkedin"><i class="fab fa-linkedin"></i> LinkedIn</label>
+              <input type="url" id="seo-linkedin" name="linkedin" placeholder="https://linkedin.com/in/username">
+            </div>
+          </div>
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-twitter"><i class="fab fa-twitter"></i> Twitter / X</label>
+              <input type="url" id="seo-twitter" name="twitter" placeholder="https://twitter.com/username">
+            </div>
+            <div class="hp-field">
+              <label for="seo-telegram"><i class="fab fa-telegram"></i> Telegram</label>
+              <input type="url" id="seo-telegram" name="telegram" placeholder="https://t.me/username">
+            </div>
+          </div>
+          <div class="hp-grid-2">
+            <div class="hp-field">
+              <label for="seo-instagram"><i class="fab fa-instagram"></i> Instagram</label>
+              <input type="url" id="seo-instagram" name="instagram" placeholder="https://instagram.com/username">
+            </div>
+            <div class="hp-field">
+              <label for="seo-facebook"><i class="fab fa-facebook"></i> Facebook</label>
+              <input type="url" id="seo-facebook" name="facebook" placeholder="https://facebook.com/username">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hp-save-bar">
+        <span class="hp-shortcut-hint"><kbd>Ctrl</kbd>+<kbd>S</kbd> to save</span>
+        <button type="button" class="hp-btn-save" onclick="saveSection('seo')">
+          <i class="fas fa-check"></i> Save SEO Settings
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="hp-toast" id="hp-toast">
+    <i class="hp-toast-icon fas fa-check-circle"></i>
+    <span class="hp-toast-msg" id="hp-toast-msg"></span>
+  </div>
+
+  <!-- ==================== STYLES ==================== -->
+  <style>
+    /* ---- Page Header ---- */
+    .hp-page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hp-page-header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--admin-gray-900);
+      margin-bottom: 4px;
+    }
+    .hp-page-header p {
+      font-size: 14px;
+      color: var(--admin-gray-500);
+      margin: 0;
+    }
+    .hp-page-header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hp-view-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--admin-primary);
+      background: rgba(43, 61, 218, 0.06);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(43, 61, 218, 0.15);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .hp-view-live:hover {
+      background: rgba(43, 61, 218, 0.12);
+      border-color: rgba(43, 61, 218, 0.3);
+      transform: translateY(-1px);
+    }
+    .hp-last-saved {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--admin-gray-500);
+      background: var(--admin-card-bg);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--admin-border);
+      white-space: nowrap;
+    }
+
+    /* ---- Tabs ---- */
+    .hp-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 24px;
+      background: var(--admin-card-bg);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--admin-border);
+      flex-wrap: wrap;
+    }
+    .hp-tab {
+      flex: 1;
+      min-width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--admin-gray-500);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .hp-tab:hover {
+      background: var(--admin-gray-50);
+      color: var(--admin-gray-700);
+    }
+    .hp-tab.active {
+      background: var(--admin-primary);
+      color: white;
+      box-shadow: 0 2px 8px rgba(43, 61, 218, 0.25);
+    }
+    .hp-tab i { font-size: 15px; }
+
+    /* ---- Panels ---- */
+    .hp-panel {
+      display: none;
+      animation: hpFadeIn 0.25s ease;
+    }
+    .hp-panel.active { display: block; }
+
+    @keyframes hpFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- Cards ---- */
+    .hp-card {
+      background: var(--admin-card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--admin-border);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease, background-color 0.3s ease;
+    }
+    .hp-card:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+    .hp-card-head {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hp-card-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hp-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      flex-shrink: 0;
+    }
+    .hp-card-icon.blue   { background: rgba(43, 61, 218, 0.08); color: var(--admin-primary); }
+    .hp-card-icon.green  { background: rgba(16, 185, 129, 0.08); color: var(--admin-success); }
+    .hp-card-icon.purple { background: rgba(139, 92, 246, 0.08); color: #8b5cf6; }
+    .hp-card-icon.orange { background: rgba(245, 158, 11, 0.08); color: var(--admin-warning); }
+
+    .hp-card-head h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--admin-gray-900);
+      margin: 0 0 2px;
+    }
+    .hp-card-head p {
+      font-size: 13px;
+      color: var(--admin-gray-500);
+      margin: 0;
+    }
+    .hp-card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* ---- Grid ---- */
+    .hp-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    /* ---- Fields ---- */
+    .hp-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .hp-field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--admin-gray-700);
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hp-field label i {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+    .hp-field input,
+    .hp-field textarea {
+      padding: 10px 14px;
+      border: 1.5px solid var(--admin-border);
+      border-radius: 9px;
+      background: var(--admin-input-bg);
+      color: var(--admin-text);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .hp-field input::placeholder,
+    .hp-field textarea::placeholder {
+      color: var(--admin-gray-400);
+    }
+    .hp-field input:focus,
+    .hp-field textarea:focus {
+      border-color: var(--admin-primary);
+      background: var(--admin-card-bg);
+      box-shadow: 0 0 0 3px rgba(43, 61, 218, 0.15);
+    }
+    .hp-field textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Input with icon */
+    .hp-input-icon {
+      position: relative;
+    }
+    .hp-input-icon i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: var(--admin-gray-400);
+      pointer-events: none;
+    }
+    .hp-input-icon input {
+      padding-left: 36px;
+      width: 100%;
+    }
+
+    .hp-hint {
+      font-size: 12px;
+      color: var(--admin-gray-500);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .hp-hint i { font-size: 12px; }
+
+    /* ---- Image Area ---- */
+    .hp-image-area {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .hp-image-preview {
+      width: 180px;
+      height: 180px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--admin-input-bg);
+      border: 2px dashed var(--admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hp-image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hp-image-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--admin-gray-400);
+    }
+    .hp-image-placeholder i { font-size: 28px; }
+    .hp-image-placeholder span { font-size: 12px; font-weight: 500; }
+
+    .hp-image-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* ---- Upload Zone ---- */
+    .hp-upload-zone {
+      position: relative;
+      border: 2px dashed var(--admin-gray-300);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--admin-input-bg);
+    }
+    .hp-upload-zone:hover,
+    .hp-upload-zone.dragover {
+      border-color: var(--admin-primary);
+      background: rgba(43, 61, 218, 0.03);
+    }
+    .hp-upload-zone.dragover {
+      transform: scale(1.01);
+    }
+    .hp-file-input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .hp-upload-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      pointer-events: none;
+    }
+    .hp-upload-content i {
+      font-size: 24px;
+      color: var(--admin-gray-400);
+      margin-bottom: 4px;
+      transition: color 0.2s;
+    }
+    .hp-upload-zone:hover .hp-upload-content i {
+      color: var(--admin-primary);
+    }
+    .hp-upload-content span {
+      font-size: 13px;
+      color: var(--admin-gray-600);
+    }
+    .hp-upload-content small {
+      font-size: 11px;
+      color: var(--admin-gray-400);
+    }
+    .hp-upload-progress {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .hp-upload-progress span {
+      font-size: 12px;
+      color: var(--admin-gray-500);
+    }
+    .hp-progress-bar {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--admin-gray-200);
+      overflow: hidden;
+    }
+    .hp-progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--admin-primary), var(--admin-primary-light));
+      width: 70%;
+      animation: hpPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes hpPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ---- Save Bar (sticky) ---- */
+    .hp-save-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+      padding: 16px 24px;
+      margin: 0 -24px -8px;
+      background: var(--admin-card-bg);
+      border-top: 1px solid var(--admin-border);
+      border-radius: 0 0 14px 14px;
+      position: sticky;
+      bottom: 0;
+      z-index: 20;
+    }
+    .hp-btn-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: var(--admin-primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.01em;
+    }
+    .hp-btn-save:hover {
+      background: var(--admin-primary-light);
+      box-shadow: 0 4px 14px rgba(43, 61, 218, 0.3);
+      transform: translateY(-1px);
+    }
+    .hp-btn-save:active {
+      transform: translateY(0);
+    }
+    .hp-btn-save.saving {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* ---- Toast ---- */
+    .hp-toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: white;
+      background: var(--admin-success);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1200;
+      pointer-events: none;
+    }
+    .hp-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .hp-toast.error {
+      background: var(--admin-danger);
+    }
+    .hp-toast-icon { font-size: 16px; }
+
+    /* ---- Loading Skeleton ---- */
+    .hp-loading {
+      pointer-events: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .hp-loading::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg,
+        transparent,
+        var(--admin-card-bg, rgba(255,255,255,0.5)) 40%,
+        var(--admin-card-bg, rgba(255,255,255,0.8)) 50%,
+        var(--admin-card-bg, rgba(255,255,255,0.5)) 60%,
+        transparent);
+      animation: hpShimmer 1.5s ease-in-out infinite;
+      z-index: 10;
+    }
+    @keyframes hpShimmer {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    .hp-loading input,
+    .hp-loading textarea {
+      color: transparent !important;
+    }
+
+    /* ---- Dirty Indicator (unsaved changes dot) ---- */
+    .hp-dirty-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--admin-warning, #f59e0b);
+      display: inline-block;
+      margin-left: 6px;
+      flex-shrink: 0;
+      animation: hpPulseDot 1.5s ease-in-out infinite;
+    }
+    @keyframes hpPulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ---- Character Counter ---- */
+    .hp-char-counter {
+      font-size: 12px;
+      color: var(--admin-gray-500);
+      text-align: right;
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.2s;
+    }
+    .hp-char-counter.warn {
+      color: var(--admin-warning, #f59e0b);
+      font-weight: 600;
+    }
+    .hp-char-counter.over {
+      color: var(--admin-danger, #ef4444);
+      font-weight: 700;
+    }
+
+    /* ---- Form Validation Errors ---- */
+    .hp-field.has-error input,
+    .hp-field.has-error textarea {
+      border-color: var(--admin-danger, #ef4444) !important;
+      background: rgba(239, 68, 68, 0.04) !important;
+    }
+    .hp-field.has-error input:focus,
+    .hp-field.has-error textarea:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+    .hp-field-error {
+      font-size: 12px;
+      color: var(--admin-danger, #ef4444);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    /* ---- Keyboard Shortcut Hint ---- */
+    .hp-shortcut-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--admin-gray-400);
+      margin-left: auto;
+    }
+    .hp-shortcut-hint kbd {
+      display: inline-block;
+      padding: 1px 5px;
+      font-size: 11px;
+      font-family: 'Inter', monospace;
+      color: var(--admin-gray-500);
+      background: var(--admin-input-bg, #f9fafb);
+      border: 1px solid var(--admin-border);
+      border-radius: 4px;
+      line-height: 1.4;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .hp-grid-2 { grid-template-columns: 1fr; }
+      .hp-image-area {
+        grid-template-columns: 1fr;
+      }
+      .hp-image-preview {
+        width: 100%;
+        height: 160px;
+      }
+      .hp-tabs { flex-wrap: nowrap; overflow-x: auto; }
+      .hp-tab { min-width: auto; padding: 10px 14px; }
+      .hp-tab-label { display: none; }
+      .hp-page-header { flex-direction: column; }
+      .hp-shortcut-hint { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hp-card-head { padding: 16px; }
+      .hp-card-body { padding: 16px; }
+      .hp-card-icon { width: 36px; height: 36px; font-size: 15px; }
+    }
+  </style>
+
+  <!-- ==================== SCRIPT ==================== -->
+  <script is:inline>
+    let homepageData = {};
+    let dirtyForms = new Set();
+    let activeTab = 'hero';
+    let isInitialLoad = true;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initTabs();
+      initDragDrop();
+      initImagePreviews();
+      initCharCounters();
+      initKeyboardShortcuts();
+      initUnsavedChangesTracking();
+      showLoadingSkeleton();
+      loadHomepageSettings();
+    });
+
+    /* ---------- Loading Skeleton ---------- */
+    function showLoadingSkeleton() {
+      document.querySelectorAll('.hp-card-body').forEach(body => {
+        body.classList.add('hp-loading');
+      });
+    }
+
+    function hideLoadingSkeleton() {
+      document.querySelectorAll('.hp-card-body').forEach(body => {
+        body.classList.remove('hp-loading');
+      });
+    }
+
+    /* ---------- Tabs ---------- */
+    function initTabs() {
+      document.querySelectorAll('.hp-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.hp-tab').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.hp-panel').forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          activeTab = btn.dataset.tab;
+          const panel = document.getElementById(`${activeTab}-tab`);
+          panel.classList.add('active');
+          // Focus first input in the new tab for keyboard users
+          const firstInput = panel.querySelector('input, textarea');
+          if (firstInput) setTimeout(() => firstInput.focus(), 200);
+        });
+      });
+    }
+
+    /* ---------- Keyboard Shortcuts ---------- */
+    function initKeyboardShortcuts() {
+      document.addEventListener('keydown', e => {
+        // Ctrl+S / Cmd+S → save active tab
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+          e.preventDefault();
+          saveSection(activeTab);
+        }
+        // Ctrl+1-4 → switch tabs
+        if ((e.ctrlKey || e.metaKey) && ['1','2','3','4'].includes(e.key)) {
+          e.preventDefault();
+          const tabs = ['hero', 'about', 'contact', 'seo'];
+          const idx = parseInt(e.key) - 1;
+          document.querySelector(`.hp-tab[data-tab="${tabs[idx]}"]`)?.click();
+        }
+      });
+    }
+
+    /* ---------- Unsaved Changes ---------- */
+    function initUnsavedChangesTracking() {
+      document.querySelectorAll('.hp-panel form').forEach(form => {
+        form.addEventListener('input', () => {
+          if (isInitialLoad) return;
+          const section = form.id.replace('-form', '');
+          dirtyForms.add(section);
+          updateDirtyIndicator(section, true);
+        });
+      });
+
+      window.addEventListener('beforeunload', e => {
+        if (dirtyForms.size > 0) {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+    }
+
+    function updateDirtyIndicator(section, isDirty) {
+      const tab = document.querySelector(`.hp-tab[data-tab="${section}"]`);
+      if (!tab) return;
+      const existing = tab.querySelector('.hp-dirty-dot');
+      if (isDirty && !existing) {
+        const dot = document.createElement('span');
+        dot.className = 'hp-dirty-dot';
+        dot.title = 'Unsaved changes';
+        tab.appendChild(dot);
+      } else if (!isDirty && existing) {
+        existing.remove();
+      }
+    }
+
+    /* ---------- Character Counters ---------- */
+    function initCharCounters() {
+      const descEl = document.getElementById('seo-description');
+      if (descEl) {
+        const counter = document.createElement('div');
+        counter.className = 'hp-char-counter';
+        counter.id = 'seo-desc-counter';
+        descEl.parentElement.appendChild(counter);
+        descEl.addEventListener('input', () => updateCharCounter(descEl, 'seo-desc-counter', 160));
+        // Initial update
+        updateCharCounter(descEl, 'seo-desc-counter', 160);
+      }
+    }
+
+    function updateCharCounter(input, counterId, maxLen) {
+      const counter = document.getElementById(counterId);
+      if (!counter) return;
+      const len = input.value.length;
+      const remaining = maxLen - len;
+      counter.textContent = `${len}/${maxLen} characters`;
+      counter.className = 'hp-char-counter' + (remaining < 0 ? ' over' : remaining < 20 ? ' warn' : '');
+    }
+
+    /* ---------- Drag & Drop ---------- */
+    function initDragDrop() {
+      document.querySelectorAll('.hp-upload-zone').forEach(zone => {
+        ['dragenter', 'dragover'].forEach(evt =>
+          zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.add('dragover'); })
+        );
+        ['dragleave', 'drop'].forEach(evt =>
+          zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.remove('dragover'); })
+        );
+        zone.addEventListener('drop', e => {
+          const input = zone.querySelector('.hp-file-input');
+          if (e.dataTransfer.files.length) {
+            input.files = e.dataTransfer.files;
+            input.dispatchEvent(new Event('change'));
+          }
+        });
+        const input = zone.querySelector('.hp-file-input');
+        input.addEventListener('change', () => {
+          if (!input.files.length) return;
+          const section = zone.id.replace('-dropzone', '');
+          const targetMap = { hero: 'hero-image', about: 'about-profile-image', contact: 'contact-image' };
+          uploadImage(section, targetMap[section]);
+        });
+      });
+    }
+
+    /* ---------- Image Previews ---------- */
+    function initImagePreviews() {
+      const pairs = [
+        { input: 'hero-image', preview: 'hero-image-preview' },
+        { input: 'about-profile-image', preview: 'about-image-preview' },
+        { input: 'contact-image', preview: 'contact-image-preview' },
+      ];
+      pairs.forEach(({ input, preview }) => {
+        const el = document.getElementById(input);
+        if (el) el.addEventListener('input', () => updatePreview(el.value, preview));
+      });
+    }
+
+    function updatePreview(url, previewId) {
+      const container = document.getElementById(previewId);
+      if (!container) return;
+      if (url) {
+        container.innerHTML = `<img src="${url}" alt="Preview" onerror="this.parentElement.innerHTML='<div class=\\'hp-image-placeholder\\'><i class=\\'fas fa-exclamation-triangle\\'></i><span>Invalid URL</span></div>'">`;
+      } else {
+        container.innerHTML = '<div class="hp-image-placeholder"><i class="fas fa-image"></i><span>No image set</span></div>';
+      }
+    }
+
+    /* ---------- Data Load ---------- */
+    async function loadHomepageSettings() {
+      try {
+        const { data, error } = await window.supabaseClient
+          .from('homepage_settings')
+          .select('*')
+          .order('sort_order', { ascending: true });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          data.forEach(item => { homepageData[item.section] = item; });
+        }
+
+        populateHeroForm(homepageData.hero?.content || {});
+        populateAboutForm(homepageData.about?.content || {});
+        populateContactForm(homepageData.contact?.content || {});
+        populateSeoForm(homepageData.seo?.content || {});
+
+        hideLoadingSkeleton();
+
+        // Mark all forms clean after populate
+        isInitialLoad = false;
+        dirtyForms.clear();
+        ['hero', 'about', 'contact', 'seo'].forEach(s => updateDirtyIndicator(s, false));
+
+        // Update last-saved badge
+        if (data && data.length > 0) {
+          const latest = data.reduce((a, b) => new Date(a.updated_at) > new Date(b.updated_at) ? a : b, data[0]);
+          if (latest?.updated_at) {
+            document.getElementById('last-saved-text').textContent = 'Last saved ' + timeAgo(latest.updated_at);
+          } else {
+            document.getElementById('last-saved-text').textContent = 'Not saved yet';
+          }
+        } else {
+          document.getElementById('last-saved-text').textContent = 'Not saved yet';
+        }
+      } catch (err) {
+        console.error('Error loading homepage settings:', err);
+        hideLoadingSkeleton();
+        showToast('Failed to load settings', true);
+      }
+    }
+
+    function timeAgo(dateStr) {
+      const diff = (Date.now() - new Date(dateStr).getTime()) / 1000;
+      if (diff < 60) return 'just now';
+      if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
+      if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+      return Math.floor(diff / 86400) + 'd ago';
+    }
+
+    /* ---------- Populate ---------- */
+    function populateHeroForm(d) {
+      setVal('hero-greeting', d.greeting);
+      setVal('hero-name', d.name);
+      setVal('hero-subtitle', d.subtitle);
+      setVal('hero-typing-texts', (d.typingTexts || []).join(', '));
+      setVal('hero-image', d.heroImage);
+      setVal('hero-image-alt', d.heroImageAlt);
+      setVal('hero-cta-text', d.ctaText);
+      setVal('hero-cta-link', d.ctaLink);
+      updatePreview(d.heroImage || '', 'hero-image-preview');
+    }
+
+    function populateAboutForm(d) {
+      setVal('about-title', d.title);
+      setVal('about-subtitle', d.subtitle);
+      setVal('about-bio', d.bio);
+      setVal('about-email', d.email);
+      setVal('about-location', d.location);
+      setVal('about-resume-text', d.resumeText);
+      setVal('about-resume-url', d.resumeUrl);
+      setVal('about-profile-image', d.profileImage);
+      setVal('about-profile-image-alt', d.profileImageAlt);
+      updatePreview(d.profileImage || '', 'about-image-preview');
+    }
+
+    function populateContactForm(d) {
+      setVal('contact-image', d.contactImage);
+      setVal('contact-image-alt', d.contactImageAlt);
+      updatePreview(d.contactImage || '', 'contact-image-preview');
+    }
+
+    function populateSeoForm(d) {
+      setVal('seo-name', d.name);
+      setVal('seo-job-title', d.jobTitle);
+      setVal('seo-description', d.description);
+      setVal('seo-email', d.email);
+      setVal('seo-telephone', d.telephone);
+      setVal('seo-nationality', d.nationality);
+      setVal('seo-address-locality', d.addressLocality);
+      setVal('seo-address-region', d.addressRegion);
+      setVal('seo-address-country', d.addressCountry);
+      setVal('seo-university', d.university);
+      setVal('seo-university-url', d.universityUrl);
+      setVal('seo-github', d.github);
+      setVal('seo-linkedin', d.linkedin);
+      setVal('seo-twitter', d.twitter);
+      setVal('seo-telegram', d.telegram);
+      setVal('seo-instagram', d.instagram);
+      setVal('seo-facebook', d.facebook);
+      // Update character counter
+      const descEl = document.getElementById('seo-description');
+      if (descEl) updateCharCounter(descEl, 'seo-desc-counter', 160);
+    }
+
+    function setVal(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.value = val || '';
+    }
+
+    /* ---------- Form Validation ---------- */
+    function validateForm(formEl) {
+      let isValid = true;
+      // Clear previous errors
+      formEl.querySelectorAll('.hp-field-error').forEach(el => el.remove());
+      formEl.querySelectorAll('.hp-field.has-error').forEach(el => el.classList.remove('has-error'));
+
+      formEl.querySelectorAll('input[required], textarea[required]').forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+          const field = input.closest('.hp-field');
+          if (field) {
+            field.classList.add('has-error');
+            const msg = document.createElement('span');
+            msg.className = 'hp-field-error';
+            msg.textContent = 'This field is required';
+            field.appendChild(msg);
+          }
+        }
+      });
+
+      // Validate URL fields
+      formEl.querySelectorAll('input[type="url"]').forEach(input => {
+        if (input.value && !isValidUrl(input.value)) {
+          isValid = false;
+          const field = input.closest('.hp-field');
+          if (field && !field.classList.contains('has-error')) {
+            field.classList.add('has-error');
+            const msg = document.createElement('span');
+            msg.className = 'hp-field-error';
+            msg.textContent = 'Enter a valid URL';
+            field.appendChild(msg);
+          }
+        }
+      });
+
+      // Validate email fields
+      formEl.querySelectorAll('input[type="email"]').forEach(input => {
+        if (input.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+          isValid = false;
+          const field = input.closest('.hp-field');
+          if (field && !field.classList.contains('has-error')) {
+            field.classList.add('has-error');
+            const msg = document.createElement('span');
+            msg.className = 'hp-field-error';
+            msg.textContent = 'Enter a valid email';
+            field.appendChild(msg);
+          }
+        }
+      });
+
+      if (!isValid) {
+        // Scroll to first error
+        const firstErr = formEl.querySelector('.has-error');
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      return isValid;
+    }
+
+    function isValidUrl(str) {
+      try { new URL(str); return true; } catch { return false; }
+    }
+
+    // Clear field errors on input
+    document.addEventListener('input', e => {
+      const field = e.target.closest('.hp-field');
+      if (field && field.classList.contains('has-error')) {
+        field.classList.remove('has-error');
+        const err = field.querySelector('.hp-field-error');
+        if (err) err.remove();
+      }
+    }, true);
+
+    /* ---------- Save (UPSERT) ---------- */
+    async function saveSection(section) {
+      const form = document.getElementById(`${section}-form`);
+      if (!form) return;
+
+      // Validate before saving
+      if (!validateForm(form)) {
+        showToast('Please fix the errors before saving', true);
+        return;
+      }
+
+      const formData = new FormData(form);
+      const content = {};
+
+      for (let [key, value] of formData.entries()) {
+        content[key] = key === 'typingTexts'
+          ? value.split(',').map(s => s.trim()).filter(Boolean)
+          : value;
+      }
+
+      const btn = form.querySelector('.hp-btn-save');
+      const origHTML = btn.innerHTML;
+      btn.classList.add('saving');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+      try {
+        // Use UPSERT to handle both insert and update
+        const sortOrderMap = { hero: 1, about: 2, contact: 3, seo: 4 };
+        const { error } = await window.supabaseClient
+          .from('homepage_settings')
+          .upsert({
+            section: section,
+            content: content,
+            is_active: true,
+            sort_order: sortOrderMap[section] || 0,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'section' });
+
+        if (error) throw error;
+
+        // Clear dirty state
+        dirtyForms.delete(section);
+        updateDirtyIndicator(section, false);
+
+        showToast(`${section.charAt(0).toUpperCase() + section.slice(1)} section saved`);
+
+        // Silently reload data
+        isInitialLoad = true;
+        await loadHomepageSettings();
+      } catch (err) {
+        console.error('Error saving section:', err);
+        showToast('Failed to save — please try again', true);
+      } finally {
+        btn.classList.remove('saving');
+        btn.innerHTML = origHTML;
+      }
+    }
+
+    /* ---------- Upload ---------- */
+    async function uploadImage(section, targetInputId) {
+      const fileInput = document.getElementById(`${section}-image-file`);
+      const progressDiv = document.getElementById(`${section}-upload-progress`);
+      const contentDiv = progressDiv?.previousElementSibling;
+      const file = fileInput.files[0];
+
+      if (!file) { showToast('Select an image file first', true); return; }
+      if (!file.type.startsWith('image/')) { showToast('Invalid file type', true); return; }
+      if (file.size > 5242880) { showToast('File must be under 5 MB', true); return; }
+
+      if (contentDiv) contentDiv.style.display = 'none';
+      if (progressDiv) progressDiv.style.display = 'flex';
+
+      try {
+        const ext = file.name.split('.').pop();
+        const fileName = `${section}-${Date.now()}.${ext}`;
+        const { data, error } = await window.supabaseClient.storage
+          .from('homepage-images')
+          .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+        if (error) throw error;
+
+        const { data: { publicUrl } } = window.supabaseClient.storage
+          .from('homepage-images')
+          .getPublicUrl(fileName);
+
+        document.getElementById(targetInputId).value = publicUrl;
+        document.getElementById(targetInputId).dispatchEvent(new Event('input', { bubbles: true }));
+        updatePreview(publicUrl, `${section}-image-preview`);
+        showToast('Image uploaded successfully');
+      } catch (err) {
+        console.error('Upload error:', err);
+        showToast('Upload failed — ' + (err.message || 'try again'), true);
+      } finally {
+        if (progressDiv) progressDiv.style.display = 'none';
+        if (contentDiv) contentDiv.style.display = 'flex';
+        fileInput.value = '';
+      }
+    }
+
+    /* ---------- Toast ---------- */
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('hp-toast');
+      const icon  = toast.querySelector('.hp-toast-icon');
+      document.getElementById('hp-toast-msg').textContent = msg;
+      toast.className = 'hp-toast show' + (isError ? ' error' : '');
+      icon.className = 'hp-toast-icon fas ' + (isError ? 'fa-exclamation-circle' : 'fa-check-circle');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => { toast.classList.remove('show'); }, 3500);
+    }
+  </script>
+</AdminLayout>
