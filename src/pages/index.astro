@@ -8,13 +8,77 @@ import EducationCard from '../components/EducationCard.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
-import { getEducation, getExperience } from '../lib/supabase';
+import { getEducation, getExperience, getSkills, getHomepageSettings } from '../lib/supabase';
 
-import skills from '../data/skills.json';
-import projects from '../data/projects.json';
+// ============ HARDCODED DEFAULTS (fallback if DB is empty) ============
+const DEFAULTS = {
+  hero: {
+    greeting: 'Hi There,',
+    name: 'Sheikh Shariar Nehal',
+    subtitle: 'I Am Into',
+    ctaText: 'About Me',
+    ctaLink: '#about',
+    heroImage: '/assets/images/hero.webp',
+    heroImageAlt: 'Sheikh Shariar Nehal - Full Stack Web Developer',
+    typingTexts: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
+  },
+  about: {
+    title: "I'm Sheikh Shariar Nehal",
+    subtitle: 'Web Developer',
+    bio: "I'm Sheikh Shariar Nehal (also known as Shariar Nehal or Sheikh Nehal), a Web Developer and programmer with 3 years of experience. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International University. I know React, Python, JavaScript, and C++, I also good with design tools like Photoshop and Illustrator. I helped create a web app that increased user activity by 40%. I'm detail-oriented and love combining design with tech.",
+    email: 'nehal22205101260@diu.edu.bd',
+    location: 'Nowabgonj, Dhaka',
+    resumeUrl: 'https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view',
+    resumeText: 'Resume',
+    profileImage: '/assets/images/profile2.webp',
+    profileImageAlt: 'Sheikh Shariar Nehal Profile Picture - Web Developer and Designer',
+  },
+  contact: {
+    contactImage: '/assets/images/contact1.webp',
+    contactImageAlt: 'Contact Sheikh Shariar Nehal - Get In Touch',
+  },
+  seo: {
+    name: 'Sheikh Shariar Nehal',
+    jobTitle: 'Full-Stack Web Developer & Designer',
+    description: 'Sheikh Shariar Nehal is a Full-Stack Web Developer with 3+ years of experience specializing in React, Next.js, Python, and JavaScript.',
+    email: 'nehal22205101260@diu.edu.bd',
+    telephone: '+8801750627421',
+    nationality: 'Bangladesh',
+    addressLocality: 'Nowabgonj',
+    addressRegion: 'Dhaka',
+    addressCountry: 'BD',
+    university: 'Daffodil International University',
+    universityUrl: 'https://daffodilvarsity.edu.bd',
+    github: 'https://github.com/sheikhshariarnehal',
+    linkedin: 'https://www.linkedin.com/in/shekhshariarnehal/',
+    twitter: 'https://twitter.com/shariar_nehal',
+    telegram: 'https://t.me/sheikhshariarnehal',
+    instagram: 'https://instagram.com/sheikhshariarnehal',
+    facebook: 'https://www.facebook.com/sheikhshariarnehal.cse',
+  },
+};
 
-// Fetch education from database
-const educationData = await getEducation();
+// ============ FETCH DATA FROM DB (with safe fallbacks) ============
+const [homepageSettings, educationData, experienceData, skillsData] = await Promise.all([
+  getHomepageSettings().catch(() => ({})),
+  getEducation(),
+  getExperience(),
+  getSkills(),
+]);
+
+// Merge DB data over defaults – every field has a guaranteed fallback
+const hero = { ...DEFAULTS.hero, ...homepageSettings.hero };
+const about = { ...DEFAULTS.about, ...homepageSettings.about };
+const contact = { ...DEFAULTS.contact, ...homepageSettings.contact };
+const seo = { ...DEFAULTS.seo, ...homepageSettings.seo };
+
+// Skills: use DB if available, else fall back to JSON file
+import skillsFallback from '../data/skills.json';
+const skills = skillsData && skillsData.length > 0
+  ? skillsData.map(s => ({ name: s.name, icon: s.icon }))
+  : skillsFallback;
+
+// Education
 const education = educationData.map(edu => ({
   degree: edu.degree,
   institution: edu.institution,
@@ -24,11 +88,11 @@ const education = educationData.map(edu => ({
   altText: `${edu.institution} - ${edu.degree}`
 }));
 
-// Filter projects for home page (exclude android, limit to 10)
-const homeProjects = projects.filter(p => p.category !== 'android').slice(0, 10);
+// Projects: still from DB via getProjects or JSON fallback for homepage
+import projectsFallback from '../data/projects.json';
+const homeProjects = projectsFallback.filter(p => p.category !== 'android').slice(0, 10);
 
-// Fetch experience from database
-const experienceData = await getExperience();
+// Experience
 const homeExperience = experienceData.map((exp, index) => {
   const startDate = new Date(exp.start_date);
   const endDate = exp.end_date ? new Date(exp.end_date) : null;
@@ -43,40 +107,55 @@ const homeExperience = experienceData.map((exp, index) => {
   };
 });
 
-// Schema.org JSON-LD - Enhanced Person Schema
+// Build name parts for hero heading
+const nameParts = hero.name.split(' ');
+const lastName = nameParts.pop() || '';
+const firstName = nameParts.join(' ');
+
+// Collect social links from SEO data for SocialIcons
+const socialLinks = [
+  seo.linkedin ? { href: seo.linkedin, icon: 'fab fa-linkedin', label: 'LinkedIn', className: 'linkedin' } : null,
+  seo.github ? { href: seo.github, icon: 'fab fa-github', label: 'GitHub', className: 'github' } : null,
+  seo.twitter ? { href: seo.twitter, icon: 'fab fa-twitter', label: 'Twitter', className: 'twitter' } : null,
+  seo.telegram ? { href: seo.telegram, icon: 'fab fa-telegram-plane', label: 'Telegram', className: 'telegram' } : null,
+  seo.instagram ? { href: seo.instagram, icon: 'fab fa-instagram', label: 'Instagram', className: 'instagram' } : null,
+  seo.facebook ? { href: seo.facebook, icon: 'fab fa-facebook', plane: true, label: 'Facebook', className: 'dev' } : null,
+].filter(Boolean);
+
+// Schema.org JSON-LD - Enhanced Person Schema (uses DB data)
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "@id": "https://sheikhshariarnehal.me/#person",
-  "name": "Sheikh Shariar Nehal",
+  "name": seo.name,
   "alternateName": ["Shariar Nehal", "Sheikh Nehal", "Nehal"],
-  "givenName": "Sheikh Shariar",
-  "familyName": "Nehal",
+  "givenName": seo.name.split(' ').slice(0, -1).join(' '),
+  "familyName": seo.name.split(' ').pop(),
   "url": "https://sheikhshariarnehal.me",
   "image": {
     "@type": "ImageObject",
-    "url": "https://sheikhshariarnehal.me/assets/images/profile2.webp",
+    "url": "https://sheikhshariarnehal.me" + about.profileImage,
     "width": 400,
     "height": 400
   },
-  "jobTitle": "Full-Stack Web Developer & Designer",
-  "description": "Sheikh Shariar Nehal is a Full-Stack Web Developer with 3+ years of experience specializing in React, Next.js, Python, and JavaScript.",
-  "email": "nehal22205101260@diu.edu.bd",
-  "telephone": "+8801750627421",
+  "jobTitle": seo.jobTitle,
+  "description": seo.description,
+  "email": seo.email,
+  "telephone": seo.telephone,
   "nationality": {
     "@type": "Country",
-    "name": "Bangladesh"
+    "name": seo.nationality
   },
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Nowabgonj",
-    "addressRegion": "Dhaka",
-    "addressCountry": "BD"
+    "addressLocality": seo.addressLocality,
+    "addressRegion": seo.addressRegion,
+    "addressCountry": seo.addressCountry
   },
   "alumniOf": {
     "@type": "EducationalOrganization",
-    "name": "Daffodil International University",
-    "url": "https://daffodilvarsity.edu.bd"
+    "name": seo.university,
+    "url": seo.universityUrl
   },
   "knowsAbout": [
     "React.js", "Next.js", "Node.js", "TypeScript", "JavaScript", "Python",
@@ -89,23 +168,23 @@ const personSchema = {
     "name": "Freelance"
   },
   "sameAs": [
-    "https://github.com/sheikhshariarnehal",
-    "https://www.linkedin.com/in/shekhshariarnehal/",
-    "https://twitter.com/shariar_nehal",
-    "https://t.me/sheikhshariarnehal",
-    "https://instagram.com/sheikhshariarnehal",
-    "https://www.facebook.com/sheikhshariarnehal.cse"
-  ]
+    seo.github,
+    seo.linkedin,
+    seo.twitter,
+    seo.telegram,
+    seo.instagram,
+    seo.facebook
+  ].filter(Boolean)
 };
 
 const websiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "@id": "https://sheikhshariarnehal.me/#website",
-  "name": "Sheikh Shariar Nehal Portfolio",
+  "name": `${seo.name} Portfolio`,
   "alternateName": "Shariar Nehal Portfolio",
   "url": "https://sheikhshariarnehal.me",
-  "description": "Portfolio website of Sheikh Shariar Nehal showcasing web development projects, skills, and professional experience",
+  "description": `Portfolio website of ${seo.name} showcasing web development projects, skills, and professional experience`,
   "publisher": {
     "@id": "https://sheikhshariarnehal.me/#person"
   },
@@ -128,8 +207,8 @@ const breadcrumbSchema = {
 ---
 
 <Layout
-  title="Sheikh Shariar Nehal – Full-Stack Developer"
-  description="Sheikh Shariar Nehal – Expert Full-Stack Web Developer & Machine Learning Enthusiast. Specializing in MERN Stack, Next.js, React Native, and Python. View my portfolio for top-tier web and mobile solutions."
+  title={`${seo.name} – Full-Stack Developer`}
+  description={seo.description}
   canonical="https://sheikhshariarnehal.me/"
   schema={[personSchema, websiteSchema, breadcrumbSchema]}
 >
@@ -141,10 +220,10 @@ const breadcrumbSchema = {
       <div id="particles-js" aria-hidden="true"></div>
 
     <div class="content">
-      <h1 id="hero-heading">Hi There,<br /> I'm Sheikh Shariar<span> Nehal</span></h1>
-      <p>I Am Into <span class="typing-text" aria-label="Various development skills"></span></p>
-      <a href="#about" class="btn" aria-label="Learn more about me">
-        <span>About Me</span>
+      <h1 id="hero-heading">{hero.greeting}<br /> I'm {firstName}<span> {lastName}</span></h1>
+      <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
+      <a href={hero.ctaLink} class="btn" aria-label="Learn more about me">
+        <span>{hero.ctaText}</span>
         <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
       </a>
       <SocialIcons />
@@ -153,8 +232,8 @@ const breadcrumbSchema = {
       <Image
         draggable="false"
         class="tilt"
-        src="/assets/images/hero.webp"
-        alt="Sheikh Shariar Nehal - Full Stack Web Developer"
+        src={hero.heroImage}
+        alt={hero.heroImageAlt}
         width={400}
         height={400}
         loading="eager"
@@ -171,40 +250,34 @@ const breadcrumbSchema = {
         <Image
           draggable="false"
           class="tilt"
-          src="/assets/images/profile2.webp"
-          alt="Sheikh Shariar Nehal Profile Picture - Web Developer and Designer"
+          src={about.profileImage}
+          alt={about.profileImageAlt}
           width={300}
           height={300}
           loading="lazy"
         />
       </div>
       <div class="content">
-        <h3>I'm Sheikh Shariar Nehal</h3>
-        <span class="tag">Web Developer</span>
+        <h3>{about.title}</h3>
+        <span class="tag">{about.subtitle}</span>
 
-        <p>
-          I'm Sheikh Shariar Nehal (also known as Shariar Nehal or Sheikh Nehal), a Web Developer and programmer with 3
-          years of experience. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International
-          University. I know React, Python, JavaScript, and C++, I also good with design tools like Photoshop and
-          Illustrator. I helped create a web app that increased user activity by 40%. I'm detail-oriented and love
-          combining design with tech.
-        </p>
+        <p>{about.bio}</p>
 
         <div class="box-container">
           <div class="box">
-            <p><span>email : </span> nehal22205101260@diu.edu.bd</p>
-            <p><span>place : </span> Nowabgonj, Dhaka</p>
+            <p><span>email : </span> {about.email}</p>
+            <p><span>place : </span> {about.location}</p>
           </div>
         </div>
 
         <div class="resumebtn">
           <a
-            href="https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view"
+            href={about.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="btn"
           >
-            <span>Resume</span>
+            <span>{about.resumeText}</span>
             <i class="fas fa-chevron-right"></i>
           </a>
         </div>
@@ -318,8 +391,8 @@ const breadcrumbSchema = {
         <div class="image-box">
           <Image
             draggable="false"
-            src="/assets/images/contact1.webp"
-            alt="Contact Sheikh Shariar Nehal - Get In Touch"
+            src={contact.contactImage}
+            alt={contact.contactImageAlt}
             width={400}
             height={400}
             loading="lazy"
@@ -335,9 +408,12 @@ const breadcrumbSchema = {
 
   <!-- SEO Hidden Content -->
   <div style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
-    <h2>Sheikh Shariar Nehal - Full Stack Web Developer & Machine Learning Engineer</h2>
-    <p>Sheikh Shariar Nehal (Shariar Nehal) is a top-rated Full Stack Web Developer and Machine Learning enthusiast from Bangladesh.</p>
+    <h2>{seo.name} - {seo.jobTitle}</h2>
+    <p>{seo.description}</p>
   </div>
+
+  <!-- Typing Texts Data (for Typed.js) -->
+  <script type="application/json" id="typing-data" set:html={JSON.stringify(hero.typingTexts)}></script>
 
   <!-- Scripts Slot -->
   <Fragment slot="scripts">
@@ -377,7 +453,7 @@ const breadcrumbSchema = {
         // Typed.js effect
         if (typeof Typed !== 'undefined') {
           new Typed('.typing-text', {
-            strings: ['frontend development', 'backend development', 'web designing', 'android development', 'web development'],
+            strings: JSON.parse(document.getElementById('typing-data')?.textContent || '[]'),
             loop: true,
             typeSpeed: 50,
             backSpeed: 25,

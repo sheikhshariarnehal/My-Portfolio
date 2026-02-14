@@ -3,14 +3,26 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 ---
 
 <AdminLayout title="Manage Experience" activeTab="experience">
-  <div class="data-card">
-    <div class="data-card-header">
-      <h2>All Experience</h2>
-      <button class="btn-add" id="add-experience-btn">
+  <!-- Experience Header -->
+  <div class="section-header">
+    <div class="section-header-left">
+      <div class="section-header-icon" style="background:rgba(139,92,246,0.1);color:#8b5cf6;">
+        <i class="fas fa-briefcase"></i>
+      </div>
+      <div>
+        <h2 class="section-title">Experience</h2>
+        <p class="section-subtitle" id="experience-count-label">Loading...</p>
+      </div>
+    </div>
+    <div class="section-header-right">
+      <button class="btn-add-item" id="add-experience-btn">
         <i class="fas fa-plus"></i>
-        Add Experience
+        <span>Add Experience</span>
       </button>
     </div>
+  </div>
+
+  <div class="data-card">
     <table class="data-table">
       <thead>
         <tr>
@@ -179,11 +191,15 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         .order('sort_order', { ascending: true });
 
       const tbody = document.getElementById('experience-table');
+      const countLabel = document.getElementById('experience-count-label');
 
       if (error) {
         tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Error loading experience</p></td></tr>';
+        countLabel.textContent = 'Error';
         return;
       }
+
+      countLabel.textContent = (experience ? experience.length : 0) + ' entries';
 
       if (!experience || experience.length === 0) {
         tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-briefcase"></i><h3>No experience yet</h3><p>Add your first experience</p></td></tr>';
@@ -195,15 +211,15 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         const endYear = exp.end_date ? new Date(exp.end_date).getFullYear() : 'Present';
         return `
           <tr>
-            <td>${exp.title}</td>
+            <td><strong>${exp.title}</strong></td>
             <td>${exp.company}</td>
             <td>${startYear} - ${endYear}</td>
             <td>${exp.is_current ? '<span class="tag tag-green">Current</span>' : '<span class="tag tag-orange">Past</span>'}</td>
             <td class="table-actions">
-              <button class="btn-icon btn-edit" onclick="editExperience('${exp.id}')">
+              <button class="btn-icon btn-edit" onclick="editExperience('${exp.id}')" title="Edit">
                 <i class="fas fa-edit"></i>
               </button>
-              <button class="btn-icon btn-delete" onclick="deleteExperience('${exp.id}')">
+              <button class="btn-icon btn-delete" onclick="deleteExperience('${exp.id}')" title="Delete">
                 <i class="fas fa-trash"></i>
               </button>
             </td>

@@ -181,6 +181,35 @@ export interface Database {
           updated_at?: string
         }
       }
+      homepage_settings: {
+        Row: {
+          id: string
+          section: string
+          content: Json
+          is_active: boolean | null
+          sort_order: number | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          section: string
+          content: Json
+          is_active?: boolean | null
+          sort_order?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          section?: string
+          content?: Json
+          is_active?: boolean | null
+          sort_order?: number | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }

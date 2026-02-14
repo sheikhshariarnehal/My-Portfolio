@@ -3,14 +3,40 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 ---
 
 <AdminLayout title="Manage Skills" activeTab="skills">
-  <div class="data-card">
-    <div class="data-card-header">
-      <h2>All Skills</h2>
-      <button class="btn-add" id="add-skill-btn">
+  <!-- Skills Header -->
+  <div class="section-header">
+    <div class="section-header-left">
+      <div class="section-header-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;">
+        <i class="fas fa-code"></i>
+      </div>
+      <div>
+        <h2 class="section-title">Skills</h2>
+        <p class="section-subtitle" id="skills-count-label">Loading...</p>
+      </div>
+    </div>
+    <div class="section-header-right">
+      <div class="section-search">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-skills" placeholder="Search skills...">
+      </div>
+      <div class="section-filter">
+        <select id="filter-skill-category">
+          <option value="">All Categories</option>
+          <option value="frontend">Frontend</option>
+          <option value="backend">Backend</option>
+          <option value="database">Database</option>
+          <option value="tools">Tools</option>
+          <option value="general">General</option>
+        </select>
+      </div>
+      <button class="btn-add-item" id="add-skill-btn">
         <i class="fas fa-plus"></i>
-        Add Skill
+        <span>Add Skill</span>
       </button>
     </div>
+  </div>
+
+  <div class="data-card">
     <table class="data-table">
       <thead>
         <tr>
@@ -96,6 +122,12 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
 
       loadSkills();
 
+      // Search & filter
+      const searchInput = document.getElementById('search-skills');
+      const filterSelect = document.getElementById('filter-skill-category');
+      searchInput.addEventListener('input', filterSkillsList);
+      filterSelect.addEventListener('change', filterSkillsList);
+
       // Open modal for adding
       addBtn.addEventListener('click', () => {
         modalTitle.textContent = 'Add Skill';
@@ -141,6 +173,45 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       });
     }
 
+    let allSkills = [];
+
+    function filterSkillsList() {
+      const search = document.getElementById('search-skills').value.toLowerCase();
+      const category = document.getElementById('filter-skill-category').value;
+      let filtered = allSkills;
+      if (search) filtered = filtered.filter(s => s.name.toLowerCase().includes(search));
+      if (category) filtered = filtered.filter(s => s.category === category);
+      renderSkillsTable(filtered);
+    }
+
+    function renderSkillsTable(skills) {
+      const tbody = document.getElementById('skills-table');
+      const countLabel = document.getElementById('skills-count-label');
+      countLabel.textContent = skills.length + ' skill' + (skills.length !== 1 ? 's' : '');
+
+      if (!skills || skills.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-code"></i><h3>No skills found</h3><p>' + (allSkills.length === 0 ? 'Add your first skill' : 'Try a different search') + '</p></td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = skills.map(skill => `
+        <tr>
+          <td><img src="${skill.icon}" alt="${skill.name}" class="table-image" style="width:32px;height:32px;" loading="lazy"></td>
+          <td><strong>${skill.name}</strong></td>
+          <td><span class="tag tag-blue">${skill.category || 'general'}</span></td>
+          <td>${skill.sort_order || 0}</td>
+          <td class="table-actions">
+            <button class="btn-icon btn-edit" onclick="editSkill('${skill.id}')" title="Edit">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon btn-delete" onclick="deleteSkill('${skill.id}')" title="Delete">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
     async function loadSkills() {
       const supabase = window.supabaseClient;
       const { data: skills, error } = await supabase
@@ -155,27 +226,8 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         return;
       }
 
-      if (!skills || skills.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="5" class="empty-state"><i class="fas fa-code"></i><h3>No skills yet</h3><p>Add your first skill</p></td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = skills.map(skill => `
-        <tr>
-          <td><img src="${skill.icon}" alt="${skill.name}" class="table-image" style="width:32px;height:32px;" loading="lazy"></td>
-          <td>${skill.name}</td>
-          <td><span class="tag tag-blue">${skill.category || 'general'}</span></td>
-          <td>${skill.sort_order || 0}</td>
-          <td class="table-actions">
-            <button class="btn-icon btn-edit" onclick="editSkill('${skill.id}')">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn-icon btn-delete" onclick="deleteSkill('${skill.id}')">
-              <i class="fas fa-trash"></i>
-            </button>
-          </td>
-        </tr>
-      `).join('');
+      allSkills = skills || [];
+      renderSkillsTable(allSkills);
     }
 
     async function editSkill(id) {

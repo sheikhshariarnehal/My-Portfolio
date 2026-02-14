@@ -3,15 +3,26 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 ---
 
 <AdminLayout title="Dashboard" activeTab="dashboard">
+  <!-- Welcome Banner -->
+  <div class="dash-welcome">
+    <div class="dash-welcome-text">
+      <h2>Welcome back!</h2>
+      <p>Here's an overview of your portfolio content.</p>
+    </div>
+    <a href="/admin/homepage/" class="dash-welcome-action">
+      <i class="fas fa-palette"></i> Manage Homepage
+    </a>
+  </div>
+
   <div class="stats-grid">
     <div class="stat-card">
       <div class="stat-card-header">
         <div class="stat-card-icon blue">
-          <i class="fas fa-code"></i>
+          <i class="fas fa-palette"></i>
         </div>
       </div>
-      <div class="stat-card-value" id="skills-count">-</div>
-      <div class="stat-card-label">Total Skills</div>
+      <div class="stat-card-value" id="homepage-count">-</div>
+      <div class="stat-card-label">Homepage Sections</div>
     </div>
     <div class="stat-card">
       <div class="stat-card-header">
@@ -25,6 +36,15 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     <div class="stat-card">
       <div class="stat-card-header">
         <div class="stat-card-icon orange">
+          <i class="fas fa-code"></i>
+        </div>
+      </div>
+      <div class="stat-card-value" id="skills-count">-</div>
+      <div class="stat-card-label">Total Skills</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-header">
+        <div class="stat-card-icon purple">
           <i class="fas fa-briefcase"></i>
         </div>
       </div>
@@ -33,13 +53,57 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
     </div>
     <div class="stat-card">
       <div class="stat-card-header">
-        <div class="stat-card-icon purple">
+        <div class="stat-card-icon teal">
           <i class="fas fa-graduation-cap"></i>
         </div>
       </div>
       <div class="stat-card-value" id="education-count">-</div>
       <div class="stat-card-label">Education Entries</div>
     </div>
+  </div>
+
+  <!-- Quick Links Grid -->
+  <div class="dash-quick-links">
+    <a href="/admin/homepage/" class="dash-qlink">
+      <div class="dash-qlink-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><i class="fas fa-palette"></i></div>
+      <div class="dash-qlink-info">
+        <h4>Homepage</h4>
+        <p>Hero, About, Contact & SEO</p>
+      </div>
+      <i class="fas fa-chevron-right dash-qlink-arrow"></i>
+    </a>
+    <a href="/admin/projects/" class="dash-qlink">
+      <div class="dash-qlink-icon" style="background:rgba(16,185,129,0.1);color:#10b981;"><i class="fas fa-folder-open"></i></div>
+      <div class="dash-qlink-info">
+        <h4>Projects</h4>
+        <p>Manage your portfolio work</p>
+      </div>
+      <i class="fas fa-chevron-right dash-qlink-arrow"></i>
+    </a>
+    <a href="/admin/skills/" class="dash-qlink">
+      <div class="dash-qlink-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fas fa-code"></i></div>
+      <div class="dash-qlink-info">
+        <h4>Skills</h4>
+        <p>Technical skills & tools</p>
+      </div>
+      <i class="fas fa-chevron-right dash-qlink-arrow"></i>
+    </a>
+    <a href="/admin/experience/" class="dash-qlink">
+      <div class="dash-qlink-icon" style="background:rgba(139,92,246,0.1);color:#8b5cf6;"><i class="fas fa-briefcase"></i></div>
+      <div class="dash-qlink-info">
+        <h4>Experience</h4>
+        <p>Work history & timeline</p>
+      </div>
+      <i class="fas fa-chevron-right dash-qlink-arrow"></i>
+    </a>
+    <a href="/admin/education/" class="dash-qlink">
+      <div class="dash-qlink-icon" style="background:rgba(20,184,166,0.1);color:#14b8a6;"><i class="fas fa-graduation-cap"></i></div>
+      <div class="dash-qlink-info">
+        <h4>Education</h4>
+        <p>Academic background</p>
+      </div>
+      <i class="fas fa-chevron-right dash-qlink-arrow"></i>
+    </a>
   </div>
 
   <div class="data-card">
@@ -71,9 +135,7 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
   </div>
 
   <script is:inline>
-    // Wait for supabase to be initialized
     document.addEventListener('DOMContentLoaded', () => {
-      // Use a small delay to ensure supabase client is ready
       setTimeout(loadDashboardData, 500);
     });
 
@@ -85,18 +147,20 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
           return;
         }
         
-        // Fetch counts
-        const [skillsRes, projectsRes, experienceRes, educationRes] = await Promise.all([
+        // Fetch counts (including homepage_settings)
+        const [skillsRes, projectsRes, experienceRes, educationRes, homepageRes] = await Promise.all([
           supabase.from('skills').select('id', { count: 'exact', head: true }),
           supabase.from('projects').select('id', { count: 'exact', head: true }),
           supabase.from('experience').select('id', { count: 'exact', head: true }),
-          supabase.from('education').select('id', { count: 'exact', head: true })
+          supabase.from('education').select('id', { count: 'exact', head: true }),
+          supabase.from('homepage_settings').select('id', { count: 'exact', head: true })
         ]);
 
         document.getElementById('skills-count').textContent = skillsRes.count || 0;
         document.getElementById('projects-count').textContent = projectsRes.count || 0;
         document.getElementById('experience-count').textContent = experienceRes.count || 0;
         document.getElementById('education-count').textContent = educationRes.count || 0;
+        document.getElementById('homepage-count').textContent = homepageRes.count || 0;
 
         // Fetch recent projects
         const { data: projects } = await supabase
@@ -131,4 +195,137 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
       }
     }
   </script>
+
+  <style is:global>
+    /* Dashboard Welcome Banner */
+    .dash-welcome {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-primary-light) 100%);
+      color: white;
+      padding: 28px 32px;
+      border-radius: 16px;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 16px rgba(43,61,218,0.25);
+    }
+
+    .dash-welcome-text h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+    }
+
+    .dash-welcome-text p {
+      font-size: 14px;
+      opacity: 0.85;
+      margin: 0;
+    }
+
+    .dash-welcome-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .dash-welcome-action:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    /* Quick Links */
+    .dash-quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .dash-qlink {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 20px;
+      background: white;
+      border-radius: 14px;
+      text-decoration: none;
+      border: 1px solid var(--admin-gray-200);
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+
+    .dash-qlink:hover {
+      border-color: var(--admin-primary);
+      box-shadow: 0 4px 12px rgba(43,61,218,0.1);
+      transform: translateY(-2px);
+    }
+
+    .dash-qlink-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .dash-qlink-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .dash-qlink-info h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--admin-gray-900);
+      margin: 0 0 2px 0;
+    }
+
+    .dash-qlink-info p {
+      font-size: 12px;
+      color: var(--admin-gray-500);
+      margin: 0;
+    }
+
+    .dash-qlink-arrow {
+      color: var(--admin-gray-300);
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .dash-qlink:hover .dash-qlink-arrow {
+      color: var(--admin-primary);
+      transform: translateX(3px);
+    }
+
+    /* Teal stat card color */
+    .stat-card-icon.teal {
+      background: rgba(20,184,166,0.1);
+      color: #14b8a6;
+    }
+
+    @media (max-width: 768px) {
+      .dash-welcome {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+      }
+      
+      .dash-quick-links {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </AdminLayout>
