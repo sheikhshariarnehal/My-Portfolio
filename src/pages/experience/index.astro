@@ -3,7 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import TimelineItem from '../../components/TimelineItem.astro';
-import { getExperience } from '../../lib/supabase';
+import { getExperience, getHomepageSettings } from '../../lib/supabase';
+import { buildSocialLinks } from '../../lib/helpers';
+import { seoDefaults } from '../../data/site';
 import '../../styles/experience.css';
 
 // Fetch experience from database
@@ -21,6 +23,11 @@ const experience = experienceData.map((exp, index) => {
     position: (index % 2 === 0 ? 'left' : 'right') as 'left' | 'right'
   };
 });
+
+// Fetch social links from database
+const homepageSettings = await getHomepageSettings().catch(() => ({}));
+const seo = { ...seoDefaults, ...homepageSettings.seo };
+const socialLinks = buildSocialLinks(seo);
 
 // Schema.org JSON-LD
 const webPageSchema = {
@@ -102,7 +109,7 @@ const webPageSchema = {
     </section>
   </main>
 
-  <Footer isSubPage={true} />
+  <Footer isSubPage={true} socialLinks={socialLinks} />
 
   <!-- Scripts -->
   <Fragment slot="scripts">

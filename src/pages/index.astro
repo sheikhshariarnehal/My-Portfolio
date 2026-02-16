@@ -87,7 +87,7 @@ const schemas = [
           <span>{hero.ctaText}</span>
           <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
         </a>
-        <SocialIcons />
+        <SocialIcons socialLinks={socialLinks} />
       </div>
       <div class="image">
         <Image
@@ -265,7 +265,7 @@ const schemas = [
   </section>
   </main>
 
-  <Footer />
+  <Footer socialLinks={socialLinks} />
 
   <!-- Typing Texts Data (for Typed.js) -->
   <script type="application/json" id="typing-data" set:html={JSON.stringify(hero.typingTexts)}></script>

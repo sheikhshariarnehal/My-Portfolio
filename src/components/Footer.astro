@@ -1,9 +1,12 @@
 ---
+import type { SocialLink } from '../lib/helpers';
+
 export interface Props {
   isSubPage?: boolean;
+  socialLinks?: SocialLink[];
 }
 
-const { isSubPage = false } = Astro.props;
+const { isSubPage = false, socialLinks = [] } = Astro.props;
 
 const quickLinks = [
   { href: isSubPage ? '/#home' : '#home', label: 'home' },
@@ -12,14 +15,6 @@ const quickLinks = [
   { href: isSubPage ? '/#education' : '#education', label: 'education' },
   { href: '/projects', label: 'projects' },
   { href: '/experience', label: 'experience' },
-];
-
-const socialLinks = [
-  { href: 'https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/', icon: 'fab fa-linkedin', label: 'LinkedIn' },
-  { href: 'https://github.com/sheikhshariarnehal', icon: 'fab fa-github', label: 'GitHub' },
-  { href: 'mailto:nehal22205101260@diu.edu.bd', icon: 'fas fa-envelope', label: 'Mail' },
-  { href: 'https://twitter.com/shariar_nehal', icon: 'fab fa-twitter', label: 'Twitter' },
-  { href: 'https://t.me/sheikhshariarnehal', icon: 'fab fa-telegram-plane', label: 'Telegram' },
 ];
 ---
 
@@ -52,11 +47,13 @@ const socialLinks = [
         {socialLinks.map((link) => (
           <a
             href={link.href}
-            class={link.icon}
+            class={link.className}
             aria-label={link.label}
             target="_blank"
             rel="noopener noreferrer"
-          ></a>
+          >
+            <i class={link.icon}></i>
+          </a>
         ))}
       </div>
     </div>

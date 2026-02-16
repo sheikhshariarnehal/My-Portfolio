@@ -1,12 +1,11 @@
 ---
-const socialLinks = [
-  { href: 'https://www.linkedin.com/in/shekhshariarnehal', icon: 'fab fa-linkedin', label: 'LinkedIn', className: 'linkedin' },
-  { href: 'https://github.com/sheikhshariarnehal', icon: 'fab fa-github', label: 'GitHub', className: 'github' },
-  { href: 'https://twitter.com/shariar_nehal', icon: 'fab fa-twitter', label: 'Twitter', className: 'twitter' },
-  { href: 'https://t.me/sheikhshariarnehal', icon: 'fab fa-telegram-plane', label: 'Telegram', className: 'telegram' },
-  { href: 'https://instagram.com/sheikhshariarnehal', icon: 'fab fa-instagram', label: 'Instagram', className: 'instagram' },
-  { href: 'https://www.facebook.com/sheikhshariarnehal.cse', icon: 'fab fa-facebook', label: 'Facebook', className: 'dev' },
-];
+import type { SocialLink } from '../lib/helpers';
+
+export interface Props {
+  socialLinks: SocialLink[];
+}
+
+const { socialLinks } = Astro.props;
 ---
 
 <div class="socials">
