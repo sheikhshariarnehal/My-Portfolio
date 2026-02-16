@@ -257,7 +257,10 @@ a, button, .btn, .box .content, .navbar li a {
 
 @layer components {
   .home {
-    @apply relative flex flex-wrap gap-6 min-h-screen items-center;
+    @apply relative flex flex-wrap min-h-screen items-center;
+    gap: 4rem;
+    padding: 2rem 10%;
+    justify-content: space-between;
   }
 
   .home #particles-js {
@@ -270,13 +273,18 @@ a, button, .btn, .box .content, .navbar li a {
   }
 
   .home .content {
-    @apply z-[1] pt-4;
-    flex: 1 1 40rem;
+    @apply z-[1];
+    flex: 1 1 45rem;
+    max-width: 50rem;
   }
 
   .home .image {
     @apply z-[1];
-    flex: 1 1 40rem;
+    flex: 1 1 35rem;
+    max-width: 45rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .home .image img {
@@ -294,12 +302,16 @@ a, button, .btn, .box .content, .navbar li a {
 
   .home .content h1 {
     @apply font-extrabold text-[#002057];
-    font-size: 5rem;
+    font-size: clamp(2.8rem, 4vw, 5rem);
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   .home .content h1 span {
     @apply font-extrabold text-[#ff7b00];
-    font-size: 5rem;
+    font-size: clamp(2.8rem, 4vw, 5rem);
+    white-space: nowrap;
   }
 
   .home .content p {
@@ -402,16 +414,20 @@ a, button, .btn, .box .content, .navbar li a {
 /* Hero Media Queries */
 @media (max-width: 768px) {
   .home {
-    @apply flex-col justify-start pt-36 gap-4 min-h-0;
+    @apply flex-col justify-start pt-36 min-h-0;
+    gap: 3rem;
+    padding: 2rem 9%;
   }
 
   .home .content {
-    @apply flex-auto text-center px-6 order-2;
+    @apply flex-auto text-center order-2;
+    max-width: 100%;
   }
 
   .home .content h1,
   .home .content h1 span {
-    font-size: 3.8rem;
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    line-height: 1.2;
   }
 
   .home .content p,
@@ -448,11 +464,14 @@ a, button, .btn, .box .content, .navbar li a {
 @media (max-width: 480px) {
   .home {
     @apply pt-32 pb-16 gap-2;
+    padding-left: 5%;
+    padding-right: 5%;
   }
 
   .home .content h1,
   .home .content h1 span {
-    font-size: 3.2rem;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    line-height: 1.15;
   }
 
   .home .content p,
@@ -493,7 +512,12 @@ a, button, .btn, .box .content, .navbar li a {
 
   .home .content h1,
   .home .content h1 span {
-    font-size: 2.8rem;
+    font-size: clamp(2rem, 7vw, 2.8rem);
+    line-height: 1.1;
+  }
+
+  .home .content h1 span {
+    display: inline-block;
   }
 
   .home .content p,
