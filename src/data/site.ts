@@ -7,7 +7,7 @@ export const SITE_URL = 'https://sheikhshariarnehal.me';
 
 export const heroDefaults = {
   greeting: 'Hi There,',
-  name: 'Sheikh Shariar Nehal',
+  name: 'Shariar Nehal',
   subtitle: 'I Am Into',
   ctaText: 'About Me',
   ctaLink: '#about',
@@ -43,7 +43,7 @@ export const seoDefaults = {
   name: 'Sheikh Shariar Nehal',
   jobTitle: 'Full-Stack Web Developer & Designer',
   description:
-    'Sheikh Shariar Nehal is a Full-Stack Web Developer with 3+ years of experience specializing in React, Next.js, Python, and JavaScript.',
+    'Full-Stack Web Developer building high-performance React and Next.js applications with modern UI/UX design. Specialized in scalable web apps and API-driven systems. Available for freelance and remote work.',
   email: 'nehal22205101260@diu.edu.bd',
   telephone: '+8801750627421',
   nationality: 'Bangladesh',

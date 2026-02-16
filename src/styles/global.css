@@ -302,16 +302,12 @@ a, button, .btn, .box .content, .navbar li a {
 
   .home .content h1 {
     @apply font-extrabold text-[#002057];
-    font-size: clamp(2.8rem, 4vw, 5rem);
-    line-height: 1.2;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
+    font-size: 5rem;
   }
 
   .home .content h1 span {
     @apply font-extrabold text-[#ff7b00];
-    font-size: clamp(2.8rem, 4vw, 5rem);
-    white-space: nowrap;
+    font-size: 5rem;
   }
 
   .home .content p {
@@ -426,8 +422,7 @@ a, button, .btn, .box .content, .navbar li a {
 
   .home .content h1,
   .home .content h1 span {
-    font-size: clamp(2.5rem, 5vw, 3.8rem);
-    line-height: 1.2;
+    font-size: 3.8rem;
   }
 
   .home .content p,
@@ -470,8 +465,7 @@ a, button, .btn, .box .content, .navbar li a {
 
   .home .content h1,
   .home .content h1 span {
-    font-size: clamp(2.2rem, 6vw, 3.2rem);
-    line-height: 1.15;
+    font-size: 3.2rem;
   }
 
   .home .content p,
@@ -512,12 +506,7 @@ a, button, .btn, .box .content, .navbar li a {
 
   .home .content h1,
   .home .content h1 span {
-    font-size: clamp(2rem, 7vw, 2.8rem);
-    line-height: 1.1;
-  }
-
-  .home .content h1 span {
-    display: inline-block;
+    font-size: 2.8rem;
   }
 
   .home .content p,

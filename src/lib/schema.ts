@@ -3,7 +3,7 @@
  * Each function returns a plain object ready for JSON.stringify().
  */
 
-import { SITE_URL } from '../data/defaults';
+import { SITE_URL } from '../data/site';
 
 interface SeoData {
   name: string;
