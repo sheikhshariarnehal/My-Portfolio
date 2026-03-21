@@ -9,20 +9,20 @@ import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
 
-import { getEducation, getExperience, getSkills, getHomepageSettings } from '../lib/supabase';
+import { getEducation, getExperience, getSkills, getHomepageSettings, getProjects } from '../lib/supabase';
 import { buildPersonSchema, buildWebsiteSchema, buildBreadcrumbSchema } from '../lib/schema';
 import { buildSocialLinks, formatDateRange, splitName } from '../lib/helpers';
 import { heroDefaults, aboutDefaults, contactDefaults, seoDefaults, SITE_URL } from '../data/site';
 
 import skillsFallback from '../data/skills.json';
-import projectsFallback from '../data/projects.json';
 
 // --- Fetch all data in parallel with safe fallbacks ---
-const [homepageSettings, educationData, experienceData, skillsData] = await Promise.all([
+const [homepageSettings, educationData, experienceData, skillsData, projectsData] = await Promise.all([
   getHomepageSettings().catch(() => ({})),
   getEducation(),
   getExperience(),
   getSkills(),
+  getProjects(),
 ]);
 
 // Hero uses only hardcoded defaults (no DB merge)
@@ -45,9 +45,17 @@ const education = educationData.map((edu) => ({
   altText: `${edu.institution} - ${edu.degree}`,
 }));
 
-const projects = projectsFallback
-  .filter((p) => p.category !== 'android')
-  .slice(0, 10);
+const projects = projectsData
+  .filter((p) => p.category !== 'mobile')
+  .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+  .slice(0, 6)
+  .map((p) => ({
+    title: p.title,
+    description: p.description,
+    image: p.image,
+    liveUrl: p.live_url,
+    githubUrl: p.github_url,
+  }));
 
 const experience = experienceData.map((exp, i) => ({
   organization: exp.company,
@@ -186,25 +194,29 @@ const schemas = [
         <div class="box tilt">
           <Image
             draggable="false"
-            src={`/assets/images/projects/${project.image}.webp`}
-            alt={`${project.name} project`}
+            src={project.image}
+            alt={`${project.title} project`}
             width={350}
             height={200}
             loading="lazy"
           />
           <div class="content">
             <div class="tag">
-              <h3>{project.name}</h3>
+              <h3>{project.title}</h3>
             </div>
             <div class="desc">
-              <p>{project.desc}</p>
+              <p>{project.description}</p>
               <div class="btns">
-                <a href={project.links.view} class="btn" target="_blank" rel="noopener noreferrer">
-                  <i class="fas fa-eye"></i> View
-                </a>
-                <a href={project.links.code} class="btn" target="_blank" rel="noopener noreferrer">
-                  Code <i class="fas fa-code"></i>
-                </a>
+                {project.liveUrl && (
+                  <a href={project.liveUrl} class="btn" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-eye"></i> View
+                  </a>
+                )}
+                {project.githubUrl && (
+                  <a href={project.githubUrl} class="btn" target="_blank" rel="noopener noreferrer">
+                    Code <i class="fas fa-code"></i>
+                  </a>
+                )}
               </div>
             </div>
           </div>
