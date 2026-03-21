@@ -1,14 +1,39 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './database.types';
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+type SupabaseClient = ReturnType<typeof createClient<Database>>;
 
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL?.trim();
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+let warnedMissingConfig = false;
+
+function warnMissingSupabaseConfig() {
+  if (warnedMissingConfig) return;
+  warnedMissingConfig = true;
+  console.warn(
+    'Supabase is not configured. Set PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY to enable dynamic data.'
+  );
+}
+
+const supabase: SupabaseClient | null =
+  supabaseUrl && supabaseAnonKey
+    ? createClient<Database>(supabaseUrl, supabaseAnonKey)
+    : null;
+
+export { supabase };
+
+function getSupabaseClient(): SupabaseClient | null {
+  if (!supabase) warnMissingSupabaseConfig();
+  return supabase;
+}
 
 // Helper functions for fetching data
 export async function getProjects() {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return [] as Database['public']['Tables']['projects']['Row'][];
+
+  const { data, error } = await client
     .from('projects')
     .select('*')
     .order('sort_order', { ascending: true });
@@ -21,7 +46,10 @@ export async function getProjects() {
 }
 
 export async function getExperience() {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return [];
+
+  const { data, error } = await client
     .from('experience')
     .select('*')
     .order('sort_order', { ascending: true });
@@ -34,7 +62,10 @@ export async function getExperience() {
 }
 
 export async function getEducation() {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return [];
+
+  const { data, error } = await client
     .from('education')
     .select('*')
     .order('sort_order', { ascending: true });
@@ -47,7 +78,10 @@ export async function getEducation() {
 }
 
 export async function getSkills() {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return [];
+
+  const { data, error } = await client
     .from('skills')
     .select('*')
     .order('sort_order', { ascending: true });
@@ -61,7 +95,10 @@ export async function getSkills() {
 
 // Fetch all homepage settings sections as a keyed object
 export async function getHomepageSettings() {
-  const { data, error } = await supabase
+  const client = getSupabaseClient();
+  if (!client) return {} as Record<string, any>;
+
+  const { data, error } = await client
     .from('homepage_settings')
     .select('*')
     .eq('is_active', true)

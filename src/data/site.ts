@@ -7,7 +7,7 @@ export const SITE_URL = 'https://sheikhshariarnehal.me';
 
 export const heroDefaults = {
   greeting: 'Hi There,',
-  name: 'Shariar Nehal',
+  name: 'Sheikh Shariar Nehal',
   subtitle: 'I Am Into',
   ctaText: 'About Me',
   ctaLink: '#about',
@@ -28,7 +28,7 @@ export const aboutDefaults = {
   bio: "I'm Sheikh Shariar Nehal (also known as Shariar Nehal or Sheikh Nehal), a Web Developer and programmer with 3 years of experience. Currently studying B.Sc. in Computer Science and Engineering at Daffodil International University. I know React, Python, JavaScript, and C++, I also good with design tools like Photoshop and Illustrator. I helped create a web app that increased user activity by 40%. I'm detail-oriented and love combining design with tech.",
   email: 'nehal22205101260@diu.edu.bd',
   location: 'Nowabgonj, Dhaka',
-  resumeUrl: 'https://drive.google.com/file/d/1Bs5evFnBecp1zvVXqpe7FglHCZ9EQIKy/view',
+  resumeUrl: 'https://drive.google.com/file/d/1vc8L5VnnD8Wr3fbjCP3NNmtDko38ntck/view',
   resumeText: 'Resume',
   profileImage: '/assets/images/profile2.webp',
   profileImageAlt: 'Sheikh Shariar Nehal Profile Picture - Web Developer and Designer',
