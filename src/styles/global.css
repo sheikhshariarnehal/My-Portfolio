@@ -275,7 +275,7 @@ a, button, .btn, .box .content, .navbar li a {
   .home .content {
     @apply z-[1];
     flex: 1 1 45rem;
-    max-width: 50rem;
+    max-width: 100%;
   }
 
   .home .image {
@@ -303,12 +303,6 @@ a, button, .btn, .box .content, .navbar li a {
   .home .content h1 {
     @apply font-extrabold text-[#002057];
     font-size: 5rem;
-  }
-
-  .home .content h1 .name-line {
-    display: inline-block;
-    white-space: nowrap;
-    font-weight: inherit;
   }
 
   .home .content h1 span {
@@ -414,22 +408,6 @@ a, button, .btn, .box .content, .navbar li a {
 }
 
 /* Hero Media Queries */
-@media (min-width: 769px) and (max-width: 1100px) {
-  .home {
-    padding-top: 12rem;
-    align-items: flex-start;
-  }
-
-  .home .content {
-    max-width: 100%;
-  }
-
-  .home .content h1,
-  .home .content h1 span {
-    font-size: 4.2rem;
-  }
-}
-
 @media (max-width: 768px) {
   .home {
     @apply flex-col justify-start pt-36 min-h-0;
