@@ -3,8 +3,11 @@ import type { Database } from './database.types';
 
 type SupabaseClient = ReturnType<typeof createClient<Database>>;
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL?.trim();
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY?.trim();
+const rawUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+const rawKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+const supabaseUrl = rawUrl ? rawUrl.replace(/[\r\n]/g, '').trim() : undefined;
+const supabaseAnonKey = rawKey ? rawKey.replace(/[\r\n]/g, '').trim() : undefined;
 
 let warnedMissingConfig = false;
 
@@ -16,10 +19,17 @@ function warnMissingSupabaseConfig() {
   );
 }
 
-const supabase: SupabaseClient | null =
-  supabaseUrl && supabaseAnonKey
-    ? createClient<Database>(supabaseUrl, supabaseAnonKey)
-    : null;
+function initSupabaseClient(): SupabaseClient | null {
+  if (!supabaseUrl || !supabaseAnonKey) return null;
+  try {
+    return createClient<Database>(supabaseUrl, supabaseAnonKey);
+  } catch (err) {
+    console.error('Failed to initialize Supabase client:', err);
+    return null;
+  }
+}
+
+const supabase: SupabaseClient | null = initSupabaseClient();
 
 export { supabase };
 
