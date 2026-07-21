@@ -45,14 +45,29 @@ const education = educationData.map((edu) => ({
   altText: `${edu.institution} - ${edu.degree}`,
 }));
 
-const projects = projectsData
-  .filter((p) => p.category !== 'mobile')
-  .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+// Image URL helper to handle remote, absolute, and legacy relative paths safely
+function resolveImageUrl(img?: string): string {
+  if (!img) return '/assets/images/projects/My_portfolio.webp';
+  if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('/')) return img;
+  return `/assets/images/projects/${img}.webp`;
+}
+
+// Filter featured projects from DB (or all projects if none marked featured)
+const featuredProjectsList = projectsData.filter((p) => p.featured === true);
+const projectsToDisplay = featuredProjectsList.length > 0 ? featuredProjectsList : projectsData;
+
+const projects = projectsToDisplay
+  .sort((a, b) => {
+    if ((a.sort_order ?? 0) !== (b.sort_order ?? 0)) {
+      return (a.sort_order ?? 0) - (b.sort_order ?? 0);
+    }
+    return new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime();
+  })
   .slice(0, 8)
   .map((p) => ({
     title: p.title,
     description: p.description,
-    image: p.image,
+    image: resolveImageUrl(p.image),
     liveUrl: p.live_url,
     githubUrl: p.github_url,
   }));

@@ -88,7 +88,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
                   <i class="fas fa-cloud-upload-alt"></i>
                   <p class="dropzone-title">Drag & drop image here</p>
                   <p class="dropzone-subtitle">or click to browse</p>
-                  <span class="dropzone-formats">Supports: JPG, PNG, WebP, GIF (max 5MB)</span>
+                  <span class="dropzone-formats">Supports: JPG, PNG, WebP, GIF (max 10MB)</span>
                 </div>
                 <input type="file" id="image-file-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none;">
               </div>
@@ -100,7 +100,54 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
               </div>
               <input type="hidden" id="project-image" required>
             </div>
-            <p class="form-hint">Image will be optimized automatically for better performance</p>
+            
+            <!-- Image Optimization Controls -->
+            <div class="image-opt-controls" style="margin-top:12px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+              <div style="font-weight:600;font-size:13px;margin-bottom:10px;color:#334155;display:flex;align-items:center;justify-content:space-between;">
+                <span><i class="fas fa-sliders-h" style="color:var(--admin-primary);margin-right:6px;"></i> Image Optimization Controls</span>
+                <span style="font-weight:400;font-size:11px;color:#64748b;">Live Auto-Compress</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <div>
+                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Max Resolution</label>
+                  <select id="opt-max-width" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
+                    <option value="380">Portfolio Card Size (380px max)</option>
+                    <option value="1200" selected>Full HD (1200px max)</option>
+                    <option value="1920">Ultra HD (1920px max)</option>
+                    <option value="800">Standard (800px max)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Aspect Ratio / Crop</label>
+                  <select id="opt-aspect-ratio" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
+                    <option value="16:9" selected>16:9 Card Standard (380×214)</option>
+                    <option value="380:300">380:300 Portfolio Card (Exact Grid Fit)</option>
+                    <option value="free">Original Ratio (No Crop)</option>
+                    <option value="4:3">4:3 Classic</option>
+                    <option value="1:1">1:1 Square</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Quality / Compression</label>
+                  <select id="opt-quality" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
+                    <option value="0.90" selected>90% High Quality</option>
+                    <option value="0.80">80% Balanced</option>
+                    <option value="0.70">70% Compressed</option>
+                    <option value="0.55">55% Ultra Compressed</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Output Format</label>
+                  <select id="opt-format" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
+                    <option value="image/webp" selected>WebP (Best performance)</option>
+                    <option value="image/jpeg">JPEG (Universal)</option>
+                    <option value="image/png">PNG (High quality)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <p class="form-hint" style="margin-top:6px;">Image will be cropped & compressed based on your settings above before upload</p>
           </div>
           
           <div class="form-group">
@@ -148,47 +195,72 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
   <div class="toast" id="toast"></div>
 
   <script is:inline>
-    // Image compression and upload utilities
-    async function compressImage(file, maxWidth = 1200, quality = 0.85) {
+    // Image compression and upload utilities with options
+    async function compressImage(file, options = {}) {
+      const {
+        maxWidth = 1200,
+        quality = 0.85,
+        format = 'image/webp',
+        aspectRatio = '16:9'
+      } = options;
+
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (e) => {
           const img = new Image();
           img.onload = () => {
-            const canvas = document.createElement('canvas');
-            let { width, height } = img;
-            
-            // Calculate new dimensions while maintaining aspect ratio
+            let srcX = 0, srcY = 0, srcW = img.width, srcH = img.height;
+
+            // Apply aspect ratio crop if requested
+            if (aspectRatio !== 'free') {
+              const parts = aspectRatio.split(':').map(Number);
+              if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                const targetRatio = parts[0] / parts[1];
+                const currentRatio = img.width / img.height;
+
+                if (currentRatio > targetRatio) {
+                  srcW = img.height * targetRatio;
+                  srcX = (img.width - srcW) / 2;
+                } else {
+                  srcH = img.width / targetRatio;
+                  srcY = (img.height - srcH) / 2;
+                }
+              }
+            }
+
+            // Calculate new dimensions while scaling to maxWidth
+            let width = srcW;
+            let height = srcH;
             if (width > maxWidth) {
               height = Math.round((height * maxWidth) / width);
               width = maxWidth;
             }
-            
-            canvas.width = width;
-            canvas.height = height;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(width);
+            canvas.height = Math.round(height);
             
             const ctx = canvas.getContext('2d');
-            // Enable image smoothing for better quality
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
-            ctx.drawImage(img, 0, 0, width, height);
+            ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, canvas.width, canvas.height);
             
-            // Convert to WebP for better compression (fallback to JPEG)
             canvas.toBlob(
               (blob) => {
                 if (blob) {
                   resolve({
                     blob,
-                    width,
-                    height,
+                    width: canvas.width,
+                    height: canvas.height,
                     originalSize: file.size,
-                    compressedSize: blob.size
+                    compressedSize: blob.size,
+                    format
                   });
                 } else {
                   reject(new Error('Failed to compress image'));
                 }
               },
-              'image/webp',
+              format,
               quality
             );
           };
@@ -301,24 +373,44 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         imagePreview.src = url;
         dropzone.style.display = 'none';
         uploadProgress.style.display = 'none';
-        previewWrapper.style.display = 'block';
+        previewWrapper.style.display = 'flex';
         
         if (info.width && info.height) {
           const savings = info.originalSize && info.compressedSize 
             ? Math.round((1 - info.compressedSize / info.originalSize) * 100)
             : null;
           
+          const ratio = (info.width / info.height).toFixed(2);
+          const isCardFit = ratio === '1.78' || ratio === '1.27' || ratio === '1.33' || info.width === 380;
+          
           imageInfo.innerHTML = `
-            <span><i class="fas fa-expand-arrows-alt"></i>${info.width} × ${info.height}</span>
-            <span><i class="fas fa-file-image"></i>${formatBytes(info.compressedSize || 0)}</span>
-            ${savings ? `<span><i class="fas fa-compress-arrows-alt"></i>${savings}% smaller</span>` : ''}
+            <span><i class="fas fa-expand-arrows-alt"></i> ${info.width} × ${info.height}px</span>
+            <span><i class="fas fa-file-image"></i> ${formatBytes(info.compressedSize || 0)}</span>
+            ${savings ? `<span><i class="fas fa-bolt"></i> ${savings}% smaller</span>` : ''}
+            ${isCardFit ? `<span class="fit-badge" style="background:#10b981;color:white;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:600;"><i class="fas fa-check-circle"></i> Portfolio Card Fit</span>` : ''}
           `;
         } else {
-          imageInfo.innerHTML = '<span><i class="fas fa-check-circle"></i>Image loaded</span>';
+          imageInfo.innerHTML = '<span><i class="fas fa-check-circle"></i> Image loaded</span>';
         }
       }
 
+      let lastUploadedFile = null;
+
+      // Re-run image optimization automatically when any option changes
+      ['opt-max-width', 'opt-aspect-ratio', 'opt-quality', 'opt-format'].forEach(id => {
+        const selectEl = document.getElementById(id);
+        if (selectEl) {
+          selectEl.addEventListener('change', () => {
+            if (lastUploadedFile) {
+              handleImageFile(lastUploadedFile);
+            }
+          });
+        }
+      });
+
       async function handleImageFile(file) {
+        lastUploadedFile = file;
+
         // Validate file type
         const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
         if (!validTypes.includes(file.type)) {
@@ -326,37 +418,47 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
           return;
         }
 
-        // Validate file size (5MB max)
-        if (file.size > 5 * 1024 * 1024) {
-          showToast('Image must be less than 5MB', 'error');
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+          showToast('Image must be less than 10MB', 'error');
           return;
         }
+
+        // Read optimization settings from UI controls
+        const maxWidth = parseInt(document.getElementById('opt-max-width')?.value) || 1920;
+        const aspectRatio = document.getElementById('opt-aspect-ratio')?.value || 'free';
+        const quality = parseFloat(document.getElementById('opt-quality')?.value) || 0.90;
+        const format = document.getElementById('opt-format')?.value || 'image/webp';
 
         // Show progress
         dropzone.style.display = 'none';
         previewWrapper.style.display = 'none';
         uploadProgress.style.display = 'block';
         progressFill.style.width = '10%';
-        progressText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Compressing image...';
+        progressText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Optimizing image...';
 
         try {
-          // Compress image
-          progressFill.style.width = '30%';
-          const compressed = await compressImage(file);
-          
-          progressFill.style.width = '50%';
+          // Compress image using selected options
+          progressFill.style.width = '35%';
+          const compressed = await compressImage(file, { maxWidth, aspectRatio, quality, format });
+
+          progressFill.style.width = '60%';
           progressText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading to cloud...';
+
+          // Determine file extension
+          const extMap = { 'image/webp': '.webp', 'image/jpeg': '.jpg', 'image/png': '.png' };
+          const ext = extMap[format] || '.webp';
 
           // Generate filename from project title
           const title = document.getElementById('project-title').value || 'project';
           const timestamp = Date.now();
-          const filename = `${slugify(title)}-${timestamp}.webp`;
+          const filename = `${slugify(title)}-${timestamp}${ext}`;
 
           // Upload to Supabase Storage
           const { data, error } = await supabase.storage
             .from('project-images')
             .upload(filename, compressed.blob, {
-              contentType: 'image/webp',
+              contentType: format,
               cacheControl: '31536000',
               upsert: false
             });
@@ -371,7 +473,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
             .getPublicUrl(filename);
 
           progressFill.style.width = '100%';
-          progressText.innerHTML = '<i class="fas fa-check"></i> Upload complete!';
+          progressText.innerHTML = '<i class="fas fa-check"></i> Optimization & upload complete!';
 
           setTimeout(() => {
             showImagePreview(urlData.publicUrl, {
@@ -380,7 +482,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
               originalSize: compressed.originalSize,
               compressedSize: compressed.compressedSize
             });
-          }, 500);
+          }, 400);
 
         } catch (error) {
           console.error('Upload error:', error);
@@ -568,8 +670,8 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       grid.style.display = 'grid';
       emptyState.style.display = 'none';
       
-      grid.innerHTML = projects.map(project => `
-        <div class="project-card" data-id="${project.id}">
+      grid.innerHTML = projects.map((project, idx) => `
+        <div class="project-card" data-id="${project.id}" draggable="true">
           <div class="project-card-image">
             <img src="${project.image}" alt="${project.title}" loading="lazy">
             ${project.featured ? '<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>' : ''}
@@ -586,10 +688,15 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
             </div>
           </div>
           <div class="project-card-content">
-            <span class="project-card-category ${project.category}">
-              <i class="fas ${getCategoryIcon(project.category)}"></i>
-              ${getCategoryLabel(project.category)}
-            </span>
+            <div class="project-card-meta-top">
+              <span class="project-card-category ${project.category}">
+                <i class="fas ${getCategoryIcon(project.category)}"></i>
+                ${getCategoryLabel(project.category)}
+              </span>
+              <span class="drag-handle" title="Click & Drag to reorder">
+                <i class="fas fa-grip-vertical"></i> Sort #<span class="project-order-num">${project.sort_order ?? idx}</span>
+              </span>
+            </div>
             <h3 class="project-card-title">${project.title}</h3>
             <p class="project-card-description">${project.description}</p>
             ${(project.tags && project.tags.length > 0) ? `
@@ -603,11 +710,120 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
                 ${project.github_url ? `<a href="${project.github_url}" target="_blank" class="project-link"><i class="fab fa-github"></i> Code</a>` : ''}
                 ${project.live_url ? `<a href="${project.live_url}" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>` : ''}
               </div>
-              <span class="project-order"><i class="fas fa-sort"></i> ${project.sort_order || 0}</span>
+              <span class="project-order project-order-badge" title="Sort Order Position"><i class="fas fa-sort"></i> ${project.sort_order ?? idx}</span>
             </div>
           </div>
         </div>
       `).join('');
+
+      attachDragAndDropListeners();
+    }
+
+    let isSavingSortOrder = false;
+
+    function attachDragAndDropListeners() {
+      const grid = document.getElementById('projects-grid');
+      const cards = grid.querySelectorAll('.project-card');
+
+      cards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+          if (e.target.closest('.project-action-btn') || e.target.closest('a') || e.target.closest('button')) {
+            e.preventDefault();
+            return;
+          }
+          card.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', card.getAttribute('data-id'));
+        });
+
+        card.addEventListener('dragend', async () => {
+          card.classList.remove('dragging');
+          grid.querySelectorAll('.project-card').forEach(c => c.classList.remove('drag-over'));
+          await saveNewSortOrder();
+        });
+
+        card.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+          
+          const draggingCard = grid.querySelector('.project-card.dragging');
+          if (!draggingCard) return;
+
+          const afterElement = getDragAfterElement(grid, e.clientX, e.clientY);
+          if (afterElement == null) {
+            grid.appendChild(draggingCard);
+          } else {
+            grid.insertBefore(draggingCard, afterElement);
+          }
+
+          // Dynamically change sorting number in UI as user drags item!
+          updateLiveSortOrderNumbers();
+        });
+      });
+    }
+
+    function updateLiveSortOrderNumbers() {
+      const grid = document.getElementById('projects-grid');
+      const cards = grid.querySelectorAll('.project-card');
+      cards.forEach((card, index) => {
+        const numSpan = card.querySelector('.project-order-num');
+        if (numSpan) numSpan.textContent = index;
+        
+        const badgeSpan = card.querySelector('.project-order-badge');
+        if (badgeSpan) badgeSpan.innerHTML = `<i class="fas fa-sort"></i> ${index}`;
+      });
+    }
+
+    function getDragAfterElement(container, x, y) {
+      const draggableElements = [...container.querySelectorAll('.project-card:not(.dragging)')];
+
+      return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - (box.top + box.height / 2);
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    async function saveNewSortOrder() {
+      if (isSavingSortOrder) return;
+      isSavingSortOrder = true;
+
+      const grid = document.getElementById('projects-grid');
+      const cards = grid.querySelectorAll('.project-card');
+      const supabase = window.supabaseClient;
+
+      const updates = [];
+
+      cards.forEach((card, index) => {
+        const id = card.getAttribute('data-id');
+        const proj = allProjects.find(p => p.id === id);
+        if (proj) proj.sort_order = index;
+
+        if (id && supabase) {
+          updates.push(
+            supabase
+              .from('projects')
+              .update({ sort_order: index })
+              .eq('id', id)
+          );
+        }
+      });
+
+      try {
+        if (updates.length > 0) {
+          await Promise.all(updates);
+          showToast('Sort order auto-saved to database!', 'success');
+        }
+      } catch (err) {
+        console.error('Failed to save sort order:', err);
+        showToast('Failed to save sort order to database', 'error');
+      } finally {
+        isSavingSortOrder = false;
+      }
     }
 
     async function loadProjects() {
@@ -830,8 +1046,47 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
       border: 1px solid var(--admin-gray-100);
+      cursor: grab;
+      user-select: none;
+    }
+
+    .project-card:active {
+      cursor: grabbing;
+    }
+
+    .project-card.dragging {
+      opacity: 0.45;
+      transform: scale(0.97);
+      border: 2px dashed var(--admin-primary);
+      box-shadow: 0 12px 28px rgba(43, 61, 218, 0.25);
+    }
+
+    .project-card-meta-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .drag-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--admin-gray-100);
+      color: var(--admin-gray-700);
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: grab;
+      transition: all 0.2s ease;
+    }
+
+    .drag-handle:hover {
+      background: var(--admin-primary);
+      color: white;
     }
 
     .project-card:hover {

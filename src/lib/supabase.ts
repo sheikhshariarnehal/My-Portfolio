@@ -3,8 +3,8 @@ import type { Database } from './database.types';
 
 type SupabaseClient = ReturnType<typeof createClient<Database>>;
 
-const rawUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const rawKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+const rawUrl = import.meta.env.PUBLIC_SUPABASE_URL || (typeof process !== 'undefined' ? process.env.PUBLIC_SUPABASE_URL : undefined);
+const rawKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY || (typeof process !== 'undefined' ? process.env.PUBLIC_SUPABASE_ANON_KEY : undefined);
 
 const supabaseUrl = rawUrl ? rawUrl.replace(/[\r\n]/g, '').trim() : undefined;
 const supabaseAnonKey = rawKey ? rawKey.replace(/[\r\n]/g, '').trim() : undefined;
@@ -49,7 +49,7 @@ export async function getProjects() {
     .order('sort_order', { ascending: true });
   
   if (error) {
-    console.error('Error fetching projects:', error);
+    console.error('Error fetching projects from Supabase DB:', error);
     return [] as Database['public']['Tables']['projects']['Row'][];
   }
   return data || [];

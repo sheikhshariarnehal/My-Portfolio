@@ -8,15 +8,27 @@ import '../../styles/projects.css';
 // Fetch projects from Supabase
 const projects = await getProjects();
 
-// Map category for filter classes
+// Image URL helper to handle remote, absolute, and legacy relative paths safely
+function resolveImageUrl(img?: string): string {
+  if (!img) return '/assets/images/projects/My_portfolio.webp';
+  if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('/')) return img;
+  return `/assets/images/projects/${img}.webp`;
+}
+
+// Map category for filter classes cleanly
 function getCategoryClass(category: string): string {
-  const categoryMap: Record<string, string> = {
-    'web': 'mern',
-    'ml': 'ml',
-    'mobile': 'android',
-    'other': 'basicweb'
-  };
-  return categoryMap[category] || 'basicweb';
+  if (!category) return 'mern';
+  const cat = category.toLowerCase().trim();
+  if (cat === 'web' || cat === 'mern' || cat === 'web development' || cat === 'fullstack' || cat === 'frontend' || cat === 'backend' || cat === 'basicweb') {
+    return 'mern';
+  }
+  if (cat === 'ml' || cat === 'ai' || cat === 'machine learning' || cat === 'python') {
+    return 'ml';
+  }
+  if (cat === 'mobile' || cat === 'android' || cat === 'flutter' || cat === 'app' || cat === 'react native') {
+    return 'android';
+  }
+  return 'mern';
 }
 
 // Schema.org JSON-LD
@@ -62,7 +74,7 @@ const collectionSchema = {
     {projects[0]?.image && (
       <link 
         rel="preload" 
-        href={projects[0].image.startsWith('http') ? projects[0].image : `/assets/images/projects/${projects[0].image}.webp`} 
+        href={resolveImageUrl(projects[0].image)} 
         as="image" 
         type="image/webp" 
         fetchpriority="high" 
@@ -94,7 +106,7 @@ const collectionSchema = {
           <div class="box tilt">
             <Image
               draggable="false"
-              src={project.image}
+              src={resolveImageUrl(project.image)}
               alt={`${project.title} - ${project.category} Project by Sheikh Shariar Nehal`}
               loading={index === 0 ? 'eager' : 'lazy'}
               width={380}

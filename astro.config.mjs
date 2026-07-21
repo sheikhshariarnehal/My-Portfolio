@@ -23,7 +23,10 @@ export default defineConfig({
     service: {
       entrypoint: 'astro/assets/services/sharp'
     },
-    remotePatterns: [{ protocol: 'https' }]
+    remotePatterns: [
+      { protocol: 'https', hostname: '*.supabase.co' },
+      { protocol: 'https', hostname: '*.vercel.app' }
+    ]
   },
   vite: {
     build: {
