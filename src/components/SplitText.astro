@@ -1,0 +1,78 @@
+---
+interface Props {
+  text?: string;
+  tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div';
+  className?: string;
+  delay?: number;
+  duration?: number;
+  splitType?: 'chars' | 'words';
+  textAlign?: string;
+}
+
+const {
+  text = '',
+  tag = 'p',
+  className = '',
+  delay = 30,
+  duration = 0.8,
+  splitType = 'chars',
+  textAlign = 'left'
+} = Astro.props;
+
+const Tag = tag;
+
+// Split text into tokens
+const tokens = splitType === 'words' ? text.split(' ') : Array.from(text);
+---
+
+<Tag
+  class={`split-text-wrapper ${className}`}
+  style={`text-align: ${textAlign}; display: inline-block;`}
+  data-delay={delay}
+  data-duration={duration}
+  data-split-type={splitType}
+>
+  {tokens.map((token, index) => {
+    if (token === ' ') {
+      return <span class="split-space">&nbsp;</span>;
+    }
+    return (
+      <span
+        class="split-token"
+        style={`--token-index: ${index}; display: inline-block; opacity: 0; transform: translateY(35px); transition: opacity ${duration}s cubic-bezier(0.215, 0.61, 0.355, 1), transform ${duration}s cubic-bezier(0.215, 0.61, 0.355, 1);`}
+      >
+        {token}
+      </span>
+    );
+  })}
+</Tag>
+
+<script>
+  function initSplitText() {
+    const wrappers = document.querySelectorAll('.split-text-wrapper');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const wrapper = entry.target as HTMLElement;
+          const delayMs = parseInt(wrapper.getAttribute('data-delay') || '30', 10);
+          const tokens = wrapper.querySelectorAll('.split-token');
+          
+          tokens.forEach((token, index) => {
+            setTimeout(() => {
+              (token as HTMLElement).style.opacity = '1';
+              (token as HTMLElement).style.transform = 'translateY(0)';
+            }, index * delayMs);
+          });
+
+          observer.unobserve(wrapper);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    wrappers.forEach((el) => observer.observe(el));
+  }
+
+  initSplitText();
+  document.addEventListener('astro:page-load', initSplitText);
+</script>

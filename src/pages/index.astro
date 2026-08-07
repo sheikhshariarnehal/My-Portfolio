@@ -8,6 +8,7 @@ import EducationCard from '../components/EducationCard.astro';
 import TimelineItem from '../components/TimelineItem.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import ContactForm from '../components/ContactForm.astro';
+import SplitText from '../components/SplitText.astro';
 
 import { getEducation, getExperience, getSkills, getHomepageSettings, getProjects } from '../lib/supabase';
 import { buildPersonSchema, buildWebsiteSchema, buildBreadcrumbSchema } from '../lib/schema';
@@ -109,7 +110,9 @@ const schemas = [
           <span>Available for Full-Stack & Engineering Roles</span>
         </div>
 
-        <h1 id="hero-heading">{hero.greeting}<br /> I'm {firstName} {lastName}</h1>
+        <h1 id="hero-heading">
+          <SplitText text={`${hero.greeting} I'm ${firstName} ${lastName}`} tag="span" splitType="chars" delay={25} duration={0.6} />
+        </h1>
         
         <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
 
