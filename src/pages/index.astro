@@ -104,24 +104,52 @@ const schemas = [
       <div id="particles-js" aria-hidden="true"></div>
 
       <div class="content">
-        <h1 id="hero-heading">{hero.greeting}<br /> I'm {firstName}<span> {lastName}</span></h1>
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Available for Full-Stack & Engineering Roles</span>
+        </div>
+
+        <h1 id="hero-heading">{hero.greeting}<br /> I'm {firstName} {lastName}</h1>
+        
         <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
-        <a href={hero.ctaLink} class="btn" aria-label="Learn more about me">
-          <span>{hero.ctaText}</span>
-          <i class="fas fa-arrow-circle-down" aria-hidden="true"></i>
-        </a>
+
+        <div class="hero-cta-group">
+          <a href={hero.ctaLink} class="btn btn-primary" aria-label="Learn more about me">
+            <span>{hero.ctaText}</span>
+            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+          </a>
+          <a href={about.resumeUrl} target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Download Resume">
+            <i class="fas fa-file-alt" aria-hidden="true"></i>
+            <span>Resume</span>
+          </a>
+        </div>
+
         <SocialIcons socialLinks={socialLinks} />
       </div>
+
       <div class="image">
-        <Image
-          draggable="false"
-          class="tilt"
-          src={hero.heroImage}
-          alt={hero.heroImageAlt}
-          width={400}
-          height={400}
-          loading="eager"
-        />
+        <div class="hero-square-avatar-container tilt">
+          <div class="avatar-layer-back">
+            <Image
+              draggable="false"
+              src="https://pub-66c415049e354d59968472f8a48aff3d.r2.dev/Profile/profile%20Layer%2041.webp"
+              alt="Avatar background layer"
+              width={400}
+              height={400}
+              loading="eager"
+            />
+          </div>
+          <div class="avatar-layer-front">
+            <Image
+              draggable="false"
+              src={hero.heroImage}
+              alt={hero.heroImageAlt}
+              width={400}
+              height={400}
+              loading="eager"
+            />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -136,8 +164,8 @@ const schemas = [
           class="tilt"
           src={about.profileImage}
           alt={about.profileImageAlt}
-          width={300}
-          height={300}
+          width={320}
+          height={320}
           loading="lazy"
         />
       </div>
@@ -299,13 +327,50 @@ const schemas = [
 
   <!-- Scripts Slot -->
   <Fragment slot="scripts">
+    <!-- Lenis Smooth Scroll Engine -->
+    <script>
+      import Lenis from 'lenis';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          wheelMultiplier: 1.0,
+          touchMultiplier: 1.5,
+        });
+
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Smooth scroll for anchor navigation links
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener('click', (e) => {
+            const href = anchor.getAttribute('href');
+            if (href && href !== '#') {
+              const target = document.querySelector(href);
+              if (target) {
+                e.preventDefault();
+                lenis.scrollTo(target as HTMLElement);
+              }
+            }
+          });
+        });
+      });
+    </script>
+
     <!-- Typed.js -->
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.5/typed.min.js" integrity="sha512-1KbKusm/hAtkX5FScVR5G36wodIMnVd/aP04af06iyQTkD17szAMGNmxfNH+tEuFp3Og/P5G32L1qEC47CZbUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <!-- Particles.js - Lazy loaded after main content for better LCP -->
     <script is:inline>
       (function () {
-        // Skip entirely if user prefers reduced motion
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         function loadParticles() {
@@ -348,66 +413,89 @@ const schemas = [
           });
         }
 
-        // Vanilla Tilt
+        // Vanilla Tilt with hardware acceleration optimizations
         if (typeof VanillaTilt !== 'undefined') {
           VanillaTilt.init(document.querySelectorAll('.tilt'), {
             max: 15,
+            speed: 400,
+            glare: false,
+            "full-page-listening": false,
           });
         }
 
-        // ScrollReveal
+        // ScrollReveal (Optimized with reset: false to eliminate continuous repaints while scrolling)
         if (typeof ScrollReveal !== 'undefined') {
           const srtop = ScrollReveal({
             origin: 'top',
-            distance: '80px',
-            duration: 1000,
-            reset: true
+            distance: '60px',
+            duration: 800,
+            reset: false
           });
 
-          srtop.reveal('.home .content h3', { delay: 200 });
-          srtop.reveal('.home .content p', { delay: 200 });
-          srtop.reveal('.home .content .btn', { delay: 200 });
-          // Hero image excluded from ScrollReveal to prevent reload animation effect
-          srtop.reveal('.home .linkedin', { interval: 600 });
-          srtop.reveal('.home .github', { interval: 800 });
-          srtop.reveal('.home .twitter', { interval: 1000 });
-          srtop.reveal('.home .telegram', { interval: 600 });
-          srtop.reveal('.home .instagram', { interval: 600 });
-          srtop.reveal('.home .dev', { interval: 600 });
-          srtop.reveal('.about .content h3', { delay: 200 });
-          srtop.reveal('.about .content .tag', { delay: 200 });
-          srtop.reveal('.about .content p', { delay: 200 });
-          srtop.reveal('.about .content .box-container', { delay: 200 });
-          srtop.reveal('.about .content .resumebtn', { delay: 200 });
-          srtop.reveal('.skills .container', { interval: 200 });
-          srtop.reveal('.skills .container .bar', { delay: 400 });
-          srtop.reveal('.education .box', { interval: 200 });
-          srtop.reveal('.work .box', { interval: 200 });
-          srtop.reveal('.experience .timeline', { delay: 400 });
-          srtop.reveal('.experience .timeline .container', { interval: 400 });
-          srtop.reveal('.contact .container', { delay: 400 });
-          srtop.reveal('.contact .container .form-group', { delay: 400 });
+          srtop.reveal('.home .content h3', { delay: 100 });
+          srtop.reveal('.home .content p', { delay: 100 });
+          srtop.reveal('.home .content .btn', { delay: 100 });
+          srtop.reveal('.home .linkedin', { interval: 300 });
+          srtop.reveal('.home .github', { interval: 400 });
+          srtop.reveal('.home .twitter', { interval: 500 });
+          srtop.reveal('.home .telegram', { interval: 300 });
+          srtop.reveal('.home .instagram', { interval: 300 });
+          srtop.reveal('.home .dev', { interval: 300 });
+          srtop.reveal('.about .content h3', { delay: 100 });
+          srtop.reveal('.about .content .tag', { delay: 100 });
+          srtop.reveal('.about .content p', { delay: 100 });
+          srtop.reveal('.about .content .box-container', { delay: 100 });
+          srtop.reveal('.about .content .resumebtn', { delay: 100 });
+          srtop.reveal('.skills .container', { interval: 100 });
+          srtop.reveal('.skills .container .bar', { delay: 200 });
+          srtop.reveal('.education .box', { interval: 100 });
+          srtop.reveal('.work .box', { interval: 100 });
+          srtop.reveal('.experience .timeline', { delay: 200 });
+          srtop.reveal('.experience .timeline .container', { interval: 200 });
+          srtop.reveal('.contact .container', { delay: 200 });
+          srtop.reveal('.contact .container .form-group', { delay: 200 });
         }
 
-        // Scroll spy for navigation
-        const sections = document.querySelectorAll('section');
+        // Zero-Jank IntersectionObserver Scroll Spy (Replaces offsetTop layout thrashing)
+        const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.navbar ul li a');
         
-        window.addEventListener('scroll', () => {
-          let current = '';
-          sections.forEach(section => {
-            if (scrollY >= section.offsetTop - 200) {
-              current = section.getAttribute('id') || '';
-            }
-          });
+        if (sections.length > 0 && navLinks.length > 0) {
+          const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -60% 0px',
+            threshold: 0
+          };
 
-          navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href')?.includes(current)) {
-              link.classList.add('active');
-            }
-          });
-        });
+          const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const currentId = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                  link.classList.remove('active');
+                  const href = link.getAttribute('href');
+                  if (href === `#${currentId}` || href?.endsWith(`#${currentId}`)) {
+                    link.classList.add('active');
+                  }
+                });
+              }
+            });
+          }, observerOptions);
+
+          sections.forEach(section => spyObserver.observe(section));
+        }
+
+        // Viewport Culling for Particles.js canvas loop when Hero is out of view
+        const heroEl = document.getElementById('home');
+        const particlesContainer = document.getElementById('particles-js');
+        if (heroEl && particlesContainer) {
+          const particleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              particlesContainer.style.display = entry.isIntersecting ? 'block' : 'none';
+            });
+          }, { threshold: 0.05 });
+          particleObserver.observe(heroEl);
+        }
       });
 
       // Tawk.to Live Chat - Lazy loaded on first interaction or after 5s

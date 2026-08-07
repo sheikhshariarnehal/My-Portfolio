@@ -18,31 +18,32 @@ const quickLinks = [
 ];
 ---
 
-<section class="footer">
+<footer class="footer">
   <div class="box-container">
     <div class="box">
       <h3>Shariar Portfolio</h3>
       <p>
-        Thank you for visiting my personal portfolio website. Connect with me over socials.
-        <br /><br />
-        Keep Rising 🚀. Connect with me over live chat!
+        Thank you for visiting my personal portfolio website. Connect with me over social media or direct inquiry.
       </p>
+      <div class="tagline">
+        Keep Rising 🚀. Feel free to drop a message!
+      </div>
     </div>
 
     <div class="box">
-      <h3>quick links</h3>
+      <h3>Quick Links</h3>
       {quickLinks.map((link) => (
         <a href={link.href}>
-          <i class="fas fa-chevron-circle-right"></i> {link.label}
+          <i class="fas fa-chevron-right"></i> {link.label}
         </a>
       ))}
     </div>
 
     <div class="box">
-      <h3>contact info</h3>
-      <p><i class="fas fa-phone"></i>+8801750627421</p>
-      <p><i class="fas fa-envelope"></i>nehal22205101260@diu.edu.bd</p>
-      <p><i class="fas fa-map-marked-alt"></i>Nowabgonj,Dhaka,Bangladesh</p>
+      <h3>Contact Info</h3>
+      <p><i class="fas fa-phone"></i> +880 1750-627421</p>
+      <p><i class="fas fa-envelope"></i> nehal22205101260@diu.edu.bd</p>
+      <p><i class="fas fa-map-marker-alt"></i> Nowabgonj, Dhaka, Bangladesh</p>
       <div class="share">
         {socialLinks.map((link) => (
           <a
@@ -61,6 +62,6 @@ const quickLinks = [
 
   <div class="credit">
     Designed with <i class="fa fa-heart pulse"></i> by
-    <a href="https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/"> Sheikh Shariar Nehal</a>
+    <a href="https://www.linkedin.com/in/sheikh-shariar-nehal-473166268/" target="_blank" rel="noopener noreferrer">Sheikh Shariar Nehal</a>
   </div>
-</section>
+</footer>

@@ -148,6 +148,30 @@ const collectionSchema = {
 
   <!-- Scripts -->
   <Fragment slot="scripts">
+    <!-- Lenis Smooth Scroll Engine -->
+    <script>
+      import Lenis from 'lenis';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          wheelMultiplier: 1.0,
+          touchMultiplier: 1.5,
+        });
+
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+      });
+    </script>
+
     <!-- Modern CSS-based filtering - no heavy libraries needed -->
     <script is:inline>
       // Simple, performant filtering without Isotope
@@ -220,12 +244,12 @@ const collectionSchema = {
         document.body.appendChild(script);
       }
 
-      // Load Vanilla Tilt for hover effect after first paint
+      // Load Vanilla Tilt for hover effect after first paint with GPU optimization
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           loadScript('https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js', function() {
             if (typeof VanillaTilt !== 'undefined') {
-              VanillaTilt.init(document.querySelectorAll('.tilt'), { max: 10, speed: 400 });
+              VanillaTilt.init(document.querySelectorAll('.tilt'), { max: 10, speed: 400, "full-page-listening": false });
             }
           });
         });

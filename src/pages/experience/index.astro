@@ -113,6 +113,30 @@ const webPageSchema = {
 
   <!-- Scripts -->
   <Fragment slot="scripts">
+    <!-- Lenis Smooth Scroll Engine -->
+    <script>
+      import Lenis from 'lenis';
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          wheelMultiplier: 1.0,
+          touchMultiplier: 1.5,
+        });
+
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+      });
+    </script>
+
     <!-- ScrollReveal -->
     <script defer src="https://unpkg.com/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
 
@@ -131,18 +155,18 @@ const webPageSchema = {
         });
       });
 
-      // Wait for ScrollReveal to load
+      // Optimized ScrollReveal (reset: false to prevent continuous layout thrashing during scroll)
       window.addEventListener('load', function() {
         if (typeof ScrollReveal !== 'undefined') {
           const srtop = ScrollReveal({
             origin: 'top',
-            distance: '80px',
-            duration: 1000,
-            reset: true
+            distance: '60px',
+            duration: 800,
+            reset: false
           });
 
-          srtop.reveal('.experience .timeline', { delay: 400 });
-          srtop.reveal('.experience .timeline .container', { interval: 400 });
+          srtop.reveal('.experience .timeline', { delay: 200 });
+          srtop.reveal('.experience .timeline .container', { interval: 200 });
         }
       });
     </script>

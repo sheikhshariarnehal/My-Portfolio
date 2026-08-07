@@ -67,15 +67,23 @@ const { title, description, canonical, image, keywords, schema } = Astro.props;
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const scrollTop = document.getElementById('scroll-top');
+        let ticking = false;
         
         window.addEventListener('scroll', () => {
-          if (window.scrollY > 60) {
-            scrollTop?.classList.add('active');
-          } else {
-            scrollTop?.classList.remove('active');
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              if (window.scrollY > 60) {
+                scrollTop?.classList.add('active');
+              } else {
+                scrollTop?.classList.remove('active');
+              }
+              ticking = false;
+            });
+            ticking = true;
           }
-        });
+        }, { passive: true });
       });
+
 
       // Visibility change handler
       document.addEventListener('visibilitychange', function () {
