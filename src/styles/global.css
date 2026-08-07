@@ -1768,11 +1768,12 @@ a, button, .btn, .box .content, .navbar li a {
     font-size: 1.8rem;
     background: rgba(255, 255, 255, 0.95);
     color: #0f172a;
-    border: 1.5px solid #cbd5e1;
+    border: none !important;
+    outline: none !important;
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     z-index: 1000;
-    transition: top 0.4s ease, transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    transition: top 0.4s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     cursor: pointer;
   }
 
@@ -1784,7 +1785,6 @@ a, button, .btn, .box .content, .navbar li a {
     transform: translateY(-4px);
     background: #ffffff;
     color: #2506ad;
-    border-color: #2506ad;
     box-shadow: 0 6px 20px rgba(37, 6, 173, 0.15);
   }
 }
