@@ -111,7 +111,9 @@ const schemas = [
         </div>
 
         <h1 id="hero-heading">
-          <SplitText text={`${hero.greeting} I'm ${firstName} ${lastName}`} tag="span" splitType="chars" delay={25} duration={0.6} />
+          <SplitText text={hero.greeting} tag="span" splitType="chars" delay={25} duration={0.6} />
+          <br />
+          <SplitText text={`I'm ${firstName} ${lastName}`} tag="span" splitType="chars" delay={25} duration={0.6} />
         </h1>
         
         <p>{hero.subtitle} <span class="typing-text" aria-label="Various development skills"></span></p>
