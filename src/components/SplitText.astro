@@ -21,27 +21,32 @@ const {
 
 const Tag = tag;
 
-// Split text into tokens
-const tokens = splitType === 'words' ? text.split(' ') : Array.from(text);
+// Split into words first to preserve natural mobile word wrapping
+const words = text.split(' ');
+let globalCharIndex = 0;
 ---
 
 <Tag
   class={`split-text-wrapper ${className}`}
-  style={`text-align: ${textAlign}; display: inline-block;`}
+  style={`text-align: ${textAlign}; display: inline; word-break: break-word; overflow-wrap: break-word;`}
   data-delay={delay}
   data-duration={duration}
-  data-split-type={splitType}
 >
-  {tokens.map((token, index) => {
-    if (token === ' ') {
-      return <span class="split-space">&nbsp;</span>;
-    }
+  {words.map((word, wIdx) => {
+    const chars = Array.from(word);
     return (
-      <span
-        class="split-token"
-        style={`--token-index: ${index}; display: inline-block; opacity: 0; transform: translateY(35px); transition: opacity ${duration}s cubic-bezier(0.215, 0.61, 0.355, 1), transform ${duration}s cubic-bezier(0.215, 0.61, 0.355, 1);`}
-      >
-        {token}
+      <span class="split-word" style="display: inline-block; white-space: nowrap;">
+        {chars.map((char) => {
+          return (
+            <span
+              class="split-token"
+              style={`display: inline-block; opacity: 0; transform: translateY(35px); transition: opacity ${duration}s cubic-bezier(0.215, 0.61, 0.355, 1), transform ${duration}s cubic-bezier(0.215, 0.61, 0.355, 1);`}
+            >
+              {char}
+            </span>
+          );
+        })}
+        {wIdx < words.length - 1 && <span class="split-space">&nbsp;</span>}
       </span>
     );
   })}
