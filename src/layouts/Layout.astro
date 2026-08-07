@@ -37,9 +37,6 @@ const { title, description, canonical, image, keywords, schema } = Astro.props;
     
     <slot />
 
-    <!-- Scroll to Top Button -->
-    <a href="#home" aria-label="Scroll to top of page" class="fas fa-angle-up" id="scroll-top"></a>
-
     <!-- Google Analytics -->
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -63,29 +60,8 @@ const { title, description, canonical, image, keywords, schema } = Astro.props;
       }
     </script>
 
-    <!-- Scroll Top Button Script -->
+    <!-- Visibility change handler -->
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const scrollTop = document.getElementById('scroll-top');
-        let ticking = false;
-        
-        window.addEventListener('scroll', () => {
-          if (!ticking) {
-            window.requestAnimationFrame(() => {
-              if (window.scrollY > 60) {
-                scrollTop?.classList.add('active');
-              } else {
-                scrollTop?.classList.remove('active');
-              }
-              ticking = false;
-            });
-            ticking = true;
-          }
-        }, { passive: true });
-      });
-
-
-      // Visibility change handler
       document.addEventListener('visibilitychange', function () {
         const favicon = document.getElementById('favicon') as HTMLLinkElement;
         if (document.visibilityState === 'visible') {

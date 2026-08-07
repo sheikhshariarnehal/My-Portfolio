@@ -1749,42 +1749,4 @@ a, button, .btn, .box .content, .navbar li a {
   }
 }
 
-/* ============================================
-   SCROLL TO TOP BUTTON
-   ============================================ */
 
-@layer components {
-  #scroll-top {
-    position: fixed;
-    right: 2.5rem;
-    top: -140%;
-    width: 4.6rem;
-    height: 4.6rem;
-    border-radius: 50% !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    font-size: 1.8rem;
-    background: rgba(255, 255, 255, 0.95);
-    color: #0f172a;
-    border: none !important;
-    outline: none !important;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    z-index: 1000;
-    transition: top 0.4s ease, transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-    cursor: pointer;
-  }
-
-  #scroll-top.active {
-    top: calc(100% - 7.5rem);
-  }
-
-  #scroll-top:hover {
-    transform: translateY(-4px);
-    background: #ffffff;
-    color: #2506ad;
-    box-shadow: 0 6px 20px rgba(37, 6, 173, 0.15);
-  }
-}
