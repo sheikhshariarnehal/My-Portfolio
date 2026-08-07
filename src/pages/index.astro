@@ -175,7 +175,7 @@ const schemas = [
         />
       </div>
       <div class="content">
-        <h3>{about.title}</h3>
+        <h3><SplitText text={about.title} tag="span" splitType="chars" delay={25} duration={0.6} /></h3>
         <span class="tag">{about.subtitle}</span>
 
         <p>{about.bio}</p>
