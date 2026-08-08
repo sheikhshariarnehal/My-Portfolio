@@ -120,56 +120,6 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
               </div>
               <input type="hidden" id="project-image" required>
             </div>
-            
-            <!-- Image Optimization Controls -->
-            <div class="image-opt-controls" style="margin-top:12px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
-              <div style="font-weight:600;font-size:13px;margin-bottom:10px;color:#334155;display:flex;align-items:center;justify-content:space-between;">
-                <span><i class="fas fa-sliders-h" style="color:var(--admin-primary);margin-right:6px;"></i> Image Optimization Controls</span>
-                <span style="font-weight:400;font-size:11px;color:#64748b;">Live Auto-Compress</span>
-              </div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                <div>
-                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Max Resolution</label>
-                  <select id="opt-max-width" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
-                    <option value="original" selected>Original High-Res (No Downscale)</option>
-                    <option value="1920">Ultra HD (1920px max)</option>
-                    <option value="1200">Full HD (1200px max)</option>
-                    <option value="800">Standard (800px max)</option>
-                    <option value="380">Compact (380px max)</option>
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Aspect Ratio / Crop</label>
-                  <select id="opt-aspect-ratio" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
-                    <option value="free" selected>Original Ratio (No Crop - Full Image)</option>
-                    <option value="16:9">16:9 Card Standard (380×214)</option>
-                    <option value="380:300">380:300 Portfolio Card (Exact Grid Fit)</option>
-                    <option value="4:3">4:3 Classic</option>
-                    <option value="1:1">1:1 Square</option>
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Quality / Compression</label>
-                  <select id="opt-quality" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
-                    <option value="0.95" selected>95% Maximum Quality (Lossless Sharpness)</option>
-                    <option value="0.90">90% High Quality</option>
-                    <option value="0.80">80% Balanced</option>
-                    <option value="0.60">60% Compressed</option>
-                  </select>
-                </div>
-                <div>
-                  <label style="font-size:11px;font-weight:600;color:#64748b;margin-bottom:4px;display:block;">Output Format</label>
-                  <select id="opt-format" style="width:100%;padding:8px 10px;font-size:12px;border:1px solid #cbd5e1;border-radius:6px;background:white;">
-                    <option value="image/webp" selected>WebP (Best performance & quality)</option>
-                    <option value="original">Original Format (Keep File Type)</option>
-                    <option value="image/jpeg">JPEG (Universal)</option>
-                    <option value="image/png">PNG (High quality)</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <p class="form-hint" style="margin-top:6px;">Image will be cropped & compressed based on your settings above before upload</p>
           </div>
           
           <div class="form-group">
