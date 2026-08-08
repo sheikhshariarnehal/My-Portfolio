@@ -167,107 +167,7 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
   <div class="toast" id="toast"></div>
 
   <script is:inline>
-    // Image compression and upload utilities with high-quality options
-    async function compressImage(file, options = {}) {
-      const {
-        maxWidth = 'original',
-        quality = 0.95,
-        format = 'image/webp',
-        aspectRatio = 'free'
-      } = options;
-
-      // If user selected original format and no crop/downscale, return full original file directly
-      if (format === 'original' && aspectRatio === 'free' && (maxWidth === 'original' || maxWidth === 3840)) {
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const img = new Image();
-            img.onload = () => {
-              resolve({
-                blob: file,
-                width: img.width,
-                height: img.height,
-                originalSize: file.size,
-                compressedSize: file.size,
-                format: file.type || 'image/png'
-              });
-            };
-            img.src = e.target.result;
-          };
-          reader.readAsDataURL(file);
-        });
-      }
-
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const img = new Image();
-          img.onload = () => {
-            let srcX = 0, srcY = 0, srcW = img.width, srcH = img.height;
-
-            // Apply aspect ratio crop if requested
-            if (aspectRatio !== 'free') {
-              const parts = aspectRatio.split(':').map(Number);
-              if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
-                const targetRatio = parts[0] / parts[1];
-                const currentRatio = img.width / img.height;
-
-                if (currentRatio > targetRatio) {
-                  srcW = img.height * targetRatio;
-                  srcX = (img.width - srcW) / 2;
-                } else {
-                  srcH = img.width / targetRatio;
-                  srcY = (img.height - srcH) / 2;
-                }
-              }
-            }
-
-            // Calculate new dimensions
-            let width = srcW;
-            let height = srcH;
-            const maxW = maxWidth === 'original' ? img.width : (parseInt(maxWidth) || img.width);
-            if (width > maxW) {
-              height = Math.round((height * maxW) / width);
-              width = maxW;
-            }
-
-            const canvas = document.createElement('canvas');
-            canvas.width = Math.round(width);
-            canvas.height = Math.round(height);
-            
-            const ctx = canvas.getContext('2d');
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
-            ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, canvas.width, canvas.height);
-            
-            const outFormat = format === 'original' ? (file.type || 'image/jpeg') : format;
-
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  resolve({
-                    blob,
-                    width: canvas.width,
-                    height: canvas.height,
-                    originalSize: file.size,
-                    compressedSize: blob.size,
-                    format: outFormat
-                  });
-                } else {
-                  reject(new Error('Failed to process image'));
-                }
-              },
-              outFormat,
-              quality
-            );
-          };
-          img.onerror = () => reject(new Error('Failed to load image'));
-          img.src = e.target.result;
-        };
-        reader.onerror = () => reject(new Error('Failed to read file'));
-        reader.readAsDataURL(file);
-      });
-    }
+    // Helper utilities for file handling
 
     function slugify(text) {
       return text
@@ -377,6 +277,19 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
       if (titleInput) titleInput.addEventListener('input', updateCardPreviewText);
       if (descInput) descInput.addEventListener('input', updateCardPreviewText);
 
+      function getImageDimensions(file) {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => resolve({ width: img.width, height: img.height });
+            img.onerror = () => resolve({ width: 0, height: 0 });
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
       function showImagePreview(url, info = {}) {
         currentImageUrl = url;
         hiddenInput.value = url;
@@ -387,89 +300,64 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
         updateCardPreviewText();
         
         if (info.width && info.height) {
-          const savings = info.originalSize && info.compressedSize 
-            ? Math.round((1 - info.compressedSize / info.originalSize) * 100)
-            : null;
-          
           const ratio = (info.width / info.height).toFixed(2);
           const isCardFit = ratio === '1.78' || ratio === '1.27' || ratio === '1.33' || info.width === 380;
           
           imageInfo.innerHTML = `
             <span><i class="fas fa-expand-arrows-alt"></i> ${info.width} × ${info.height}px</span>
-            <span><i class="fas fa-file-image"></i> ${formatBytes(info.compressedSize || 0)}</span>
-            ${savings ? `<span><i class="fas fa-bolt"></i> ${savings}% smaller</span>` : ''}
+            <span><i class="fas fa-file-image"></i> ${formatBytes(info.originalSize || 0)}</span>
             ${isCardFit ? `<span class="fit-badge" style="background:#10b981;color:white;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:600;"><i class="fas fa-check-circle"></i> Portfolio Card Fit</span>` : ''}
           `;
         } else {
-          imageInfo.innerHTML = '<span><i class="fas fa-check-circle"></i> Image loaded</span>';
+          imageInfo.innerHTML = '<span><i class="fas fa-check-circle"></i> Original image loaded</span>';
         }
       }
 
       let lastUploadedFile = null;
 
-      // Re-run image optimization automatically when any option changes
-      ['opt-max-width', 'opt-aspect-ratio', 'opt-quality', 'opt-format'].forEach(id => {
-        const selectEl = document.getElementById(id);
-        if (selectEl) {
-          selectEl.addEventListener('change', () => {
-            if (lastUploadedFile) {
-              handleImageFile(lastUploadedFile);
-            }
-          });
-        }
-      });
-
       async function handleImageFile(file) {
         lastUploadedFile = file;
 
         // Validate file type
-        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
         if (!validTypes.includes(file.type)) {
-          showToast('Please select a valid image file (JPG, PNG, WebP, GIF)', 'error');
+          showToast('Please select a valid image file (JPG, PNG, WebP, GIF, SVG)', 'error');
           return;
         }
 
-        // Validate file size (10MB max)
-        if (file.size > 10 * 1024 * 1024) {
-          showToast('Image must be less than 10MB', 'error');
+        // Validate file size (25MB max)
+        if (file.size > 25 * 1024 * 1024) {
+          showToast('Image must be less than 25MB', 'error');
           return;
         }
-
-        // Read optimization settings from UI controls
-        const maxWidth = document.getElementById('opt-max-width')?.value || 'original';
-        const aspectRatio = document.getElementById('opt-aspect-ratio')?.value || 'free';
-        const quality = parseFloat(document.getElementById('opt-quality')?.value) || 0.95;
-        const format = document.getElementById('opt-format')?.value || 'image/webp';
 
         // Show progress
         dropzone.style.display = 'none';
         previewWrapper.style.display = 'none';
         uploadProgress.style.display = 'block';
-        progressFill.style.width = '10%';
-        progressText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Optimizing image...';
+        progressFill.style.width = '20%';
+        progressText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing original image...';
 
         try {
-          // Compress image using selected options
-          progressFill.style.width = '35%';
-          const compressed = await compressImage(file, { maxWidth, aspectRatio, quality, format });
+          // Read image dimensions directly from file
+          const dims = await getImageDimensions(file);
 
-          progressFill.style.width = '60%';
+          progressFill.style.width = '50%';
           progressText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading to cloud...';
 
-          // Determine file extension
-          const extMap = { 'image/webp': '.webp', 'image/jpeg': '.jpg', 'image/png': '.png' };
-          const ext = extMap[format] || '.webp';
+          // Preserve exact original file extension
+          const originalExt = file.name.substring(file.name.lastIndexOf('.')).toLowerCase() || '.png';
 
           // Generate filename from project title
           const title = document.getElementById('project-title').value || 'project';
           const timestamp = Date.now();
-          const filename = `${slugify(title)}-${timestamp}${ext}`;
+          const filename = `${slugify(title)}-${timestamp}${originalExt}`;
 
-          // Upload to Supabase Storage
+          // Upload exact original uncompressed file
           const { data, error } = await supabase.storage
             .from('project-images')
-            .upload(filename, compressed.blob, {
-              contentType: format,
+            .upload(filename, file, {
+              contentType: file.type || 'image/png',
               cacheControl: '31536000',
               upsert: false
             });
@@ -484,14 +372,14 @@ import AdminLayout from '../../../layouts/AdminLayout.astro';
             .getPublicUrl(filename);
 
           progressFill.style.width = '100%';
-          progressText.innerHTML = '<i class="fas fa-check"></i> Optimization & upload complete!';
+          progressText.innerHTML = '<i class="fas fa-check"></i> Upload complete!';
 
           setTimeout(() => {
             showImagePreview(urlData.publicUrl, {
-              width: compressed.width,
-              height: compressed.height,
-              originalSize: compressed.originalSize,
-              compressedSize: compressed.compressedSize
+              width: dims.width,
+              height: dims.height,
+              originalSize: file.size,
+              compressedSize: file.size
             });
           }, 400);
 
