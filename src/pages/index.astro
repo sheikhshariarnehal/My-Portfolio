@@ -33,9 +33,13 @@ const contact = { ...contactDefaults, ...homepageSettings.contact };
 const seo = { ...seoDefaults, ...homepageSettings.seo };
 
 // --- Transform data into view-ready shapes ---
-const skills = skillsData?.length
+const excludedSkills = new Set(['bootstrap', 'express', 'expressjs', 'django', 'mongodb', 'linux', 'c']);
+
+const rawSkills = skillsData?.length
   ? skillsData.map(({ name, icon }) => ({ name, icon }))
   : skillsFallback;
+
+const skills = rawSkills.filter(s => s?.name && !excludedSkills.has(s.name.trim().toLowerCase()));
 
 const education = educationData.map((edu) => ({
   degree: edu.degree,
