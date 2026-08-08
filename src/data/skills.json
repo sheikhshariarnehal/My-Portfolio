@@ -110,5 +110,29 @@
     {
         "name": "WordPress",
         "icon": "https://img.icons8.com/color/48/000000/wordpress.png"
-    }    
+    },
+    {
+        "name": "Flutter",
+        "icon": "https://img.icons8.com/color/48/flutter.png"
+    },
+    {
+        "name": "Cloudflare",
+        "icon": "https://img.icons8.com/color/48/cloudflare.png"
+    },
+    {
+        "name": "GitHub Actions",
+        "icon": "https://img.icons8.com/color/48/github-actions.png"
+    },
+    {
+        "name": "Prisma",
+        "icon": "https://cdn.simpleicons.org/prisma/2D3748"
+    },
+    {
+        "name": "Capacitor",
+        "icon": "https://cdn.simpleicons.org/capacitor/119EFF"
+    },
+    {
+        "name": "Astro",
+        "icon": "https://img.icons8.com/fluency/48/astro.png"
+    }
 ]
