@@ -113,7 +113,7 @@
     },
     {
         "name": "Dokploy",
-        "icon": "https://dokploy.com/favicon.png"
+        "icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/dokploy.svg"
     },
     {
         "name": "Netlify",
