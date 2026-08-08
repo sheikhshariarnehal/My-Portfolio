@@ -35,11 +35,29 @@ const seo = { ...seoDefaults, ...homepageSettings.seo };
 // --- Transform data into view-ready shapes ---
 const excludedSkills = new Set(['bootstrap', 'express', 'expressjs', 'django', 'mongodb', 'linux', 'c']);
 
-const rawSkills = skillsData?.length
-  ? skillsData.map(({ name, icon }) => ({ name, icon }))
-  : skillsFallback;
+const skillMap = new Map();
 
-const skills = rawSkills.filter(s => s?.name && !excludedSkills.has(s.name.trim().toLowerCase()));
+// 1. First populate from skillsFallback (local JSON data including new skills)
+if (Array.isArray(skillsFallback)) {
+  skillsFallback.forEach((item) => {
+    if (item?.name) {
+      skillMap.set(item.name.trim().toLowerCase(), { name: item.name, icon: item.icon });
+    }
+  });
+}
+
+// 2. Then overlay from Supabase skillsData if present
+if (Array.isArray(skillsData)) {
+  skillsData.forEach((item) => {
+    if (item?.name) {
+      skillMap.set(item.name.trim().toLowerCase(), { name: item.name, icon: item.icon });
+    }
+  });
+}
+
+const skills = Array.from(skillMap.values()).filter(
+  (s) => s?.name && !excludedSkills.has(s.name.trim().toLowerCase())
+);
 
 const education = educationData.map((edu) => ({
   degree: edu.degree,
