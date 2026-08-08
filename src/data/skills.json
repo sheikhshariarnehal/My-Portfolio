@@ -84,10 +84,6 @@
         "icon": "https://img.icons8.com/color/48/000000/amazon-web-services.png"
     },
     {
-        "name": "Heroku",
-        "icon": "https://img.icons8.com/color/48/000000/heroku.png"
-    },
-    {
         "name": "Netlify",
         "icon": "https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/48/000000/external-netlify-a-cloud-computing-company-that-offers-hosting-and-serverless-backend-services-for-static-websites-logo-shadow-tal-revivo.png"
     },
@@ -118,18 +114,6 @@
     {
         "name": "Cloudflare",
         "icon": "https://img.icons8.com/color/48/cloudflare.png"
-    },
-    {
-        "name": "GitHub Actions",
-        "icon": "https://img.icons8.com/color/48/github-actions.png"
-    },
-    {
-        "name": "Prisma",
-        "icon": "https://cdn.simpleicons.org/prisma/2D3748"
-    },
-    {
-        "name": "Capacitor",
-        "icon": "https://cdn.simpleicons.org/capacitor/119EFF"
     },
     {
         "name": "Astro",
