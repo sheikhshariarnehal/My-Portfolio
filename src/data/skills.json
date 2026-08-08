@@ -93,7 +93,7 @@
     },
     {
         "name": "AWS",
-        "icon": "https://cdn.simpleicons.org/amazonwebservices/FF9900"
+        "icon": "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/aws.svg"
     },
     {
         "name": "Astro",
