@@ -1132,13 +1132,14 @@ a, button, .btn, .box .content, .navbar li a {
   }
 
   .work .box-container .box .content {
-    @apply h-full w-full absolute left-0 flex flex-col;
-    top: 84%;
+    @apply w-full absolute left-0 bottom-0 flex flex-col;
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid #e2e8f0;
-    transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(calc(100% - 4.5rem));
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
   }
 
   .work .box-container .box .content .tag {
@@ -1148,7 +1149,7 @@ a, button, .btn, .box .content, .navbar li a {
   }
 
   .work .box-container .box .content .tag h3 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #000000;
   }
@@ -1156,11 +1157,11 @@ a, button, .btn, .box .content, .navbar li a {
   .work .box-container .box:hover .content,
   .work .box-container .box:focus-within .content,
   .work .box-container .box.active .content {
-    top: 0;
+    transform: translateY(0);
   }
 
   .work .desc {
-    @apply p-4 flex flex-col justify-between flex-1 min-h-0 overflow-hidden;
+    @apply p-4 flex flex-col gap-3;
     margin: 0;
   }
 
@@ -1169,14 +1170,14 @@ a, button, .btn, .box .content, .navbar li a {
     color: #334155;
     line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin-bottom: 0.8rem;
+    margin: 0;
   }
 
   .work .desc .btns {
-    @apply flex gap-3 w-full mt-auto pt-1 flex-shrink-0;
+    @apply flex gap-3 w-full mt-1 flex-shrink-0;
   }
 
   .work .desc .btns .btn {
