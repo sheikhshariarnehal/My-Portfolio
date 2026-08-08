@@ -5,11 +5,19 @@ export interface Props {
 }
 
 const { name, icon } = Astro.props;
+const isDokploy = name.trim().toLowerCase() === 'dokploy';
 ---
 
 <div class="bar">
   <div class="info">
-    <img src={icon} alt={name} loading="lazy" width="48" height="48" />
+    <img
+      src={icon}
+      alt={name}
+      loading="lazy"
+      width="48"
+      height="48"
+      class={isDokploy ? 'dokploy-icon' : ''}
+    />
     <span>{name}</span>
   </div>
 </div>

@@ -972,17 +972,12 @@ a, button, .btn, .box .content, .navbar li a {
     @apply flex flex-col items-center gap-4 mt-4;
   }
 
-  .skills .container .bar .info img {
-    @apply w-12 h-12 object-contain;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
-  }
-
-  .skills .container .bar .info img[src*="dokploy"] {
-    filter: invert(1) brightness(1.8) drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
-  }
-
   .skills .container .bar .info i {
     font-size: 4rem;
+  }
+
+  .skills .container .bar .info img.dokploy-icon {
+    filter: brightness(0) invert(1) drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
   }
 
   .skills .container .bar .info span {
