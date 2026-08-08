@@ -187,8 +187,10 @@ section.work .box-container .grid-item .box .content {
   transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-section.work .box-container .grid-item .box:hover .content {
-  top: 22%;
+section.work .box-container .grid-item .box:hover .content,
+section.work .box-container .grid-item .box:focus-within .content,
+section.work .box-container .grid-item .box.active .content {
+  top: 0;
 }
 
 /* Card Header Tag Bar */
@@ -202,6 +204,7 @@ section.work .box-container .grid-item .box .content .tag {
   padding: 0 1.5rem;
   background: #ffd900;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
 }
 
 section.work .box-container .grid-item .box .content .tag h3 {
@@ -216,21 +219,25 @@ section.work .box-container .grid-item .box .content .tag h3 {
 
 /* Description & Buttons */
 section.work .box-container .grid-item .desc {
-  margin: 1.5rem;
+  padding: 1.5rem;
+  margin: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(100% - 7.5rem);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 section.work .box-container .grid-item .desc p {
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   color: var(--projects-text-body);
-  line-height: 1.6;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 section.work .box-container .grid-item .desc .btns {
@@ -238,7 +245,8 @@ section.work .box-container .grid-item .desc .btns {
   gap: 1rem;
   width: 100%;
   margin-top: auto;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
+  flex-shrink: 0;
 }
 
 section.work .box-container .grid-item .desc .btns .btn {

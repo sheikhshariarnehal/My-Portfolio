@@ -1142,7 +1142,7 @@ a, button, .btn, .box .content, .navbar li a {
   }
 
   .work .box-container .box .content .tag {
-    @apply flex flex-row justify-between items-center w-full px-4 bg-[#ffd900];
+    @apply flex flex-row justify-between items-center w-full px-4 bg-[#ffd900] flex-shrink-0;
     height: 4.5rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
@@ -1153,23 +1153,30 @@ a, button, .btn, .box .content, .navbar li a {
     color: #000000;
   }
 
-  .work .box-container .box:hover .content {
-    top: 22%;
+  .work .box-container .box:hover .content,
+  .work .box-container .box:focus-within .content,
+  .work .box-container .box.active .content {
+    top: 0;
   }
 
   .work .desc {
-    @apply m-6 flex flex-col justify-between;
-    height: calc(100% - 6.5rem);
+    @apply p-4 flex flex-col justify-between flex-1 min-h-0 overflow-hidden;
+    margin: 0;
   }
 
   .work .desc p {
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     color: #334155;
-    line-height: 1.6;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
   }
 
   .work .desc .btns {
-    @apply flex gap-3 w-full mt-4;
+    @apply flex gap-3 w-full mt-auto pt-1 flex-shrink-0;
   }
 
   .work .desc .btns .btn {
