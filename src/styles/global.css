@@ -1132,13 +1132,14 @@ a, button, .btn, .box .content, .navbar li a {
   }
 
   .work .box-container .box .content {
-    @apply w-full absolute left-0 bottom-0 flex flex-col;
+    @apply w-full absolute left-0 flex flex-col;
+    height: 75%;
+    top: calc(100% - 4.5rem);
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-top: 1px solid #e2e8f0;
-    transform: translateY(calc(100% - 4.5rem));
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: top 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
   }
 
@@ -1157,11 +1158,12 @@ a, button, .btn, .box .content, .navbar li a {
   .work .box-container .box:hover .content,
   .work .box-container .box:focus-within .content,
   .work .box-container .box.active .content {
-    transform: translateY(0);
+    top: 25%;
   }
 
   .work .desc {
-    @apply p-4 flex flex-col gap-3;
+    @apply p-4 flex flex-col justify-between;
+    height: calc(100% - 4.5rem);
     margin: 0;
   }
 
@@ -1170,10 +1172,10 @@ a, button, .btn, .box .content, .navbar li a {
     color: #334155;
     line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    margin: 0;
+    margin-bottom: 0.5rem;
   }
 
   .work .desc .btns {
