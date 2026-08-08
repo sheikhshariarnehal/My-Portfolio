@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 // Sitemap generation handled via public/sitemap.xml for compatibility
 
@@ -20,13 +20,7 @@ export default defineConfig({
     inlineStylesheets: 'auto'
   },
   image: {
-    service: {
-      entrypoint: 'astro/assets/services/sharp'
-    },
-    remotePatterns: [
-      { protocol: 'https', hostname: '*.supabase.co' },
-      { protocol: 'https', hostname: '*.vercel.app' }
-    ]
+    service: passthroughImageService()
   },
   vite: {
     build: {

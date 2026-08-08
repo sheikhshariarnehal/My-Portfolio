@@ -104,13 +104,11 @@ const collectionSchema = {
       {projects.map((project, index) => (
         <div class={`grid-item ${getCategoryClass(project.category)}`}>
           <div class="box tilt">
-            <Image
+            <img
               draggable="false"
               src={resolveImageUrl(project.image)}
               alt={`${project.title} - ${project.category} Project by Sheikh Shariar Nehal`}
               loading={index === 0 ? 'eager' : 'lazy'}
-              width={380}
-              height={300}
             />
             <div class="content">
               <div class="tag">

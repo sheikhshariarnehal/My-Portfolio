@@ -240,12 +240,10 @@ const schemas = [
     <div class="box-container">
       {projects.map((project) => (
         <div class="box tilt">
-          <Image
+          <img
             draggable="false"
             src={project.image}
             alt={`${project.title} project`}
-            width={350}
-            height={200}
             loading="lazy"
           />
           <div class="content">
